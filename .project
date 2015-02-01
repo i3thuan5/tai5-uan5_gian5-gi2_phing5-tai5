@@ -3,6 +3,8 @@
 	<name>臺灣言語平臺</name>
 	<comment></comment>
 	<projects>
+		<project>臺灣言語工具</project>
+		<project>臺灣言語資料庫</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
