@@ -15,3 +15,19 @@ class 文本修改表(models.Model):
 	舊 = models.ForeignKey(平臺項目, unique=True, related_name='改做')
 	新 = models.ForeignKey(平臺項目, unique=True, related_name='+')
 	
+class 項目解釋(models.Model):
+	使用者 = models.ForeignKey(unique=True, related_name='改做')
+	項目 = models.ForeignKey(平臺項目, related_name='+')
+	原始鸔釋資料 = models.FileField()
+	網頁鸔釋資料 = models.FileField()
+	class Meta:
+		abstract = True
+
+class 解釋圖(項目解釋):
+	pass
+
+class 解釋聲(項目解釋):
+	pass
+
+class 解釋影(項目解釋):
+	pass
