@@ -19,7 +19,8 @@ class 評分狀況表(models.Model):
 
 class 評分總合表(models.Model):
 	'敢有需要這個表？'
-	項目 = models.OneToOneField(平臺項目, related_name='使用者')
+	項目 = models.OneToOneField(平臺項目, related_name='評分總合表')
+	正規化結果 = models.BooleanField(default=False)
 	分數 = models.IntegerField()
 
 class 意見(models.Model):
