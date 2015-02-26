@@ -24,7 +24,7 @@ class 加新詞影音試驗(資料庫試驗):
 		音檔.writeframesraw(b'0' * 100)
 		音檔.close()
 	def test_一般參數(self):
-# 		login
+		self.client.login()
 		回應 =self.client.post(
 			'/加請教條',{
 				'來源':{'名':'自己'},
@@ -43,7 +43,7 @@ class 加新詞影音試驗(資料庫試驗):
 				'結果':'成功',
 		})
 	def test_來源家己(self):
-# 		login
+		self.client.login()
 		回應 =self.client.post(
 			'/加請教條',{
 				'來源':'自己',
@@ -80,3 +80,8 @@ class 加新詞影音試驗(資料庫試驗):
 				'結果':'失敗',
 				'原因':'無登入',
 		})
+	def test_缺資料(self):
+		pass
+	def test_資料欄位內容不符規範(self):
+		pass
+	
