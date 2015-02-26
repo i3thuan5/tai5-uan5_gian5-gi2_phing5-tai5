@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
-from 臺灣言語資料庫.試驗.加資料.加資料試驗 import 加資料試驗
-from 臺灣言語資料庫.資料模型 import 影音表
-import io
-import wave
-import codecs
+from 臺灣言語資料庫.試驗.資料庫試驗 import 資料庫試驗
 import json
 
 class 加新詞文字試驗(資料庫試驗):
 	def setUp(self):
 		super(加新詞文字試驗, self).setUp()
 	def test_一般參數(self):
-		add session
-		self.client.post(
+		#login
+		回應 =self.client.post(
 			'/加請教條',{
 				'來源':{'名':'自己'},
 				'版權':'會使公開',
@@ -24,9 +20,13 @@ class 加新詞文字試驗(資料庫試驗):
 				'外語資料':'漂亮',
 			}
 		)
+		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(json.loads(回應.content), {
+				'結果':'成功',
+		})
 	def test_來源家己(self):
-		add session
-		self.client.post(
+		#login
+		回應 =self.client.post(
 			'/加請教條',{
 				'來源':'自己',
 				'版權':'會使公開',
@@ -38,10 +38,13 @@ class 加新詞文字試驗(資料庫試驗):
 				'外語語言':'華語',
 				'外語資料':'漂亮',
 			}
-			}
 		)
+		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(json.loads(回應.content), {
+				'結果':'成功',
+		})
 	def test_無登入(self):
-		self.client.post(
+		回應 = self.client.post(
 			'/加請教條',{
 				'來源':{'名':'自己'},
 				'版權':'會使公開',
@@ -54,3 +57,8 @@ class 加新詞文字試驗(資料庫試驗):
 				'外語資料':'漂亮',
 			}
 		)
+		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(json.loads(回應.content), {
+				'結果':'失敗',
+				'原因':'無登入',
+		})
