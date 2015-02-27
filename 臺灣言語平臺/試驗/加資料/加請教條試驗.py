@@ -2,9 +2,9 @@
 from 臺灣言語資料庫.試驗.資料庫試驗 import 資料庫試驗
 import json
 
-class 加請教條試驗(資料庫試驗):
+class 加外語請教條試驗(資料庫試驗):
 	def setUp(self):
-		super(加請教條試驗, self).setUp()
+		super(加外語請教條試驗, self).setUp()
 	def test_一般參數(self):
 		self.client.login()
 		回應 = self.client.post(
