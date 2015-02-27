@@ -23,7 +23,7 @@ class 評分總合表(models.Model):
 	正規化結果 = models.BooleanField(default=False)
 	分數 = models.IntegerField()
 
-class 意見(models.Model):
+class 意見表(models.Model):
 	使用者 = models.ForeignKey(作者表, related_name='+')
 	項目 = models.ForeignKey(平臺項目, related_name='意見')
 	發表時間 = models.DateTimeField(auto_now_add=True)
