@@ -55,7 +55,7 @@ class 新詞影音加成功試驗(資料庫試驗):
 # 		後端資料庫檢查
 		self.assertEqual(影音表.objects.conut(), self.影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
-		影音 = 平臺項目表.objects.get(pk=編號)
+		影音 = 平臺項目表.objects.get(pk=編號).影音
 		self.assertEqual(影音.收錄者, self.臺灣人)
 		self.assertEqual(影音.來源.名, '阿媠')
 		self.assertEqual(影音.來源.屬性.count(), 1)
@@ -93,7 +93,7 @@ class 新詞影音加成功試驗(資料庫試驗):
 # 		後端資料庫檢查
 		self.assertEqual(影音表.objects.conut(), self.影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
-		影音 = 平臺項目表.objects.get(pk=編號)
+		影音 = 平臺項目表.objects.get(pk=編號).影音
 		self.assertEqual(影音.收錄者, self.臺灣人)
 		self.assertEqual(影音.來源, self.臺灣人)
 		self.assertEqual(影音.版權, self.會使公開)
@@ -128,7 +128,7 @@ class 新詞影音加成功試驗(資料庫試驗):
 # 		後端資料庫檢查
 		self.assertEqual(影音表.objects.conut(), self.影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
-		影音 = 平臺項目表.objects.get(pk=編號)
+		影音 = 平臺項目表.objects.get(pk=編號).影音
 		self.assertEqual(影音.收錄者, self.臺灣人)
 		self.assertEqual(影音.來源.名, '家己')
 		self.assertEqual(影音.來源.屬性.count(), 0)
