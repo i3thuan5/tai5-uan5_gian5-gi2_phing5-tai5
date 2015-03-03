@@ -3,6 +3,8 @@ from 臺灣言語資料庫.試驗.資料庫試驗 import 資料庫試驗
 from 臺灣言語資料庫.資料模型 import 影音表
 import io
 import wave
+from 臺灣言語資料庫.資料模型 import 外語表
+from 臺灣言語資料庫.關係模型 import 翻譯影音表
 
 class 新詞影音加失敗試驗(資料庫試驗):
 	def setUp(self):
@@ -19,10 +21,15 @@ class 新詞影音加失敗試驗(資料庫試驗):
 			音檔.setframerate(16000)
 			音檔.setsampwidth(2)
 			音檔.writeframesraw(b'0' * 100)
+			
+		self.外語表資料數 = 外語表.objects.conut()
 		self.影音表資料數 = 影音表.objects.conut()
+		self.翻譯影音表資料數 = 翻譯影音表.objects.conut()
 	def tearDown(self):
 # 		後端資料庫檢查不增加資料
+		self.assertEqual(外語表.objects.conut(),self.外語表資料數)
 		self.assertEqual(影音表.objects.conut(),self.影音表資料數)
+		self.assertEqual(翻譯影音表.objects.conut(), self.翻譯影音表資料數)
 	def test_無登入(self):
 		回應 = self.client.post(
 			'/加請教條', {

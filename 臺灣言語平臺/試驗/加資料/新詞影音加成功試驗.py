@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from 臺灣言語資料庫.試驗.資料庫試驗 import 資料庫試驗
+from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.資料模型 import 影音表
 import io
 import wave
@@ -22,6 +23,7 @@ class 新詞影音加成功試驗(資料庫試驗):
 		)
 		外語請教條回應資料 = json.loads(外語請教條回應.content)
 		self.外語請教條編號 = int(外語請教條回應資料['平臺項目編號'])
+		self.外語 = 平臺項目表.objects.get(pk=self.外語請教條編號).外語	
 		
 		self.檔案 = io.BytesIO()
 		with wave.open(self.檔案, 'wb') as 音檔:
@@ -29,6 +31,10 @@ class 新詞影音加成功試驗(資料庫試驗):
 			音檔.setframerate(16000)
 			音檔.setsampwidth(2)
 			音檔.writeframesraw(b'sui2' * 20)
+		
+		self.外語表資料數 = 外語表.objects.conut()
+		self.影音表資料數 = 影音表.objects.conut()
+		self.翻譯影音表資料數 = 翻譯影音表.objects.conut()
 	def tearDown(self):
 		pass
 	def test_一般參數(self):
@@ -53,9 +59,12 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
+		self.assertEqual(外語表.objects.conut(), self.外語表資料數)
 		self.assertEqual(影音表.objects.conut(), self.影音表資料數 + 1)
+		self.assertEqual(翻譯影音表.objects.conut(), self.翻譯影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		影音 = 平臺項目表.objects.get(pk=編號).影音
+		self.外語.翻譯影音.get(影音=影音)  # 確定有建立關係
 		self.assertEqual(影音.收錄者, self.臺灣人)
 		self.assertEqual(影音.來源.名, '阿媠')
 		self.assertEqual(影音.來源.屬性.count(), 1)
@@ -92,9 +101,12 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
+		self.assertEqual(外語表.objects.conut(), self.外語表資料數)
 		self.assertEqual(影音表.objects.conut(), self.影音表資料數 + 1)
+		self.assertEqual(翻譯影音表.objects.conut(), self.翻譯影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		影音 = 平臺項目表.objects.get(pk=編號).影音
+		self.外語.翻譯影音.get(影音=影音)
 		self.assertEqual(影音.收錄者, self.臺灣人)
 		self.assertEqual(影音.來源, self.臺灣人)
 		self.assertEqual(影音.版權, self.會使公開)
@@ -128,9 +140,12 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
+		self.assertEqual(外語表.objects.conut(), self.外語表資料數)
 		self.assertEqual(影音表.objects.conut(), self.影音表資料數 + 1)
+		self.assertEqual(翻譯影音表.objects.conut(), self.翻譯影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		影音 = 平臺項目表.objects.get(pk=編號).影音
+		self.外語.翻譯影音.get(影音=影音)
 		self.assertEqual(影音.收錄者, self.臺灣人)
 		self.assertEqual(影音.來源.名, '家己')
 		self.assertEqual(影音.來源.屬性.count(), 0)
