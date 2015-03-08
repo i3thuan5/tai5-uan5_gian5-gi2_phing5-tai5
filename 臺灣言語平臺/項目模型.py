@@ -11,6 +11,9 @@ class 平臺項目表(models.Model):
 	影音 = models.ForeignKey(影音表, NULL=True, related_name=項目名)
 	文本 = models.ForeignKey(文本表, NULL=True, related_name=項目名)
 	聽拍 = models.ForeignKey(聽拍表, NULL=True, related_name=項目名)
+	是資料源頭 = models.Boolean(default=False)
+	def 編號(self):
+		return self.pk
 
 class 文本修改表(models.Model):
 	舊 = models.ForeignKey(平臺項目表, unique=True, related_name='改做')
