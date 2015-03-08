@@ -33,7 +33,7 @@ class 外語請教條加成功試驗(資料庫試驗):
 		self.assertEqual(外語表.objects.conut(), self.外語表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		外語 = 平臺項目表.objects.get(pk=編號).外語
-		self.assertEqual(外語.收錄者, self.臺灣人)
+		self.assertEqual(外語.收錄者, self.鄉民)
 		self.assertEqual(外語.來源.名, '阿媠')
 		self.assertEqual(外語.來源.屬性.count(), 1)
 		self.assertEqual(外語.來源.屬性.get().分類, '職業')
@@ -73,8 +73,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 		self.assertEqual(外語表.objects.conut(), self.外語表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		外語 = 平臺項目表.objects.get(pk=編號).外語
-		self.assertEqual(外語.收錄者, self.臺灣人)
-		self.assertEqual(外語.來源, self.臺灣人)
+		self.assertEqual(外語.收錄者, self.鄉民)
+		self.assertEqual(外語.來源, self.鄉民)
 		self.assertEqual(外語.版權, self.會使公開)
 		self.assertEqual(外語.種類, self.字詞)
 		self.assertEqual(外語.語言腔口, self.閩南語)
@@ -110,7 +110,7 @@ class 外語請教條加成功試驗(資料庫試驗):
 		self.assertEqual(外語表.objects.conut(), self.外語表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		外語 = 平臺項目表.objects.get(pk=編號).外語
-		self.assertEqual(外語.收錄者, self.臺灣人)
+		self.assertEqual(外語.收錄者, self.鄉民)
 		self.assertEqual(外語.來源.名, '家己')
 		self.assertEqual(外語.來源.屬性.count(), 0)
 		self.assertEqual(外語.版權, self.會使公開)

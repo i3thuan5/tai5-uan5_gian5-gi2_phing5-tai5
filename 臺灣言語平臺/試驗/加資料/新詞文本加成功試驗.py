@@ -87,7 +87,7 @@ class 加新詞文本試驗(資料庫試驗):
 		編號 = int(回應資料['平臺項目編號'])
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
-		self.assertEqual(文本.收錄者, self.臺灣人)
+		self.assertEqual(文本.收錄者, self.鄉民)
 		self.assertEqual(文本.來源.名, '阿媠')
 		self.assertEqual(文本.來源.屬性.count(), 1)
 		self.assertEqual(文本.來源.屬性.get().分類, '職業')
@@ -131,8 +131,8 @@ class 加新詞文本試驗(資料庫試驗):
 		編號 = int(回應資料['平臺項目編號'])
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.外語.翻譯文本.get(文本=文本)
-		self.assertEqual(文本.收錄者, self.臺灣人)
-		self.assertEqual(文本.來源, self.臺灣人)
+		self.assertEqual(文本.收錄者, self.鄉民)
+		self.assertEqual(文本.來源, self.鄉民)
 		self.assertEqual(文本.版權, self.會使公開)
 		self.assertEqual(文本.種類, self.字詞)
 		self.assertEqual(文本.語言腔口, self.閩南語)
@@ -172,7 +172,7 @@ class 加新詞文本試驗(資料庫試驗):
 		編號 = int(回應資料['平臺項目編號'])
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.外語.翻譯文本.get(文本=文本)
-		self.assertEqual(文本.收錄者, self.臺灣人)
+		self.assertEqual(文本.收錄者, self.鄉民)
 		self.assertEqual(文本.來源.名, '家己')
 		self.assertEqual(文本.來源.屬性.count(), 0)
 		self.assertEqual(文本.版權, self.會使公開)
@@ -228,7 +228,7 @@ class 加新詞文本試驗(資料庫試驗):
 		編號 = int(回應資料['平臺項目編號'])
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
-		self.assertEqual(文本.收錄者, self.臺灣人)
+		self.assertEqual(文本.收錄者, self.鄉民)
 		self.assertEqual(文本.來源.名, '阿媠')
 		self.assertEqual(文本.來源.屬性.count(), 1)
 		self.assertEqual(文本.來源.屬性.get().分類, '職業')
