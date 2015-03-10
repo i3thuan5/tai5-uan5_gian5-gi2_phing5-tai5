@@ -15,7 +15,7 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 class 加新詞文本試驗(資料庫試驗):
 	def setUp(self):
 		super(加新詞文本試驗, self).setUp()
-		self.文本表資料數 = 文本表.objects.all().conut()
+		self.文本表資料數 = 文本表.objects.all().count()
 		
 		外語請教條回應 = self.client.post(
 			'/加資料/外語請教條', {
@@ -53,20 +53,20 @@ class 加新詞文本試驗(資料庫試驗):
 		self.新詞影音項目編號 = int(新詞影音回應資料['平臺項目編號'])
 		self.影音 = 平臺項目表.objects.get(pk=self.新詞影音項目編號).影音	
 		
-		self.外語表資料數 = 外語表.objects.all().conut()
-		self.影音表資料數 = 影音表.objects.all().conut()
-		self.文本表資料數 = 文本表.objects.all().conut()
-		self.翻譯影音表資料數 = 翻譯影音表.objects.all().conut()
-		self.翻譯影音表資料數 = 影音文本表.objects.all().conut()
-		self.平臺項目表資料數 = 平臺項目表.objects.all().conut()
+		self.外語表資料數 = 外語表.objects.all().count()
+		self.影音表資料數 = 影音表.objects.all().count()
+		self.文本表資料數 = 文本表.objects.all().count()
+		self.翻譯影音表資料數 = 翻譯影音表.objects.all().count()
+		self.翻譯影音表資料數 = 影音文本表.objects.all().count()
+		self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 	def tearDown(self):
 # 		後端資料庫檢查不增加資料
-		self.assertEqual(外語表.objects.all().conut(), self.外語表資料數)
-		self.assertEqual(影音表.objects.all().conut(), self.影音表資料數)
-		self.assertEqual(翻譯影音表.objects.all().conut(), self.翻譯影音表資料數)
-		self.assertEqual(文本表.objects.all().conut(), self.文本表資料數)
-		self.assertEqual(影音文本表.objects.all().conut(), self.影音文本表資料數)
-		self.assertEqual(平臺項目表.objects.all().conut(), self.平臺項目表資料數)
+		self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
+		self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
+		self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數)
+		self.assertEqual(文本表.objects.all().count(), self.文本表資料數)
+		self.assertEqual(影音文本表.objects.all().count(), self.影音文本表資料數)
+		self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數)
 	def test_無登入(self):
 		回應 = self.client.post(
 			'/加資料/新詞文本', {

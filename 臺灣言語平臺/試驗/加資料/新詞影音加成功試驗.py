@@ -34,12 +34,12 @@ class 新詞影音加成功試驗(資料庫試驗):
 			音檔.setsampwidth(2)
 			音檔.writeframesraw(b'sui2' * 20)
 		
-		self.外語表資料數 = 外語表.objects.all().conut()
-		self.影音表資料數 = 影音表.objects.all().conut()
-		self.翻譯影音表資料數 = 翻譯影音表.objects.all().conut()
-		self.平臺項目表資料數 = 平臺項目表.objects.all().conut()
+		self.外語表資料數 = 外語表.objects.all().count()
+		self.影音表資料數 = 影音表.objects.all().count()
+		self.翻譯影音表資料數 = 翻譯影音表.objects.all().count()
+		self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 	def tearDown(self):
-		self.assertEqual(平臺項目表.objects.all().conut(), self.平臺項目表資料數)
+		self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數)
 	def test_一般參數(self):
 		self.client.login()
 		回應 = self.client.post(
@@ -62,9 +62,9 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
-		self.assertEqual(外語表.objects.all().conut(), self.外語表資料數)
-		self.assertEqual(影音表.objects.all().conut(), self.影音表資料數 + 1)
-		self.assertEqual(翻譯影音表.objects.all().conut(), self.翻譯影音表資料數 + 1)
+		self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
+		self.assertEqual(影音表.objects.all().count(), self.影音表資料數 + 1)
+		self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, False)
 		影音 = 平臺項目表.objects.get(pk=編號).影音
@@ -105,9 +105,9 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
-		self.assertEqual(外語表.objects.all().conut(), self.外語表資料數)
-		self.assertEqual(影音表.objects.all().conut(), self.影音表資料數 + 1)
-		self.assertEqual(翻譯影音表.objects.all().conut(), self.翻譯影音表資料數 + 1)
+		self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
+		self.assertEqual(影音表.objects.all().count(), self.影音表資料數 + 1)
+		self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, False)
 		影音 = 平臺項目表.objects.get(pk=編號).影音
@@ -145,9 +145,9 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
-		self.assertEqual(外語表.objects.all().conut(), self.外語表資料數)
-		self.assertEqual(影音表.objects.all().conut(), self.影音表資料數 + 1)
-		self.assertEqual(翻譯影音表.objects.all().conut(), self.翻譯影音表資料數 + 1)
+		self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
+		self.assertEqual(影音表.objects.all().count(), self.影音表資料數 + 1)
+		self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, False)
 		影音 = 平臺項目表.objects.get(pk=編號).影音
@@ -179,7 +179,7 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'影音資料':self.檔案,
 			}
 		)
-		self.影音表資料數 = 影音表.objects.all().conut()
+		self.影音表資料數 = 影音表.objects.all().count()
 		回應 = self.client.post(
 			'/加資料/新詞影音', {
 				'外語請教條項目編號':self.外語請教條項目編號,
@@ -200,9 +200,9 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
-		self.assertEqual(外語表.objects.all().conut(), self.外語表資料數)
-		self.assertEqual(影音表.objects.all().conut(), self.影音表資料數 + 2)
-		self.assertEqual(翻譯影音表.objects.all().conut(), self.翻譯影音表資料數 + 2)
+		self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
+		self.assertEqual(影音表.objects.all().count(), self.影音表資料數 + 2)
+		self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數 + 2)
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, False)
 		影音 = 平臺項目表.objects.get(pk=編號).影音
