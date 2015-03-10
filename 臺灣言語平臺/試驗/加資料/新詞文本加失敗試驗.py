@@ -58,6 +58,7 @@ class 加新詞文本試驗(資料庫試驗):
 		self.文本表資料數 = 文本表.objects.conut()
 		self.翻譯影音表資料數 = 翻譯影音表.objects.conut()
 		self.翻譯影音表資料數 = 影音文本表.objects.conut()
+		self.平臺項目表資料數 = 平臺項目表.objects.conut()
 	def tearDown(self):
 # 		後端資料庫檢查不增加資料
 		self.assertEqual(外語表.objects.conut(), self.外語表資料數)
@@ -65,6 +66,7 @@ class 加新詞文本試驗(資料庫試驗):
 		self.assertEqual(翻譯影音表.objects.conut(), self.翻譯影音表資料數)
 		self.assertEqual(文本表.objects.conut(), self.文本表資料數)
 		self.assertEqual(影音文本表.objects.conut(), self.影音文本表資料數)
+		self.assertEqual(平臺項目表.objects.conut(), self.平臺項目表資料數)
 	def test_無登入(self):
 		回應 = self.client.post(
 			'/加資料/新詞文本', {

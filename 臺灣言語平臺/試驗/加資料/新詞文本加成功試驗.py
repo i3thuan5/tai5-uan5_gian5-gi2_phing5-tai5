@@ -55,8 +55,9 @@ class 加新詞文本試驗(資料庫試驗):
 		self.文本表資料數 = 文本表.objects.conut()
 		self.翻譯影音表資料數 = 翻譯影音表.objects.conut()
 		self.翻譯影音表資料數 = 影音文本表.objects.conut()
+		self.平臺項目表資料數 = 平臺項目表.objects.conut()
 	def tearDown(self):
-		pass
+		self.assertEqual(平臺項目表.objects.conut(), self.平臺項目表資料數)
 	def test_一般參數(self):
 		self.client.login()
 		回應 = self.client.post(
@@ -85,6 +86,7 @@ class 加新詞文本試驗(資料庫試驗):
 		self.assertEqual(文本表.objects.conut(), self.文本表資料數 + 1)
 		self.assertEqual(影音文本表.objects.conut(), self.影音文本表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
+		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, False)
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
 		self.assertEqual(文本.收錄者, self.鄉民)
@@ -129,6 +131,7 @@ class 加新詞文本試驗(資料庫試驗):
 		self.assertEqual(文本表.objects.conut(), self.文本表資料數 + 1)
 		self.assertEqual(影音文本表.objects.conut(), self.影音文本表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
+		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, False)
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.外語.翻譯文本.get(文本=文本)
 		self.assertEqual(文本.收錄者, self.鄉民)
@@ -170,6 +173,7 @@ class 加新詞文本試驗(資料庫試驗):
 		self.assertEqual(文本表.objects.conut(), self.文本表資料數 + 1)
 		self.assertEqual(影音文本表.objects.conut(), self.影音文本表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
+		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, False)
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.外語.翻譯文本.get(文本=文本)
 		self.assertEqual(文本.收錄者, self.鄉民)
@@ -226,6 +230,7 @@ class 加新詞文本試驗(資料庫試驗):
 		self.assertEqual(文本表.objects.conut(), self.文本表資料數 + 2)
 		self.assertEqual(影音文本表.objects.conut(), self.影音文本表資料數 + 2)
 		編號 = int(回應資料['平臺項目編號'])
+		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, False)
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
 		self.assertEqual(文本.收錄者, self.鄉民)
