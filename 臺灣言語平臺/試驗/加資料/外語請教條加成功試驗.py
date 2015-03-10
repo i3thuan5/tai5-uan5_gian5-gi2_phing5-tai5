@@ -7,10 +7,10 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 class 外語請教條加成功試驗(資料庫試驗):
 	def setUp(self):
 		super(外語請教條加成功試驗, self).setUp()
-		self.外語表資料數 = 外語表.objects.conut()
-		self.平臺項目表資料數 = 平臺項目表.objects.conut()
+		self.外語表資料數 = 外語表.objects.all().conut()
+		self.平臺項目表資料數 = 平臺項目表.objects.all().conut()
 	def tearDown(self):
-		self.assertEqual(平臺項目表.objects.conut(), self.平臺項目表資料數)
+		self.assertEqual(平臺項目表.objects.all().conut(), self.平臺項目表資料數)
 	def test_一般參數(self):
 		self.client.login()
 		回應 = self.client.post(
@@ -33,7 +33,7 @@ class 外語請教條加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
-		self.assertEqual(外語表.objects.conut(), self.外語表資料數 + 1)
+		self.assertEqual(外語表.objects.all().conut(), self.外語表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
 		外語 = 平臺項目表.objects.get(pk=編號).外語
@@ -74,7 +74,7 @@ class 外語請教條加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
-		self.assertEqual(外語表.objects.conut(), self.外語表資料數 + 1)
+		self.assertEqual(外語表.objects.all().conut(), self.外語表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
 		外語 = 平臺項目表.objects.get(pk=編號).外語
@@ -112,7 +112,7 @@ class 外語請教條加成功試驗(資料庫試驗):
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
 # 		後端資料庫檢查
-		self.assertEqual(外語表.objects.conut(), self.外語表資料數 + 1)
+		self.assertEqual(外語表.objects.all().conut(), self.外語表資料數 + 1)
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
 		外語 = 平臺項目表.objects.get(pk=編號).外語

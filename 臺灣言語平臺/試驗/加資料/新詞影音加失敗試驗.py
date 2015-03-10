@@ -38,16 +38,16 @@ class 新詞影音加失敗試驗(資料庫試驗):
 			音檔.setsampwidth(2)
 			音檔.writeframesraw(b'0' * 100)
 			
-		self.外語表資料數 = 外語表.objects.conut()
-		self.影音表資料數 = 影音表.objects.conut()
-		self.翻譯影音表資料數 = 翻譯影音表.objects.conut()
-		self.平臺項目表資料數 = 平臺項目表.objects.conut()
+		self.外語表資料數 = 外語表.objects.all().conut()
+		self.影音表資料數 = 影音表.objects.all().conut()
+		self.翻譯影音表資料數 = 翻譯影音表.objects.all().conut()
+		self.平臺項目表資料數 = 平臺項目表.objects.all().conut()
 	def tearDown(self):
 # 		後端資料庫檢查不增加資料
-		self.assertEqual(外語表.objects.conut(),self.外語表資料數)
-		self.assertEqual(影音表.objects.conut(),self.影音表資料數)
-		self.assertEqual(翻譯影音表.objects.conut(), self.翻譯影音表資料數)
-		self.assertEqual(平臺項目表.objects.conut(), self.平臺項目表資料數)
+		self.assertEqual(外語表.objects.all().conut(),self.外語表資料數)
+		self.assertEqual(影音表.objects.all().conut(),self.影音表資料數)
+		self.assertEqual(翻譯影音表.objects.all().conut(), self.翻譯影音表資料數)
+		self.assertEqual(平臺項目表.objects.all().conut(), self.平臺項目表資料數)
 	def test_無登入(self):
 		回應 = self.client.post(
 			'/加資料/新詞影音', {
