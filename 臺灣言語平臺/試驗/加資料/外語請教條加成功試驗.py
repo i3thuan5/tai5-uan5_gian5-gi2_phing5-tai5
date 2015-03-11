@@ -27,7 +27,7 @@ class 外語請教條加成功試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		回應資料 = json.loads(回應.content)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
 				'結果':'成功',
 				'平臺項目編號':回應資料['平臺項目編號'],
@@ -68,7 +68,7 @@ class 外語請教條加成功試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		回應資料 = json.loads(回應.content)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
 				'結果':'成功',
 				'平臺項目編號':回應資料['平臺項目編號'],
@@ -106,7 +106,7 @@ class 外語請教條加成功試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		回應資料 = json.loads(回應.content)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
 				'結果':'成功',
 				'平臺項目編號':回應資料['平臺項目編號'],

@@ -9,7 +9,6 @@ import io
 import json
 import wave
 
-
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
 class 加新詞文本試驗(資料庫試驗):
@@ -82,7 +81,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'無登入',
 		})
@@ -102,7 +101,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'無編號欄位',
 		})
@@ -122,7 +121,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'編號號碼有問題',
 		})
@@ -142,7 +141,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'編號欄位不是數字字串',
 		})
@@ -161,7 +160,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料欄位有缺',
 		})
@@ -180,7 +179,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'來源沒有「名」的欄位',
 		})
@@ -199,7 +198,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'種類欄位不符規範',
 		})
@@ -218,7 +217,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料全部一般欄位必須都是字串',
 		})
@@ -238,7 +237,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料來源裡全部欄位必須都是字串',
 		})
@@ -258,7 +257,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料屬性裡全部欄位必須都是字串',
 		})
@@ -278,7 +277,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'種類和新詞影音不一樣',
 		})
@@ -298,7 +297,7 @@ class 加新詞文本試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'語言腔口和新詞影音不一樣',
 		})

@@ -28,7 +28,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'無登入',
 		})
@@ -47,7 +47,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料欄位有缺',
 		})
@@ -66,7 +66,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'來源沒有「名」的欄位',
 		})
@@ -85,7 +85,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'種類欄位不符規範',
 		})
@@ -104,7 +104,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料全部一般欄位必須都是字串',
 		})
@@ -124,7 +124,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料來源裡全部欄位必須都是字串',
 		})
@@ -144,7 +144,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		self.assertEqual(json.loads(回應.content), {
+		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料屬性裡全部欄位必須都是字串',
 		})
@@ -178,7 +178,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 		)
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
-		回應資料 = json.loads(回應.content)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
 				'結果':'失敗',
 				'原因':'請教條已經有了',
