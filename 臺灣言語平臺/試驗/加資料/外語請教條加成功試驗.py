@@ -128,3 +128,79 @@ class 外語請教條加成功試驗(資料庫試驗):
 		self.assertEqual(外語.屬性.get(分類='字數').內容(), {'字數':'2'})
 		self.assertEqual(外語.外語語言, self.華語)
 		self.assertEqual(外語.外語資料, '漂亮')
+	def test_資料來源裡欄位內容可以不是字串(self):
+		self.client.login()
+		回應 = self.client.post(
+			'/加資料/外語請教條', {
+				'來源':json.dumps({'名':'阿媠','身懸':160.5}),
+				'種類':'字詞',
+				'語言腔口':'閩南語',
+				'著作所在地':'花蓮',
+				'著作年':'2014',
+				'屬性':json.dumps({'詞性':'形容詞', '字數':'2'}),
+				'外語語言':'華語',
+				'外語資料':'漂亮',
+			}
+		)
+# 		前端回傳結果
+		self.assertEqual(回應.status_code, 200)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
+		self.assertEqual(回應資料, {
+				'結果':'成功',
+				'平臺項目編號':回應資料['平臺項目編號'],
+		})
+# 		後端資料庫檢查
+		編號 = int(回應資料['平臺項目編號'])
+		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
+		外語 = 平臺項目表.objects.get(pk=編號).外語
+		self.assertEqual(外語.收錄者, self.鄉民)
+		self.assertEqual(外語.來源.名, '阿媠')
+		self.assertEqual(外語.來源.屬性.get().內容(), {'身懸':160.5})
+		self.assertEqual(外語.版權, self.會使公開)
+		self.assertEqual(外語.種類, self.字詞)
+		self.assertEqual(外語.語言腔口, self.閩南語)
+		self.assertEqual(外語.著作所在地, self.花蓮)
+		self.assertEqual(外語.著作年, self.二空一四)
+		self.assertEqual(外語.屬性.count(), 2)
+		self.assertEqual(外語.屬性.get(分類='詞性').內容(), {'詞性':'形容詞'})
+		self.assertEqual(外語.屬性.get(分類='字數').內容(), {'字數':'2'})
+		self.assertEqual(外語.外語語言, self.華語)
+		self.assertEqual(外語.外語資料, '漂亮')
+	def test_資料屬性裡欄位內容可以不是字串(self):
+		self.client.login()
+		回應 = self.client.post(
+			'/加資料/外語請教條', {
+				'來源':json.dumps({'名':'自己'}),
+				'種類':'字詞',
+				'語言腔口':'閩南語',
+				'著作所在地':'花蓮',
+				'著作年':'2014',
+				'屬性':json.dumps({'詞性':'形容詞', '字數':2}),
+				'外語語言':'華語',
+				'外語資料':'漂亮',
+			}
+		)
+# 		前端回傳結果
+		self.assertEqual(回應.status_code, 200)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
+		self.assertEqual(回應資料, {
+				'結果':'成功',
+				'平臺項目編號':回應資料['平臺項目編號'],
+		})
+# 		後端資料庫檢查
+		編號 = int(回應資料['平臺項目編號'])
+		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
+		外語 = 平臺項目表.objects.get(pk=編號).外語
+		self.assertEqual(外語.收錄者, self.鄉民)
+		self.assertEqual(外語.來源.名, '自己')
+		self.assertEqual(外語.來源.屬性.count(), 0)
+		self.assertEqual(外語.版權, self.會使公開)
+		self.assertEqual(外語.種類, self.字詞)
+		self.assertEqual(外語.語言腔口, self.閩南語)
+		self.assertEqual(外語.著作所在地, self.花蓮)
+		self.assertEqual(外語.著作年, self.二空一四)
+		self.assertEqual(外語.屬性.count(), 2)
+		self.assertEqual(外語.屬性.get(分類='詞性').內容(), {'詞性':'形容詞'})
+		self.assertEqual(外語.屬性.get(分類='字數').內容(), {'字數':2})
+		self.assertEqual(外語.外語語言, self.華語)
+		self.assertEqual(外語.外語資料, '漂亮')
