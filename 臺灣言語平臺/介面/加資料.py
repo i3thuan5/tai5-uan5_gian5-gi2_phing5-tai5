@@ -4,8 +4,18 @@ from 臺灣言語資料庫.資料模型 import 外語表
 import json
 from django.utils.datastructures import MultiValueDictKeyError
 from 臺灣言語資料庫.資料模型 import 種類表
+from 臺灣言語資料庫.資料模型 import 語言腔口表
 
 _自己json字串=json.dumps('自己')
+
+def 揣這馬外語資料有無(內容):
+	return 外語表.objects.filter(
+		種類=種類表.objects.get(種類=內容['種類']),
+		語言腔口=語言腔口表.objects.get(語言腔口=內容['語言腔口']),
+		外語語言=語言腔口表.objects.get(語言腔口=內容['外語語言']),
+		外語資料=內容['外語資料']
+		).count()
+
 def 加外語請教條(request):
 	欄位表 = ['來源',
 				'種類',
@@ -29,11 +39,16 @@ def 加外語請教條(request):
 		內容['收錄者'] = 1
 		if 內容['來源'] == _自己json字串:
 			內容['來源'] = 內容['收錄者']
-	# 	print(type(內容),內容)
+# 		print(type(內容['屬性']),len(內容['屬性']),內容['屬性'])
 		try:
-			外語 = 外語表.加資料(內容)
+			if 揣這馬外語資料有無(內容)>0:
+				return JsonResponse({
+					'結果':'失敗',
+					'原因':'請教條已經有了',
+				})
 		except:
-			raise
+			pass
+		外語 = 外語表.加資料(內容)
 		平臺項目 = 外語.平臺項目.create(是資料源頭=True)
 	except ValueError:
 		return JsonResponse({

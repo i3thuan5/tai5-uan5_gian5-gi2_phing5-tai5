@@ -169,6 +169,7 @@ class 外語請教條加失敗試驗(資料庫試驗):
 			}
 		)
 		self.外語表資料數 = 外語表.objects.all().count()
+		self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 		回應 = self.client.post(
 			'/加資料/外語請教條', {
 				'來源':json.dumps({'名':'阿宏', '職業':'老師'}),
