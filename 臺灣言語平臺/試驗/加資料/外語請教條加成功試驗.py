@@ -3,7 +3,9 @@ from 臺灣言語資料庫.試驗.資料庫試驗 import 資料庫試驗
 import json
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語平臺.項目模型 import 平臺項目表
+from unittest.mock import patch
 
+@patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
 class 外語請教條加成功試驗(資料庫試驗):
 	def setUp(self):
 		super(外語請教條加成功試驗, self).setUp()
@@ -13,9 +15,9 @@ class 外語請教條加成功試驗(資料庫試驗):
 	def tearDown(self):
 # 		後端資料庫檢查
 		self.assertEqual(外語表.objects.all().count(), self.外語表資料數 + 1)
-		self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數+1)
-	def test_一般參數(self):
-		self.client.login()
+		self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 1)
+	def test_一般參數(self, 登入使用者編號mock):
+		登入使用者編號mock.return_value = self.鄉民.編號()
 		回應 = self.client.post(
 			'/加資料/外語請教條', {  # 全部都必須字串形態
 				'來源':json.dumps({'名':'阿媠', '職業':'學生'}),  # 要先轉成字串。一定要有「名」，其餘資訊視情況增加
@@ -35,6 +37,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 				'結果':'成功',
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
+# 		邏輯檢查
+		self.assertTrue(登入使用者編號mock.called)
 # 		後端資料庫檢查
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
@@ -53,8 +57,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 		self.assertEqual(外語.屬性.get(分類='字數').內容(), {'字數':'2'})
 		self.assertEqual(外語.外語語言, self.華語)
 		self.assertEqual(外語.外語資料, '漂亮')
-	def test_來源自己(self):
-		self.client.login()
+	def test_來源自己(self, 登入使用者編號mock):
+		登入使用者編號mock.return_value = self.鄉民.編號()
 		回應 = self.client.post(
 			'/加資料/外語請教條', {
 				'來源':json.dumps('自己'),  # 可用「自己」，會把來源指向自己。一樣先轉成字串。
@@ -74,6 +78,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 				'結果':'成功',
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
+# 		邏輯檢查
+		self.assertTrue(登入使用者編號mock.called)
 # 		後端資料庫檢查
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
@@ -90,8 +96,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 		self.assertEqual(外語.屬性.get(分類='字數').內容(), {'字數':'2'})
 		self.assertEqual(外語.外語語言, self.華語)
 		self.assertEqual(外語.外語資料, '漂亮')
-	def test_來源名自己(self):
-		self.client.login()
+	def test_來源名自己(self, 登入使用者編號mock):
+		登入使用者編號mock.return_value = self.鄉民.編號()
 		回應 = self.client.post(
 			'/加資料/外語請教條', {
 				'來源':json.dumps({'名':'自己'}),  # 當作一个人叫做「自己」
@@ -111,6 +117,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 				'結果':'成功',
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
+# 		邏輯檢查
+		self.assertTrue(登入使用者編號mock.called)
 # 		後端資料庫檢查
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
@@ -128,11 +136,11 @@ class 外語請教條加成功試驗(資料庫試驗):
 		self.assertEqual(外語.屬性.get(分類='字數').內容(), {'字數':'2'})
 		self.assertEqual(外語.外語語言, self.華語)
 		self.assertEqual(外語.外語資料, '漂亮')
-	def test_資料來源裡欄位內容可以不是字串(self):
-		self.client.login()
+	def test_資料來源裡欄位內容可以不是字串(self, 登入使用者編號mock):
+		登入使用者編號mock.return_value = self.鄉民.編號()
 		回應 = self.client.post(
 			'/加資料/外語請教條', {
-				'來源':json.dumps({'名':'阿媠','身懸':160.5}),
+				'來源':json.dumps({'名':'阿媠', '身懸':160.5}),
 				'種類':'字詞',
 				'語言腔口':'閩南語',
 				'著作所在地':'花蓮',
@@ -149,6 +157,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 				'結果':'成功',
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
+# 		邏輯檢查
+		self.assertTrue(登入使用者編號mock.called)
 # 		後端資料庫檢查
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
@@ -166,8 +176,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 		self.assertEqual(外語.屬性.get(分類='字數').內容(), {'字數':'2'})
 		self.assertEqual(外語.外語語言, self.華語)
 		self.assertEqual(外語.外語資料, '漂亮')
-	def test_資料屬性裡欄位內容可以不是字串(self):
-		self.client.login()
+	def test_資料屬性裡欄位內容可以不是字串(self, 登入使用者編號mock):
+		登入使用者編號mock.return_value = self.鄉民.編號()
 		回應 = self.client.post(
 			'/加資料/外語請教條', {
 				'來源':json.dumps({'名':'自己'}),
@@ -187,6 +197,8 @@ class 外語請教條加成功試驗(資料庫試驗):
 				'結果':'成功',
 				'平臺項目編號':回應資料['平臺項目編號'],
 		})
+# 		邏輯檢查
+		self.assertTrue(登入使用者編號mock.called)
 # 		後端資料庫檢查
 		編號 = int(回應資料['平臺項目編號'])
 		self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
