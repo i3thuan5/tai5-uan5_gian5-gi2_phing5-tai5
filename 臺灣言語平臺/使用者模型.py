@@ -18,7 +18,9 @@ class 使用者表(models.Model):
 		return self.帳號.pk
 	@classmethod
 	def 判斷編號(cls,使用者物件):
-		return 使用者物件.編號()
+		if 使用者物件.is_authenticated():
+			return 使用者物件.編號()
+		return None
 
 class 評分狀況表(models.Model):
 	使用者 = models.ForeignKey(來源表, related_name='+')
