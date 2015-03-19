@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
-from 臺灣言語資料庫.試驗.資料庫試驗 import 資料庫試驗
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.資料模型 import 影音表
 import io
-import wave
 import json
+from unittest.mock import patch
+from 臺灣言語平臺.試驗.加資料.試驗基本資料 import 試驗基本資料
+import wave
 from 臺灣言語資料庫.關係模型 import 翻譯影音表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
-class 新詞影音加成功試驗(資料庫試驗):
+class 新詞影音加成功試驗(試驗基本資料):
 	def setUp(self):
 		super(新詞影音加成功試驗, self).setUp()
+		
+		self.patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
+		登入使用者編號mock = self.patcher.start()
+		登入使用者編號mock.return_value = self.鄉民.編號()
 		
 		外語請教條回應 = self.client.post(
 			'/加資料/外語請教條', {
@@ -23,7 +28,7 @@ class 新詞影音加成功試驗(資料庫試驗):
 				'影音資料':'漂亮',
 			}
 		)
-		外語請教條回應資料 = json.loads(外語請教條回應.content)
+		外語請教條回應資料 = json.loads(外語請教條回應.content.decode("utf-8"))
 		self.外語請教條項目編號 = int(外語請教條回應資料['平臺項目編號'])
 		self.外語 = 平臺項目表.objects.get(pk=self.外語請教條項目編號).外語	
 		
@@ -39,9 +44,9 @@ class 新詞影音加成功試驗(資料庫試驗):
 		self.翻譯影音表資料數 = 翻譯影音表.objects.all().count()
 		self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 	def tearDown(self):
+		self.patcher.stop()
 		self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數)
 	def test_一般參數(self):
-		self.client.login()
 		回應 = self.client.post(
 			'/加資料/新詞影音', {  # 全部都必須字串形態
 				'外語請教條項目編號':self.外語請教條項目編號,  # 針對哪一個外語請教條的母語影音
@@ -84,7 +89,6 @@ class 新詞影音加成功試驗(資料庫試驗):
 		self.assertEqual(影音.屬性.get(分類='字數').性質, '1')
 		self.assertEqual(影音.原始影音資料.read(), self.檔案.getvalue())
 	def test_來源自己(self):
-		self.client.login()
 		回應 = self.client.post(
 			'/加請教條', {
 				'外語請教條項目編號':self.外語請教條項目編號,  # 針對哪一個外語請教條的母語影音
@@ -124,7 +128,6 @@ class 新詞影音加成功試驗(資料庫試驗):
 		self.assertEqual(影音.屬性.get(分類='字數').性質, '1')
 		self.assertEqual(影音.原始影音資料.read(), self.檔案.getvalue())
 	def test_來源名自己(self):
-		self.client.login()
 		回應 = self.client.post(
 			'/加請教條', {
 				'外語請教條項目編號':self.外語請教條項目編號,  # 針對哪一個外語請教條的母語影音
@@ -166,7 +169,6 @@ class 新詞影音加成功試驗(資料庫試驗):
 		self.assertEqual(影音.原始影音資料.read(), self.檔案.getvalue())
 	def test_仝款資料加兩擺(self):
 		'影音比較的成本太大，所以不檢查'
-		self.client.login()
 		self.client.post(
 			'/加資料/新詞影音', {
 				'外語請教條項目編號':self.外語請教條項目編號,
