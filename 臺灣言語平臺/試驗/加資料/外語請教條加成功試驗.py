@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from 臺灣言語資料庫.試驗.資料庫試驗 import 資料庫試驗
 import json
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from unittest.mock import patch
+from 臺灣言語平臺.試驗.加資料.試驗基本資料 import 試驗基本資料
 
 @patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-class 外語請教條加成功試驗(資料庫試驗):
+class 外語請教條加成功試驗(試驗基本資料):
 	def setUp(self):
 		super(外語請教條加成功試驗, self).setUp()
 # 		後端資料庫檢查
