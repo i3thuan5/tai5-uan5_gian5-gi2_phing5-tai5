@@ -6,11 +6,19 @@ from 臺灣言語資料庫.資料模型 import 資料類型表
 
 class 使用者表(models.Model):
 	帳號 = models.OneToOneField(來源表, related_name='使用者', primary_key=True)
+	email = models.EmailField(unique=True)
 	密碼 = models.CharField(max_length=16)
-	服務 = models.CharField(max_length=50)
-	編號 = models.IntegerField()
+	服務 = models.CharField(max_length=50)  # ??
+	編號 = models.IntegerField()  # ??
 	分數 = models.IntegerField()
+	REQUIRED_FIELDS=() # for auth
+	USERNAME_FIELD='email'# for auth
 # 	階級 = models.IntegerField() 用函式算好矣
+	def 編號(self):
+		return self.帳號.pk
+	@classmethod
+	def 判斷編號(cls,使用者物件):
+		return 使用者物件.編號()
 
 class 評分狀況表(models.Model):
 	使用者 = models.ForeignKey(來源表, related_name='+')

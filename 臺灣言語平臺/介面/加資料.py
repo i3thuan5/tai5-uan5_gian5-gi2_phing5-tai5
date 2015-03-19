@@ -5,6 +5,7 @@ import json
 from django.utils.datastructures import MultiValueDictKeyError
 from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語資料庫.資料模型 import 語言腔口表
+from 臺灣言語平臺.使用者模型 import 使用者表
 
 _自己json字串=json.dumps('自己')
 
@@ -36,7 +37,7 @@ def 加外語請教條(request):
 				})
 	# 	內容['屬性']=json.loads(request.POST['屬性'])
 		內容['版權'] = '會使公開'
-		內容['收錄者'] = 1
+		內容['收錄者'] =使用者表 .判斷編號(request.user)
 		if 內容['來源'] == _自己json字串:
 			內容['來源'] = 內容['收錄者']
 # 		print(type(內容['屬性']),len(內容['屬性']),內容['屬性'])
@@ -50,6 +51,11 @@ def 加外語請教條(request):
 			pass
 		外語 = 外語表.加資料(內容)
 		平臺項目 = 外語.平臺項目.create(是資料源頭=True)
+	except TypeError:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'無登入',
+		})
 	except ValueError:
 		return JsonResponse({
 			'結果':'失敗',
