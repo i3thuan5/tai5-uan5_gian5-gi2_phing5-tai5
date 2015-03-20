@@ -6,6 +6,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語平臺.使用者模型 import 使用者表
+from 臺灣言語平臺.項目模型 import 平臺項目表
 
 _自己json字串=json.dumps('自己')
 
@@ -82,3 +83,61 @@ def 加外語請教條(request):
 			'平臺項目編號':str(平臺項目.編號()),
 		})
 	
+def 加新詞影音(request):
+	欄位表 = [
+		'來源',
+		'種類',
+		'語言腔口',
+		'著作所在地',
+		'著作年',
+		'屬性', 
+		]
+	內容 = {}
+	try:
+		for 欄位 in 欄位表:
+			內容[欄位] = request.POST[欄位]
+			if not isinstance(內容[欄位],str):
+				return JsonResponse({
+					'結果':'失敗',
+					'原因':'資料全部一般欄位必須都是字串',
+				})
+		內容['原始影音資料']=request.FILES['影音資料']
+# 		print(內容['原始影音資料'],type(內容['原始影音資料']))
+		內容['版權'] = '會使公開'
+		內容['收錄者'] =使用者表 .判斷編號(request.user)
+		if 內容['來源'] == _自己json字串:
+			內容['來源'] = 內容['收錄者']
+		外語 = 外語表.objects.get(pk=int(request.POST['外語請教條項目編號']))
+		影音=外語.錄母語(內容)
+		平臺項目 = 影音.平臺項目.create(是資料源頭=False)
+# 		print(平臺項目.編號(),平臺項目表.objects.all().count())
+# 	except TypeError:
+# 		return JsonResponse({
+# 			'結果':'失敗',
+# 			'原因':'無登入',
+# 		})
+# 	except ValueError:
+# 		return JsonResponse({
+# 			'結果':'失敗',
+# 			'原因':'來源抑是屬性無轉json字串',
+# 		})
+# 	except MultiValueDictKeyError:
+# 		return JsonResponse({
+# 			'結果':'失敗',
+# 			'原因':'資料欄位有缺',
+# 		})
+# 	except KeyError:
+# 		return JsonResponse({
+# 			'結果':'失敗',
+# 			'原因':'來源沒有「名」的欄位',
+# 		})
+	except 種類表.DoesNotExist:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'種類欄位不符規範',
+		})
+	else:
+		return JsonResponse({
+			'結果':'成功',
+			'平臺項目編號':str(平臺項目.編號()),
+		})
