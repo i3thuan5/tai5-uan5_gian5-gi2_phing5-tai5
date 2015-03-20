@@ -9,7 +9,6 @@ from 臺灣言語資料庫.關係模型 import 翻譯影音表
 import json
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
-@patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
 class 新詞影音加失敗試驗(試驗基本資料):
 	def setUp(self):
 		super(新詞影音加失敗試驗, self).setUp()
@@ -75,6 +74,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 				'原因':'無登入',
 		})
 	def test_缺編號欄位(self):
+		'編號欄位跟其他欄位一樣，缺了會失敗'
 		回應 = self.client.post(
 			'/加資料/新詞影音', {
 # 				'外語請教條項目編號':self.外語請教條項目編號,
@@ -91,7 +91,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 		self.assertEqual(回應.status_code, 200)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
-				'原因':'無編號欄位',
+				'原因':'資料欄位有缺',
 		})
 	def test_編號欄位無佇資料庫(self):
 		回應 = self.client.post(
