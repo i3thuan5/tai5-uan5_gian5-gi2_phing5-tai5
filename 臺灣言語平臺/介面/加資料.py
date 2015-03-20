@@ -10,14 +10,6 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 
 _自己json字串 = json.dumps('自己')
 
-def 揣這馬外語資料有無(內容):
-	return 外語表.objects.filter(
-			種類=種類表.objects.get(種類=內容['種類']),
-			語言腔口=語言腔口表.objects.get(語言腔口=內容['語言腔口']),
-			外語語言=語言腔口表.objects.get(語言腔口=內容['外語語言']),
-			外語資料=內容['外語資料']
-		).count()
-
 class 失敗的json回應(JsonResponse):
 	def __init__(self, 失敗原因):
 		super(失敗的json回應, self).__init__({
@@ -33,38 +25,39 @@ class 成功的json回應(JsonResponse):
 
 def 加外語請教條(request):
 	欄位表 = ['來源',
-				'種類',
-				'語言腔口',
-				'著作所在地',
-				'著作年',
-				'屬性',
-				'外語語言',
-				'外語資料', ]
-	內容 = {}
+		'種類',
+		'語言腔口',
+		'著作所在地',
+		'著作年',
+		'屬性',
+		'外語語言',
+		'外語資料', 
+	]
+	內容 = {
+		'收錄者': 使用者表 .判斷編號(request.user),
+		'版權': '會使公開',
+		}
 	try:
 		for 欄位 in 欄位表:
 			內容[欄位] = request.POST[欄位]
-			if not isinstance(內容[欄位], str):
-				return 失敗的json回應('資料全部一般欄位必須都是字串')
-	# 	內容['屬性']=json.loads(request.POST['屬性'])
-		內容['版權'] = '會使公開'
-		內容['收錄者'] = 使用者表 .判斷編號(request.user)
-		if 內容['來源'] == _自己json字串:
-			內容['來源'] = 內容['收錄者']
-# 		print(type(內容['屬性']),len(內容['屬性']),內容['屬性'])
-		try:
-			if 揣這馬外語資料有無(內容) > 0:
-				return 失敗的json回應('請教條已經有了')
-		except:
-			pass
+	except MultiValueDictKeyError:
+		return 失敗的json回應('資料欄位有缺')
+	if 內容['來源'] == _自己json字串:
+		內容['來源'] = 內容['收錄者']
+	
+	try:
+		if _揣這馬外語資料有無(內容) > 0:
+			return 失敗的json回應('請教條已經有了')
+	except:
+		pass
+	
+	try:
 		外語 = 外語表.加資料(內容)
 		平臺項目 = 外語.平臺項目.create(是資料源頭=True)
 	except TypeError:
 		return 失敗的json回應('無登入')
 	except ValueError:
 			return 失敗的json回應('來源抑是屬性無轉json字串')
-	except MultiValueDictKeyError:
-		return 失敗的json回應('資料欄位有缺')
 	except KeyError:
 		return 失敗的json回應('來源沒有「名」的欄位')
 	except 種類表.DoesNotExist:
@@ -82,28 +75,27 @@ def 加新詞影音(request):
 		'著作所在地',
 		'著作年',
 		'屬性',
-		]
-	內容 = {}
+	]
+	內容 = {
+		'收錄者': 使用者表 .判斷編號(request.user),
+		'版權': '會使公開',
+		}
 	try:
 		for 欄位 in 欄位表:
 			內容[欄位] = request.POST[欄位]
-			if not isinstance(內容[欄位], str):
-				return 失敗的json回應('資料全部一般欄位必須都是字串')
 		內容['原始影音資料'] = request.FILES['影音資料']
-# 		print(內容['原始影音資料'],type(內容['原始影音資料']))
-		內容['版權'] = '會使公開'
-		內容['收錄者'] = 使用者表 .判斷編號(request.user)
-		if 內容['來源'] == _自己json字串:
-			內容['來源'] = 內容['收錄者']
-		try:
-			外語 = 平臺項目表.objects.get(pk=int(request.POST['外語請教條項目編號'])).外語
-		except MultiValueDictKeyError:
-			return 失敗的json回應('資料欄位有缺')
-		except ValueError:
-			return 失敗的json回應('編號欄位不是數字字串')
+		外語請教條項目編號=int(request.POST['外語請教條項目編號'])
+	except MultiValueDictKeyError:
+		return 失敗的json回應('資料欄位有缺')
+	except ValueError:
+		return 失敗的json回應('編號欄位不是數字字串')
+	if 內容['來源'] == _自己json字串:
+		內容['來源'] = 內容['收錄者']
+		
+	try:
+		外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
 		影音 = 外語.錄母語(內容)
 		平臺項目 = 影音.平臺項目.create(是資料源頭=False)
-# 		print(平臺項目.編號(),平臺項目表.objects.all().count())
 	except TypeError:
 		return 失敗的json回應('無登入')
 	except ValueError as 錯誤:
@@ -114,8 +106,6 @@ def 加新詞影音(request):
 			return 失敗的json回應('語言腔口和外語請教條不一樣')
 		else: 
 			return 失敗的json回應('來源抑是屬性無轉json字串')
-	except MultiValueDictKeyError:
-		return 失敗的json回應('資料欄位有缺')
 	except KeyError:
 		return 失敗的json回應('來源沒有「名」的欄位')
 	except 平臺項目表.DoesNotExist:
@@ -132,26 +122,26 @@ def 加新詞文本(request):
 		'著作年',
 		'屬性',
 		'文本資料',
-		]
-	內容 = {}
+	]
+	內容 = {
+		'收錄者': 使用者表 .判斷編號(request.user),
+		'版權': '會使公開',
+		}
 	try:
 		for 欄位 in 欄位表:
 			內容[欄位] = request.POST[欄位]
-			if not isinstance(內容[欄位], str):
-				return 失敗的json回應('資料全部一般欄位必須都是字串')
-		內容['版權'] = '會使公開'
-		內容['收錄者'] = 使用者表 .判斷編號(request.user)
-		if 內容['來源'] == _自己json字串:
-			內容['來源'] = 內容['收錄者']
-		try:
-			影音 = 平臺項目表.objects.get(pk=int(request.POST['新詞影音項目編號'])).影音
-		except MultiValueDictKeyError:
-			return 失敗的json回應('資料欄位有缺')
-		except ValueError:
-			return 失敗的json回應('編號欄位不是數字字串')
+		新詞影音項目編號=int(request.POST['新詞影音項目編號'])
+	except MultiValueDictKeyError:
+		return 失敗的json回應('資料欄位有缺')
+	except ValueError:
+		return 失敗的json回應('編號欄位不是數字字串')
+	if 內容['來源'] == _自己json字串:
+		內容['來源'] = 內容['收錄者']
+		
+	try:
+		影音 = 平臺項目表.objects.get(pk=新詞影音項目編號).影音
 		文本 = 影音.寫文本(內容)
 		平臺項目 = 文本.平臺項目.create(是資料源頭=False)
-# 		print(平臺項目.編號(),平臺項目表.objects.all().count())
 	except TypeError:
 		return 失敗的json回應('無登入')
 	except ValueError as 錯誤:
@@ -162,11 +152,17 @@ def 加新詞文本(request):
 			return 失敗的json回應('語言腔口和新詞影音不一樣')
 		else: 
 			return 失敗的json回應('來源抑是屬性無轉json字串')
-	except MultiValueDictKeyError:
-		return 失敗的json回應('資料欄位有缺')
 	except KeyError:
 		return 失敗的json回應('來源沒有「名」的欄位')
 	except 平臺項目表.DoesNotExist:
 		return 失敗的json回應('編號號碼有問題')
 	else:
 		return 成功的json回應(平臺項目.編號())
+
+def _揣這馬外語資料有無(內容):
+	return 外語表.objects.filter(
+			種類=種類表.objects.get(種類=內容['種類']),
+			語言腔口=語言腔口表.objects.get(語言腔口=內容['語言腔口']),
+			外語語言=語言腔口表.objects.get(語言腔口=內容['外語語言']),
+			外語資料=內容['外語資料']
+		).count()
