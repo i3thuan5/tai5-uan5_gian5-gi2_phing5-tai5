@@ -84,6 +84,11 @@ def 加外語請教條(request):
 		})
 	
 def 加新詞影音(request):
+	if '影音資料' in request.POST:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'影音資料不是檔案',
+		})
 	欄位表 = [
 		'來源',
 		'種類',
@@ -107,34 +112,50 @@ def 加新詞影音(request):
 		內容['收錄者'] =使用者表 .判斷編號(request.user)
 		if 內容['來源'] == _自己json字串:
 			內容['來源'] = 內容['收錄者']
-		外語 = 外語表.objects.get(pk=int(request.POST['外語請教條項目編號']))
+		try:
+			外語 = 平臺項目表.objects.get(pk=int(request.POST['外語請教條項目編號'])).外語
+		except MultiValueDictKeyError:
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'資料欄位有缺',
+			})
+		except ValueError:
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'編號欄位不是數字字串',
+			})
 		影音=外語.錄母語(內容)
 		平臺項目 = 影音.平臺項目.create(是資料源頭=False)
 # 		print(平臺項目.編號(),平臺項目表.objects.all().count())
-# 	except TypeError:
-# 		return JsonResponse({
-# 			'結果':'失敗',
-# 			'原因':'無登入',
-# 		})
-# 	except ValueError:
-# 		return JsonResponse({
-# 			'結果':'失敗',
-# 			'原因':'來源抑是屬性無轉json字串',
-# 		})
-# 	except MultiValueDictKeyError:
-# 		return JsonResponse({
-# 			'結果':'失敗',
-# 			'原因':'資料欄位有缺',
-# 		})
-# 	except KeyError:
-# 		return JsonResponse({
-# 			'結果':'失敗',
-# 			'原因':'來源沒有「名」的欄位',
-# 		})
+	except TypeError:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'無登入',
+		})
+	except ValueError:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'來源抑是屬性無轉json字串',
+		})
+	except MultiValueDictKeyError:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'資料欄位有缺',
+		})
+	except KeyError:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'來源沒有「名」的欄位',
+		})
 	except 種類表.DoesNotExist:
 		return JsonResponse({
 			'結果':'失敗',
 			'原因':'種類欄位不符規範',
+		})
+	except 平臺項目表.DoesNotExist:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'編號號碼有問題',
 		})
 	else:
 		return JsonResponse({
