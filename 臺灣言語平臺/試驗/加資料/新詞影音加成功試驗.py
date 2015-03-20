@@ -39,6 +39,7 @@ class 新詞影音加成功試驗(試驗基本資料):
 			音檔.setframerate(16000)
 			音檔.setsampwidth(2)
 			音檔.writeframesraw(b'sui2' * 20)
+		self.檔案.seek(0)
 		self.檔案.name = '試驗音檔'
 		
 		self.外語表資料數 = 外語表.objects.all().count()
@@ -176,6 +177,7 @@ class 新詞影音加成功試驗(試驗基本資料):
 				'影音資料':self.檔案,
 			}
 		)
+		self.檔案.seek(0)
 		self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 		回應 = self.client.post(
 			'/加資料/新詞影音', {
