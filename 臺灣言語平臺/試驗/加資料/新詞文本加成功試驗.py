@@ -11,7 +11,6 @@ import io
 import wave
 from unittest.mock import patch
 
-@patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
 class 新詞文本加成功試驗(試驗基本資料):
 	def setUp(self):
 		super(新詞文本加成功試驗, self).setUp()
@@ -44,7 +43,7 @@ class 新詞文本加成功試驗(試驗基本資料):
 			檔案.seek(0)
 			檔案.name = '試驗音檔'
 			新詞影音回應 = self.client.post(
-				'/加資料/新詞文本', {
+				'/加資料/新詞影音', {
 					'外語請教條項目編號':外語請教條項目編號,
 					'來源':json.dumps({'名':'阿媠', '職業':'學生'}),
 					'種類':'字詞',
@@ -52,10 +51,10 @@ class 新詞文本加成功試驗(試驗基本資料):
 					'著作所在地':'花蓮',
 					'著作年':'2014',
 					'屬性':json.dumps({'詞性':'形容詞', '字數':'1'}),
-					'文本資料':檔案,
+					'影音資料':檔案,
 				}
 			)
-		新詞影音回應資料 = json.loads(新詞影音回應.content)
+		新詞影音回應資料 = json.loads(新詞影音回應.content.decode("utf-8"))
 		self.新詞影音項目編號 = int(新詞影音回應資料['平臺項目編號'])
 		self.影音 = 平臺項目表.objects.get(pk=self.新詞影音項目編號).影音	
 		
@@ -98,20 +97,19 @@ class 新詞文本加成功試驗(試驗基本資料):
 		self.assertEqual(文本.收錄者, self.鄉民)
 		self.assertEqual(文本.來源.名, '阿媠')
 		self.assertEqual(文本.來源.屬性.count(), 1)
-		self.assertEqual(文本.來源.屬性.get().分類, '職業')
-		self.assertEqual(文本.來源.屬性.get().性質, '學生')
+		self.assertEqual(文本.來源.屬性.get().內容(), {'職業':'學生'})
 		self.assertEqual(文本.版權, self.會使公開)
 		self.assertEqual(文本.種類, self.字詞)
 		self.assertEqual(文本.語言腔口, self.閩南語)
 		self.assertEqual(文本.著作所在地, self.花蓮)
 		self.assertEqual(文本.著作年, self.二空一四)
 		self.assertEqual(文本.屬性.count(), 2)
-		self.assertEqual(文本.屬性.get(分類='詞性').性質, '形容詞')
-		self.assertEqual(文本.屬性.get(分類='字數').性質, '1')
+		self.assertEqual(文本.屬性.get(分類='詞性').內容(), {'詞性':'形容詞'})
+		self.assertEqual(文本.屬性.get(分類='字數').內容(), {'字數':'1'})
 		self.assertEqual(文本.文本資料, '媠')
 	def test_來源自己(self):
 		回應 = self.client.post(
-			'/加請教條', {
+			'/加資料/新詞文本', {
 				'新詞影音項目編號':self.新詞影音項目編號,  # 針對哪一個外語請教條的母語文本
 				'來源':json.dumps('自己'),  # 可用「自己」，會把來源指向自己
 				'種類':'字詞',
@@ -140,12 +138,12 @@ class 新詞文本加成功試驗(試驗基本資料):
 		self.assertEqual(文本.著作所在地, self.花蓮)
 		self.assertEqual(文本.著作年, self.二空一四)
 		self.assertEqual(文本.屬性.count(), 2)
-		self.assertEqual(文本.屬性.get(分類='詞性').性質, '形容詞')
-		self.assertEqual(文本.屬性.get(分類='字數').性質, '1')
+		self.assertEqual(文本.屬性.get(分類='詞性').內容(), {'詞性':'形容詞'})
+		self.assertEqual(文本.屬性.get(分類='字數').內容(), {'字數':'1'})
 		self.assertEqual(文本.文本資料, '媠')
 	def test_來源名自己(self):
 		回應 = self.client.post(
-			'/加請教條', {
+			'/加資料/新詞文本', {
 				'新詞影音項目編號':self.新詞影音項目編號,
 				'來源':json.dumps({'名':'自己'}),  # 當作一个人叫做「自己」
 				'種類':'字詞',
@@ -167,7 +165,7 @@ class 新詞文本加成功試驗(試驗基本資料):
 		文本 = 平臺項目表.objects.get(pk=編號).文本
 		self.影音.影音文本.get(文本=文本)
 		self.assertEqual(文本.收錄者, self.鄉民)
-		self.assertEqual(文本.來源.名, '家己')
+		self.assertEqual(文本.來源.名, '自己')
 		self.assertEqual(文本.來源.屬性.count(), 0)
 		self.assertEqual(文本.版權, self.會使公開)
 		self.assertEqual(文本.種類, self.字詞)
@@ -175,8 +173,8 @@ class 新詞文本加成功試驗(試驗基本資料):
 		self.assertEqual(文本.著作所在地, self.花蓮)
 		self.assertEqual(文本.著作年, self.二空一四)
 		self.assertEqual(文本.屬性.count(), 2)
-		self.assertEqual(文本.屬性.get(分類='詞性').性質, '形容詞')
-		self.assertEqual(文本.屬性.get(分類='字數').性質, '1')
+		self.assertEqual(文本.屬性.get(分類='詞性').內容(), {'詞性':'形容詞'})
+		self.assertEqual(文本.屬性.get(分類='字數').內容(), {'字數':'1'})
 		self.assertEqual(文本.文本資料, '媠')
 	def test_仝款資料加兩擺(self):
 		'不同人校對的結果可能一樣，所以不檢查重覆文本'
@@ -220,14 +218,13 @@ class 新詞文本加成功試驗(試驗基本資料):
 		self.assertEqual(文本.收錄者, self.鄉民)
 		self.assertEqual(文本.來源.名, '阿媠')
 		self.assertEqual(文本.來源.屬性.count(), 1)
-		self.assertEqual(文本.來源.屬性.get().分類, '職業')
-		self.assertEqual(文本.來源.屬性.get().性質, '學生')
+		self.assertEqual(文本.來源.屬性.get().內容(), {'職業':'學生'})
 		self.assertEqual(文本.版權, self.會使公開)
 		self.assertEqual(文本.種類, self.字詞)
 		self.assertEqual(文本.語言腔口, self.閩南語)
 		self.assertEqual(文本.著作所在地, self.花蓮)
 		self.assertEqual(文本.著作年, self.二空一四)
 		self.assertEqual(文本.屬性.count(), 2)
-		self.assertEqual(文本.屬性.get(分類='詞性').性質, '形容詞')
-		self.assertEqual(文本.屬性.get(分類='字數').性質, '1')
+		self.assertEqual(文本.屬性.get(分類='詞性').內容(), {'詞性':'形容詞'})
+		self.assertEqual(文本.屬性.get(分類='字數').內容(), {'字數':'1'})
 		self.assertEqual(文本.文本資料, '媠')

@@ -174,3 +174,89 @@ def 加新詞影音(request):
 			'結果':'成功',
 			'平臺項目編號':str(平臺項目.編號()),
 		})
+		
+def 加新詞文本(request):
+	欄位表 = [
+		'來源',
+		'種類',
+		'語言腔口',
+		'著作所在地',
+		'著作年',
+		'屬性', 
+		'文本資料',
+		]
+	內容 = {}
+	try:
+		for 欄位 in 欄位表:
+			內容[欄位] = request.POST[欄位]
+			if not isinstance(內容[欄位],str):
+				return JsonResponse({
+					'結果':'失敗',
+					'原因':'資料全部一般欄位必須都是字串',
+				})
+		內容['版權'] = '會使公開'
+		內容['收錄者'] =使用者表 .判斷編號(request.user)
+		if 內容['來源'] == _自己json字串:
+			內容['來源'] = 內容['收錄者']
+		try:
+			影音 = 平臺項目表.objects.get(pk=int(request.POST['新詞影音項目編號'])).影音
+		except MultiValueDictKeyError:
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'資料欄位有缺',
+			})
+		except ValueError:
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'編號欄位不是數字字串',
+			})
+		文本=影音.寫文本(內容)
+		平臺項目 = 文本.平臺項目.create(是資料源頭=False)
+# 		print(平臺項目.編號(),平臺項目表.objects.all().count())
+	except TypeError:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'無登入',
+		})
+	except ValueError as 錯誤:
+		錯誤資訊=錯誤.args[0]
+		if '新資料的種類' in 錯誤資訊 and '原本資料的種類' in 錯誤資訊:  
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'種類和新詞影音不一樣',
+			})
+		elif '新資料的語言腔口' in 錯誤資訊 and '原本資料的語言腔口' in 錯誤資訊:  
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'語言腔口和新詞影音不一樣',
+			})
+		else:  
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'來源抑是屬性無轉json字串',
+			})
+	except MultiValueDictKeyError:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'資料欄位有缺',
+		})
+	except KeyError:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'來源沒有「名」的欄位',
+		})
+	except 種類表.DoesNotExist:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'種類欄位不符規範',
+		})
+	except 平臺項目表.DoesNotExist:
+		return JsonResponse({
+			'結果':'失敗',
+			'原因':'編號號碼有問題',
+		})
+	else:
+		return JsonResponse({
+			'結果':'成功',
+			'平臺項目編號':str(平臺項目.編號()),
+		})
