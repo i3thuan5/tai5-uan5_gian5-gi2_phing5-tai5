@@ -13,8 +13,8 @@ class 新詞影音加成功試驗(試驗基本資料):
 	def setUp(self):
 		super(新詞影音加成功試驗, self).setUp()
 		
-		self.patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-		登入使用者編號mock = self.patcher.start()
+		self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
+		登入使用者編號mock = self.登入使用者編號patcher.start()
 		登入使用者編號mock.return_value = self.鄉民.編號()
 		
 		外語請教條回應 = self.client.post(
@@ -48,7 +48,7 @@ class 新詞影音加成功試驗(試驗基本資料):
 		self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 	def tearDown(self):
 		self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 1)
-		self.patcher.stop()
+		self.登入使用者編號patcher.stop()
 	def test_一般參數(self):
 		回應 = self.client.post(
 			'/加資料/新詞影音', {  # 全部都必須字串形態
