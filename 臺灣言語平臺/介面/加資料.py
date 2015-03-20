@@ -132,11 +132,23 @@ def 加新詞影音(request):
 			'結果':'失敗',
 			'原因':'無登入',
 		})
-	except ValueError:
-		return JsonResponse({
-			'結果':'失敗',
-			'原因':'來源抑是屬性無轉json字串',
-		})
+	except ValueError as 錯誤:
+		錯誤資訊=錯誤.args[0]
+		if '新資料的種類' in 錯誤資訊 and '原本資料的種類' in 錯誤資訊:  
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'種類和外語請教條不一樣',
+			})
+		elif '新資料的語言腔口' in 錯誤資訊 and '原本資料的語言腔口' in 錯誤資訊:  
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'語言腔口和外語請教條不一樣',
+			})
+		else:  
+			return JsonResponse({
+				'結果':'失敗',
+				'原因':'來源抑是屬性無轉json字串',
+			})
 	except MultiValueDictKeyError:
 		return JsonResponse({
 			'結果':'失敗',
