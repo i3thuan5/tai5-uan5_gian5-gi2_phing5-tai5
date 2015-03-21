@@ -31,7 +31,7 @@ def 加外語請教條(request):
 		'著作年',
 		'屬性',
 		'外語語言',
-		'外語資料', 
+		'外語資料',
 	]
 	內容 = {
 		'收錄者': 使用者表 .判斷編號(request.user),
@@ -52,8 +52,7 @@ def 加外語請教條(request):
 		pass
 	
 	try:
-		外語 = 外語表.加資料(內容)
-		平臺項目 = 外語.平臺項目.create(是資料源頭=True)
+		平臺項目 = 平臺項目表.加外語資料(內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
 	except ValueError:
@@ -84,7 +83,7 @@ def 加新詞影音(request):
 		for 欄位 in 欄位表:
 			內容[欄位] = request.POST[欄位]
 		內容['原始影音資料'] = request.FILES['影音資料']
-		外語請教條項目編號=int(request.POST['外語請教條項目編號'])
+		外語請教條項目編號 = int(request.POST['外語請教條項目編號'])
 	except MultiValueDictKeyError:
 		return 失敗的json回應('資料欄位有缺')
 	except ValueError:
@@ -93,9 +92,7 @@ def 加新詞影音(request):
 		內容['來源'] = 內容['收錄者']
 		
 	try:
-		外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
-		影音 = 外語.錄母語(內容)
-		平臺項目 = 影音.平臺項目.create(是資料源頭=False)
+		平臺項目 = 平臺項目表.外語錄母語(外語請教條項目編號, 內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
 	except ValueError as 錯誤:
@@ -130,7 +127,7 @@ def 加新詞文本(request):
 	try:
 		for 欄位 in 欄位表:
 			內容[欄位] = request.POST[欄位]
-		新詞影音項目編號=int(request.POST['新詞影音項目編號'])
+		新詞影音項目編號 = int(request.POST['新詞影音項目編號'])
 	except MultiValueDictKeyError:
 		return 失敗的json回應('資料欄位有缺')
 	except ValueError:
@@ -139,9 +136,7 @@ def 加新詞文本(request):
 		內容['來源'] = 內容['收錄者']
 		
 	try:
-		影音 = 平臺項目表.objects.get(pk=新詞影音項目編號).影音
-		文本 = 影音.寫文本(內容)
-		平臺項目 = 文本.平臺項目.create(是資料源頭=False)
+		平臺項目 = 平臺項目表.影音寫文本(新詞影音項目編號, 內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
 	except ValueError as 錯誤:

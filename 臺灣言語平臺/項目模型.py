@@ -14,6 +14,20 @@ class 平臺項目表(models.Model):
 	是資料源頭 = models.BooleanField(default=False)
 	def 編號(self):
 		return self.pk
+	@classmethod
+	def 加外語資料(cls,內容):
+		外語 = 外語表.加資料(內容)
+		return 外語.平臺項目.create(是資料源頭=True)
+	@classmethod
+	def 外語錄母語(cls,外語請教條項目編號,內容):
+		外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
+		影音 = 外語.錄母語(內容)
+		return 影音.平臺項目.create(是資料源頭=False)
+	@classmethod
+	def 影音寫文本(cls,新詞影音項目編號,內容):
+		影音 = 平臺項目表.objects.get(pk=新詞影音項目編號).影音
+		文本 = 影音.寫文本(內容)
+		return 文本.平臺項目.create(是資料源頭=False)
 
 class 文本修改表(models.Model):
 	舊 = models.ForeignKey(平臺項目表, unique=True, related_name='改做')
