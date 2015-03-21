@@ -11,6 +11,7 @@ import json
 import wave
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
+from django.contrib.auth.models import AnonymousUser
 
 class 新詞文本加失敗試驗(試驗基本資料):
 	def setUp(self):
@@ -93,6 +94,8 @@ class 新詞文本加失敗試驗(試驗基本資料):
 				'結果':'失敗',
 				'原因':'無登入',
 		})
+# 		邏輯檢查
+		self.登入使用者編號mock.assert_called_with(AnonymousUser())  # 外語佮影音有叫過
 	def test_編號欄位無佇資料庫(self):
 		回應 = self.client.post(
 			'/加資料/新詞文本', {
