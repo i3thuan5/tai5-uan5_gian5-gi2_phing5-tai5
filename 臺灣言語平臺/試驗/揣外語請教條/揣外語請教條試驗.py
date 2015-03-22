@@ -91,7 +91,17 @@ class 揣外語請教條試驗(TestCase):
 				'外語資料':'水母',
 			},
 			回應資料['資料'])
-		
+	
+	def test_無傳關鍵字(self):
+# 		前端輸入
+		回應 = self.client.get('/揣/外語請教條', {
+# 				'關鍵字':'水母'
+			})
+# 		前端回傳結果
+		self.assertEqual(回應.status_code, 200)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
+		self.assertEqual(回應資料,'無傳關鍵字')
+
 	def 資料庫加外語請教條(self, 外語詞, 外來語言='華語'):
 		return 平臺項目表.加外語資料({
 					'收錄者':self.鄉民.編號(),
