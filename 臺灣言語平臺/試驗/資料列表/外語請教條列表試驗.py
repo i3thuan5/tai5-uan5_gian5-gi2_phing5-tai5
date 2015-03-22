@@ -1,0 +1,71 @@
+# -*- coding: utf-8 -*-
+from django.test import TestCase
+import json
+from 臺灣言語平臺.項目模型 import 平臺項目表
+
+class 外語請教條列表試驗(TestCase):
+	def setUp(self):
+		pass
+
+	def tearDown(self):
+		pass
+
+	def test_空列表(self):
+		回應 = self.client.get('/外語請教條列表')
+# 		前端回傳結果
+		self.assertEqual(回應.status_code, 200)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
+		self.assertEqual(回應資料, [])
+		
+	def test_一个外語請教條(self):
+		水母編號 = self.加外語請教條('水母')
+		回應 = self.client.get('/外語請教條列表')
+# 		前端回傳結果
+		self.assertEqual(回應.status_code, 200)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
+		self.assertEqual(回應資料, [
+			{
+				'外語請教條項目編號':str(水母編號),
+				'種類':'字詞',
+				'語言腔口':'閩南語',
+				'外語語言':'華語',
+				'外語資料':'水母',
+			},
+		])
+	
+	def test_兩个外語請教條(self):
+		水母編號 = self.加外語請教條('水母')
+		水母腦編號 = self.加外語請教條('水母腦')
+		回應 = self.client.get('/外語請教條列表')
+# 		前端回傳結果
+		self.assertEqual(回應.status_code, 200)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
+		self.assertEqual(回應資料, [
+			{
+				'外語請教條項目編號':str(水母腦編號),
+				'種類':'字詞',
+				'語言腔口':'閩南語',
+				'外語語言':'華語',
+				'外語資料':'水母腦',
+			},
+			{
+				'外語請教條項目編號':str(水母編號),
+				'種類':'字詞',
+				'語言腔口':'閩南語',
+				'外語語言':'華語',
+				'外語資料':'水母',
+			},
+		])
+	
+	def 資料庫加外語請教條(self, 外語詞):
+		return 平臺項目表.加外語資料({
+					'來源':json.dumps({'名':'阿媠', '職業':'學生'}),
+					'種類':'字詞',
+					'語言腔口':'閩南語',
+					'著作所在地':'花蓮',
+					'著作年':'2014',
+					'屬性':json.dumps({'詞性':'形容詞', '字數':'2'}),
+					'外語語言':'華語',
+					'外語資料':外語詞,
+				}
+			).編號()
