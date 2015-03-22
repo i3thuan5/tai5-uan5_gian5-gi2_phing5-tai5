@@ -21,7 +21,7 @@ class 外語請教條列表試驗(TestCase):
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
-		self.assertEqual(回應資料, [])
+		self.assertEqual(回應資料, {'列表':[]})
 		
 	def test_一个外語請教條(self):
 		水母編號 = self.資料庫加外語請教條('水母')
@@ -29,7 +29,7 @@ class 外語請教條列表試驗(TestCase):
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
-		self.assertEqual(回應資料, [
+		self.assertEqual(回應資料, {'列表':[
 			{
 				'外語請教條項目編號':str(水母編號),
 				'種類':'字詞',
@@ -37,7 +37,7 @@ class 外語請教條列表試驗(TestCase):
 				'外語語言':'華語',
 				'外語資料':'水母',
 			},
-		])
+		]})
 	
 	def test_兩个外語請教條(self):
 		水母編號 = self.資料庫加外語請教條('水母')
@@ -46,7 +46,7 @@ class 外語請教條列表試驗(TestCase):
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
-		self.assertEqual(回應資料, [
+		self.assertEqual(回應資料, {'列表':[
 			{
 				'外語請教條項目編號':str(水母腦編號),
 				'種類':'字詞',
@@ -61,7 +61,7 @@ class 外語請教條列表試驗(TestCase):
 				'外語語言':'華語',
 				'外語資料':'水母',
 			},
-		])
+		]})
 	
 	def 資料庫加外語請教條(self, 外語詞):
 		return 平臺項目表.加外語資料({
