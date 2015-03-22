@@ -17,7 +17,7 @@ class 外語請教條列表試驗(TestCase):
 		pass
 
 	def test_空列表(self):
-		回應 = self.client.get('/外語請教條列表')
+		回應 = self.client.get('/列表/外語請教條')
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -25,7 +25,7 @@ class 外語請教條列表試驗(TestCase):
 		
 	def test_一个外語請教條(self):
 		水母編號 = self.資料庫加外語請教條('水母')
-		回應 = self.client.get('/外語請教條列表')
+		回應 = self.client.get('/列表/外語請教條')
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -42,7 +42,7 @@ class 外語請教條列表試驗(TestCase):
 	def test_兩个外語請教條(self):
 		水母編號 = self.資料庫加外語請教條('水母')
 		水母腦編號 = self.資料庫加外語請教條('水母腦')
-		回應 = self.client.get('/外語請教條列表')
+		回應 = self.client.get('/列表/外語請教條')
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
