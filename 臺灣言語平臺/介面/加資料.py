@@ -154,6 +154,50 @@ def 加新詞文本(request):
 	else:
 		return 成功的json回應(平臺項目.編號())
 
+def 外語加新詞文本(request):
+	欄位表 = [
+		'來源',
+		'種類',
+		'語言腔口',
+		'著作所在地',
+		'著作年',
+		'屬性',
+		'文本資料',
+	]
+	內容 = {
+		'收錄者': 使用者表 .判斷編號(request.user),
+		'版權': '會使公開',
+		}
+	try:
+		for 欄位 in 欄位表:
+			內容[欄位] = request.POST[欄位]
+		外語請教條項目編號 = int(request.POST['外語請教條項目編號'])
+	except MultiValueDictKeyError:
+		return 失敗的json回應('資料欄位有缺')
+	except ValueError:
+		return 失敗的json回應('編號欄位不是數字字串')
+	if 內容['來源'] == _自己json字串:
+		內容['來源'] = 內容['收錄者']
+		
+	try:
+		平臺項目 = 平臺項目表.外語翻母語(外語請教條項目編號, 內容)
+	except TypeError:
+		return 失敗的json回應('無登入')
+	except ValueError as 錯誤:
+		錯誤資訊 = 錯誤.args[0]
+		if '新資料的種類' in 錯誤資訊 and '原本資料的種類' in 錯誤資訊: 
+			return 失敗的json回應('種類和外語請教條不一樣')
+		elif '新資料的語言腔口' in 錯誤資訊 and '原本資料的語言腔口' in 錯誤資訊: 
+			return 失敗的json回應('語言腔口和外語請教條不一樣')
+		else: 
+			return 失敗的json回應('來源抑是屬性無轉json字串')
+	except KeyError:
+		return 失敗的json回應('來源沒有「名」的欄位')
+	except 平臺項目表.DoesNotExist:
+		return 失敗的json回應('編號號碼有問題')
+	else:
+		return 成功的json回應(平臺項目.編號())
+
 def _揣這馬外語資料有無(內容):
 	return 外語表.objects.filter(
 			種類=種類表.objects.get(種類=內容['種類']),
