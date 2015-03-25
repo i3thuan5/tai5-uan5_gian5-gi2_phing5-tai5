@@ -30,7 +30,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 				}
 
 		檔案 = io.BytesIO()
-		with wave.open(self.檔案, 'wb') as 音檔:
+		with wave.open(檔案, 'wb') as 音檔:
 			音檔.setnchannels(1)
 			音檔.setframerate(16000)
 			音檔.setsampwidth(2)
@@ -46,7 +46,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 					'著作所在地':'花蓮',
 					'著作年':'2014',
 					'屬性':json.dumps({'詞性':'形容詞', '字數':'2'}),
-					'原始影音內容':檔案,
+					'原始影音資料':檔案,
 				}
 		self.水母文本內容 = {
 					'收錄者':self.鄉民.編號(),
@@ -441,7 +441,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 
 	def test_無外語請教條(self):
 # 		前端輸入
-		回應 = self.client.get('/資料內容/{0}'.format(平臺項目表.objects.all().count+1))
+		回應 = self.client.get('/資料內容/{0}'.format(平臺項目表.objects.all().count()+1))
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
