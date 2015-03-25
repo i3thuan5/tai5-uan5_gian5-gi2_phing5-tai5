@@ -15,6 +15,24 @@ class 平臺項目表(models.Model):
 	def 編號(self):
 		return self.pk
 	@classmethod
+	def 揣編號(cls,編號):
+		return cls.objects.get(pk=編號)
+	def 資料(self):
+		結果=[]
+		if self.外語:
+			結果.append(self.外語)
+		if self.影音:
+			結果.append(self.影音)
+		if self.文本:
+			結果.append(self.文本)
+		if self.聽拍:
+			結果.append(self.聽拍)
+		if len(結果)==1:
+			return 結果[0]
+		if len(結果)==0:
+			raise RuntimeError('平臺項目無指向任何一个物件')
+		raise RuntimeError('平臺項目指向兩个以上物件')
+	@classmethod
 	def 加外語資料(cls, 內容):
 		外語 = 外語表.加資料(內容)
 		return 外語.平臺項目.create(是資料源頭=True)
