@@ -7,18 +7,18 @@ from 臺灣言語資料庫.資料模型 import 聽拍表
 
 class 平臺項目表(models.Model):
 	項目名 = '平臺項目'
-	外語 = models.ForeignKey(外語表, null=True, related_name=項目名)
-	影音 = models.ForeignKey(影音表, null=True, related_name=項目名)
-	文本 = models.ForeignKey(文本表, null=True, related_name=項目名)
-	聽拍 = models.ForeignKey(聽拍表, null=True, related_name=項目名)
+	外語 = models.ForeignKey(外語表, null=True, unique=True, related_name=項目名)
+	影音 = models.ForeignKey(影音表, null=True, unique=True, related_name=項目名)
+	文本 = models.ForeignKey(文本表, null=True, unique=True, related_name=項目名)
+	聽拍 = models.ForeignKey(聽拍表, null=True, unique=True, related_name=項目名)
 	是資料源頭 = models.BooleanField(default=False)
 	def 編號(self):
 		return self.pk
 	@classmethod
-	def 揣編號(cls,編號):
+	def 揣編號(cls, 編號):
 		return cls.objects.get(pk=編號)
 	def 資料(self):
-		結果=[]
+		結果 = []
 		if self.外語:
 			結果.append(self.外語)
 		if self.影音:
@@ -27,9 +27,9 @@ class 平臺項目表(models.Model):
 			結果.append(self.文本)
 		if self.聽拍:
 			結果.append(self.聽拍)
-		if len(結果)==1:
+		if len(結果) == 1:
 			return 結果[0]
-		if len(結果)==0:
+		if len(結果) == 0:
 			raise RuntimeError('平臺項目無指向任何一个物件')
 		raise RuntimeError('平臺項目指向兩个以上物件')
 	@classmethod
