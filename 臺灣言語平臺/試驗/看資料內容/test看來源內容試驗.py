@@ -7,7 +7,6 @@ from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語平臺.使用者模型 import 使用者表
 class 看來源內容試驗(TestCase):
 	def setUp(self):		
-		self.阿媠 = 來源表. 加來源({'名':'阿媠', '職業':'學生'})
 		pass
 	def tearDown(self):
 		pass
