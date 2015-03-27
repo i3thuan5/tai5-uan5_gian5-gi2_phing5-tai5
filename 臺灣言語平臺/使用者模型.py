@@ -5,12 +5,12 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 資料類型表
 
 class 使用者表(models.Model):
-	帳號 = models.OneToOneField(來源表, related_name='使用者', primary_key=True)
+	來源 = models.OneToOneField(來源表, related_name='使用者', primary_key=True)
 	email = models.EmailField(unique=True)
 	密碼 = models.CharField(max_length=16)
-	服務 = models.CharField(max_length=50)  # ??
-	編號 = models.IntegerField()  # ??
-	分數 = models.IntegerField()
+# 	服務 = models.CharField(max_length=50)  # ??
+# 	編號 = models.IntegerField()  # ??
+	分數 = models.IntegerField(default=0)
 	REQUIRED_FIELDS=() # for auth
 	USERNAME_FIELD='email'# for auth
 # 	階級 = models.IntegerField() 用函式算好矣

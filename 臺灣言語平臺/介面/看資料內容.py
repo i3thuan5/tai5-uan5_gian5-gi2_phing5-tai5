@@ -1,7 +1,10 @@
+from dateutil import tz
 from django.http.response import JsonResponse
+
+
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
-from dateutil import tz
+from 臺灣言語資料庫.資料模型 import 來源表
 
 _臺北時間 = tz.gettz('Asia/Taipei')
 _時間輸出樣式 = '%Y-%m-%d %H:%M:%S'
@@ -69,3 +72,19 @@ def 看資料單一內容(request, 平臺項目編號):
 			'著作年':資料.著作年.著作年,
 			'屬性內容':資料.屬性內容(),
 		})
+
+def 看來源內容(request, 來源編號):
+	try:
+		來源 = 來源表.objects.get(pk=來源編號)
+	except:
+		return JsonResponse({'錯誤': '這不是合法的來源編號'})
+	來源內容 = {
+			'名':來源.名,
+			'屬性內容':來源.屬性內容(),
+		}
+	try:
+		來源內容['email'] = 來源.使用者.email
+		來源內容['分數'] = 來源.使用者.分數
+	except:
+		pass
+	return JsonResponse(來源內容)
