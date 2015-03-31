@@ -15,7 +15,11 @@ class 使用者表(models.Model):
 	USERNAME_FIELD='email'# for auth
 # 	階級 = models.IntegerField() 用函式算好矣
 	def 編號(self):
-		return self.帳號.pk
+		return self.來源.編號()
+	@classmethod
+	def 加使用者(cls,email,來源內容):
+		來源 = 來源表. 加來源(來源內容)
+		return cls.objects.create(來源=來源, email=email)
 	@classmethod
 	def 判斷編號(cls,使用者物件):
 		if 使用者物件.is_authenticated():
