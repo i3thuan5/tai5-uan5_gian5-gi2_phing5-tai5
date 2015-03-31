@@ -5,23 +5,23 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 資料類型表
 
 class 使用者表(models.Model):
-	來源 = models.OneToOneField(來源表, related_name='使用者', primary_key=True)
-	email = models.EmailField(unique=True)
-	密碼 = models.CharField(max_length=16)
+	來源 = models.OneToOneField(來源表, related_name='使用者', primary_key=True, null=False)
+	email = models.EmailField(unique=True, null=False)
+	密碼 = models.CharField(max_length=16, blank=True)
 # 	服務 = models.CharField(max_length=50)  # ??
 # 	編號 = models.IntegerField()  # ??
 	分數 = models.IntegerField(default=0)
-	REQUIRED_FIELDS=() # for auth
-	USERNAME_FIELD='email'# for auth
+	REQUIRED_FIELDS = ()  # for auth
+	USERNAME_FIELD = 'email'  # for auth
 # 	階級 = models.IntegerField() 用函式算好矣
 	def 編號(self):
 		return self.來源.編號()
 	@classmethod
-	def 加使用者(cls,email,來源內容):
+	def 加使用者(cls, email, 來源內容):
 		來源 = 來源表. 加來源(來源內容)
 		return cls.objects.create(來源=來源, email=email)
 	@classmethod
-	def 判斷編號(cls,使用者物件):
+	def 判斷編號(cls, 使用者物件):
 		if 使用者物件.is_authenticated():
 			return 使用者物件.編號()
 		return None
