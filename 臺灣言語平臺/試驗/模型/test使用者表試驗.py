@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.db.utils import IntegrityError
 from django.test import TestCase
 
 
@@ -11,14 +12,10 @@ class 使用者表試驗(TestCase):
 	def tearDown(self):
 		pass
 	def test_加使用者(self):
-		self.鄉民 = 來源表. 加來源({"名":'鄉民', '出世年':'1950', '出世地':'臺灣', })
-		self.鄉民 = 來源表. 加來源({"名":'鄉民', '出世年':'1950', '出世地':'臺灣', })
-		使用者表.加使用者(來源內容,)
-		self.fail()
-	def test_檢查email(self):
-		self.鄉民 = 來源表. 加來源({"名":'鄉民', '出世年':'1950', '出世地':'臺灣', })
-		self.鄉民 = 來源表. 加來源({"名":'鄉民', '出世年':'1950', '出世地':'臺灣', })
-		使用者表.加使用者(來源內容,)
-		self.fail()
-	def test_先有來源閣有仝款的使用者(self):
-		self.fail()
+		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
+		使用者 = 使用者表.加使用者('sui2@pigu.tw', 來源內容,)
+		self.assertEqual(使用者.來源.編號(), 使用者.編號())
+	def test_重覆email(self):
+		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
+		使用者表.加使用者('sui2@pigu.tw', 來源內容,)
+		self.assertRaises(IntegrityError, 使用者表.加使用者, 'sui2@pigu.tw', 來源內容,)
