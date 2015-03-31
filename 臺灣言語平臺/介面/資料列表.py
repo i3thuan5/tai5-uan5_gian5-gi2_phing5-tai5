@@ -1,12 +1,15 @@
 from django.http.response import JsonResponse
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
-def 外語請教條列表(request):
+列表一頁幾筆 = 15
+
+def 外語請教條列表(request, 第幾頁=1):
 	列表 = []
 	for 平臺項目 in 平臺項目表.objects\
 			.exclude(外語__isnull=True)\
 			.filter(是資料源頭=True)\
-			.order_by('-pk'):
+			.order_by('-pk')\
+			[列表一頁幾筆 * (第幾頁 - 1):列表一頁幾筆 * 第幾頁]:
 		列表.append({
 				'外語請教條項目編號':str(平臺項目.編號()),
 				'種類':平臺項目.外語.種類.種類,
