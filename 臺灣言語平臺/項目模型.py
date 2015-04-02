@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
+
+
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.資料模型 import 影音表
 from 臺灣言語資料庫.資料模型 import 文本表
 from 臺灣言語資料庫.資料模型 import 聽拍表
+from 臺灣言語資料庫.資料模型 import 種類表
+from 臺灣言語資料庫.資料模型 import 語言腔口表
 
 class 平臺項目表(models.Model):
 	項目名 = '平臺項目'
@@ -34,8 +39,20 @@ class 平臺項目表(models.Model):
 		raise RuntimeError('平臺項目指向兩个以上物件')
 	@classmethod
 	def 加外語資料(cls, 內容):
-		外語 = 外語表.加資料(內容)
-		return 外語.平臺項目.create(是資料源頭=True)
+		try:
+			cls.找外語資料(內容)
+		except ObjectDoesNotExist:
+			外語 = 外語表.加資料(內容)
+			return 外語.平臺項目.create(是資料源頭=True)
+		raise ValidationError('已經有相同的外語資料了')
+	@classmethod
+	def 找外語資料(cls,內容):
+		return 外語表.objects.get(
+				種類=種類表.objects.get(種類=內容['種類']),
+				語言腔口=語言腔口表.objects.get(語言腔口=內容['語言腔口']),
+				外語語言=語言腔口表.objects.get(語言腔口=內容['外語語言']),
+				外語資料=內容['外語資料']
+			).平臺項目.get().編號()
 	@classmethod
 	def 外語錄母語(cls, 外語請教條項目編號, 內容):
 		外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
@@ -51,6 +68,7 @@ class 平臺項目表(models.Model):
 		外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
 		文本 = 外語.翻母語(內容)
 		return 文本.平臺項目.create(是資料源頭=False)
+	
 	
 class 項目解釋表(models.Model):
 	使用者 = models.ForeignKey(平臺項目表, unique=True, related_name='+')

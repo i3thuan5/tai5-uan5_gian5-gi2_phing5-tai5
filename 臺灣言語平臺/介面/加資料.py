@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
+from django.core.exceptions import ValidationError
 from django.http.response import JsonResponse
-from 臺灣言語資料庫.資料模型 import 外語表
-import json
 from django.utils.datastructures import MultiValueDictKeyError
+import json
+
+
 from 臺灣言語資料庫.資料模型 import 種類表
-from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
@@ -44,13 +45,7 @@ def 加外語請教條(request):
 		return 失敗的json回應('資料欄位有缺')
 	if 內容['來源'] == _自己json字串:
 		內容['來源'] = 內容['收錄者']
-	
-	try:
-		if _揣這馬外語資料有無(內容) > 0:
-			return 失敗的json回應('請教條已經有了')
-	except:
-		pass
-	
+		
 	try:
 		平臺項目 = 平臺項目表.加外語資料(內容)
 	except TypeError:
@@ -61,6 +56,8 @@ def 加外語請教條(request):
 		return 失敗的json回應('來源沒有「名」的欄位')
 	except 種類表.DoesNotExist:
 		return 失敗的json回應('種類欄位不符規範')
+	except ValidationError:
+		return 失敗的json回應('請教條已經有了')
 	else:
 		return 成功的json回應(平臺項目.編號())
 	
@@ -197,11 +194,3 @@ def 外語加新詞文本(request):
 		return 失敗的json回應('編號號碼有問題')
 	else:
 		return 成功的json回應(平臺項目.編號())
-
-def _揣這馬外語資料有無(內容):
-	return 外語表.objects.filter(
-			種類=種類表.objects.get(種類=內容['種類']),
-			語言腔口=語言腔口表.objects.get(語言腔口=內容['語言腔口']),
-			外語語言=語言腔口表.objects.get(語言腔口=內容['外語語言']),
-			外語資料=內容['外語資料']
-		).count()
