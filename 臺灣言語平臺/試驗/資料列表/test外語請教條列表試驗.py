@@ -8,7 +8,7 @@ from 臺灣言語資料庫.欄位資訊 import 字詞
 from 臺灣言語資料庫.資料模型 import 種類表
 
 class 外語請教條列表試驗(TestCase):
-	def setUp(self):		
+	def setUp(self):
 		self.會使公開 = 版權表.objects.create(版權='會使公開')
 		self.字詞 = 種類表.objects.create(種類=字詞)
 		self.鄉民 = 來源表. 加來源({"名":'鄉民', '出世年':'1950', '出世地':'臺灣', })
@@ -17,7 +17,8 @@ class 外語請教條列表試驗(TestCase):
 		pass
 
 	def test_空列表(self):
-		回應 = self.client.get('/列表/外語請教條')
+		回應 = self.client.get('/列表/外語請教條',
+			{'第幾頁':1})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -25,7 +26,8 @@ class 外語請教條列表試驗(TestCase):
 		
 	def test_一个外語請教條(self):
 		水母編號 = self.資料庫加外語請教條('水母')
-		回應 = self.client.get('/列表/外語請教條')
+		回應 = self.client.get('/列表/外語請教條',
+			{'第幾頁':1})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -42,7 +44,8 @@ class 外語請教條列表試驗(TestCase):
 	def test_兩个外語請教條(self):
 		水母編號 = self.資料庫加外語請教條('水母')
 		水母腦編號 = self.資料庫加外語請教條('水母腦')
-		回應 = self.client.get('/列表/外語請教條')
+		回應 = self.client.get('/列表/外語請教條',
+			{'第幾頁':1})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -62,6 +65,24 @@ class 外語請教條列表試驗(TestCase):
 				'外語資料':'水母',
 			},
 		]})
+	
+	def test_無第幾頁就是第一頁(self):
+		self.資料庫加外語請教條('水母')
+		self.資料庫加外語請教條('水母腦')
+		回應 = self.client.get('/列表/外語請教條')
+# 		前端回傳結果
+		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.content,
+			self.client.get('/列表/外語請教條', {'第幾頁':1}).content)
+		
+	def test_資料無夠濟空的頁面(self):
+		self.資料庫加外語請教條('水母')
+		self.資料庫加外語請教條('水母腦')
+		回應 = self.client.get('/列表/外語請教條', {'第幾頁':10})
+# 		前端回傳結果
+		self.assertEqual(回應.status_code, 200)
+		回應資料 = json.loads(回應.content.decode("utf-8"))
+		self.assertEqual(回應資料, {'列表':[]})
 	
 	def 資料庫加外語請教條(self, 外語詞):
 		return 平臺項目表.加外語資料({

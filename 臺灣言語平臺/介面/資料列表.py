@@ -3,7 +3,11 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 
 列表一頁幾筆 = 15
 
-def 外語請教條列表(request, 第幾頁=1):
+def 外語請教條列表(request):
+	try:
+		第幾頁 = int(request.GET['第幾頁'])
+	except:
+		第幾頁 = 1
 	列表 = []
 	for 平臺項目 in 平臺項目表.objects\
 			.exclude(外語__isnull=True)\
