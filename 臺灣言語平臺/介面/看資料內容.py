@@ -11,11 +11,18 @@ _時間輸出樣式 = '%Y-%m-%d %H:%M:%S'
 def 轉做臺北時間字串(時間物件):
 	return 時間物件.astimezone(_臺北時間).strftime(_時間輸出樣式)
 
-def 外語請教條相關資料內容(request, 外語請教條項目編號):
-	回應資料 = {'外語請教條項目編號':外語請教條項目編號}
+def 外語請教條相關資料內容(request):
 	try:
-		外語項目 = 平臺項目表.揣編號(外語請教條項目編號)
+		外語請教條項目編號 = request.GET['平臺項目編號']
+	except:
+		return JsonResponse({'錯誤': '沒有平臺項目的編號'})
+		
+	try:
+		外語項目 = 平臺項目表.揣編號(int(外語請教條項目編號))
 		外語 = 外語項目.外語
+		
+		回應資料 = {}
+		回應資料['外語請教條項目編號'] = 外語請教條項目編號
 		回應資料['外語資料'] = 外語.外語資料
 		回應資料['外語語言'] = 外語.外語語言.語言腔口
 		回應資料['收錄者'] = 外語.收錄者.編號()
@@ -60,9 +67,13 @@ def 外語請教條相關資料內容(request, 外語請教條項目編號):
 		回應資料['新詞文本'].append(回應文本)
 	return JsonResponse(回應資料)
 
-def 看資料單一內容(request, 平臺項目編號):
+def 看資料單一內容(request):
 	try:
-		資料 = 平臺項目表.揣編號(平臺項目編號).資料()
+		平臺項目編號=request.GET['平臺項目編號']
+	except:
+		return JsonResponse({'錯誤': '沒有平臺項目的編號'})
+	try:
+		資料 = 平臺項目表.揣編號(int(平臺項目編號)).資料()
 	except:
 		return JsonResponse({'錯誤': '這不是合法平臺項目的編號'})
 	return JsonResponse({
@@ -77,7 +88,11 @@ def 看資料單一內容(request, 平臺項目編號):
 			'屬性內容':資料.屬性內容(),
 		})
 
-def 看來源內容(request, 來源編號):
+def 看來源內容(request):
+	try:
+		來源編號=request.GET['來源編號']
+	except:
+		return JsonResponse({'錯誤': '沒有來源編號的參數'})
 	try:
 		來源 = 來源表.objects.get(pk=來源編號)
 	except:
