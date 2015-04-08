@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -36,6 +36,13 @@ INSTALLED_APPS = (
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+# 	allauth
+	'django.contrib.sites',# The Django sites framework is required for allauth
+	'allauth',
+	'allauth.account',
+	'allauth.socialaccount',
+	'allauth.socialaccount.providers.facebook',
+# 	家己的
 	'臺灣言語資料庫',
 	'臺灣言語平臺',
 )
@@ -84,8 +91,47 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = '臺灣言語平臺.使用者表'
-
 # 使用者上傳檔案
 MEDIA_ROOT = os.path.join(BASE_DIR, "資料庫影音檔案")
 MEDIA_URL = '/影音檔案/'
+
+#佮使用者有關係
+AUTH_USER_MODEL = '臺灣言語平臺.使用者表'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_ADAPTER='臺灣言語平臺.使用者模型.使用者一般接口'
+SOCIALACCOUNT_ADAPTER ='臺灣言語平臺.使用者模型.使用者社群接口'
+TEMPLATE_CONTEXT_PROCESSORS = (
+	# Required by allauth template tags
+	"django.core.context_processors.request",
+	# allauth specific context processors
+	"allauth.account.context_processors.account",
+	"allauth.socialaccount.context_processors.socialaccount",
+	'django.contrib.auth.context_processors.auth',
+)
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+	# Needed to login by username in Django admin, regardless of `allauth`
+	"django.contrib.auth.backends.ModelBackend",
+	# `allauth` specific authentication methods, such as login by e-mail
+	"allauth.account.auth_backends.AuthenticationBackend",
+)
+
+SOCIALACCOUNT_PROVIDERS = \
+	{'facebook':
+		{'SCOPE': ['email',],
+		'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+		'METHOD': 'js_sdk',
+		'LOCALE_FUNC': lambda request: 'zh_TW',
+		'VERIFIED_EMAIL': False,
+		'VERSION': 'v2.3',
+		}
+	}
+
