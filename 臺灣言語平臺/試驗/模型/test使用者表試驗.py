@@ -16,6 +16,7 @@ class 使用者表試驗(TestCase):
 		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
 		來源 = 來源表. 加來源(來源內容)
 		使用者 = 使用者表(email='sui2@pigu.tw',來源=來源)
+		使用者.set_unusable_password()
 		使用者.full_clean()
 	def test_愛有email(self):
 		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
@@ -35,3 +36,7 @@ class 使用者表試驗(TestCase):
 		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
 		使用者表.加使用者('sui2@pigu.tw', 來源內容,)
 		self.assertRaises(IntegrityError, 使用者表.加使用者, 'sui2@pigu.tw', 來源內容,)
+	def test_密碼愛鎖起來(self):
+		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
+		使用者 = 使用者表.加使用者('sui2@pigu.tw', 來源內容,)
+		self.assertFalse(使用者.has_usable_password())
