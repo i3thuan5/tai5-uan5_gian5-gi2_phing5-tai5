@@ -17,4 +17,7 @@ class 使用者表管理試驗(TestCase):
 		使用者 = self.管理.create_superuser('sui2@pigu.tw', 'I\'m sui2')
 		self.assertNotEqual(使用者.password, '')
 		self.assertNotEqual(使用者.password, 'I\'m sui2')
+	def test_檢查管理員(self):
+		使用者 = self.管理.create_superuser('sui2@pigu.tw', 'I\'m sui2')
+		self.assertTrue(使用者.is_staff)
 		
