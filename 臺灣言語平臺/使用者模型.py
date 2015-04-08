@@ -6,6 +6,8 @@ from django.db import models
 from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 資料類型表
+from allauth.account.adapter import DefaultAccountAdapter
+from allauth.account.utils import user_email
 
 class 使用者表管理(BaseUserManager):
 	def create_superuser(self, email, password):
@@ -36,6 +38,41 @@ class 使用者表(AbstractBaseUser):
 		if 使用者物件.is_authenticated():
 			return 使用者物件.編號()
 		return None
+
+class	使用者一般接口(DefaultAccountAdapter):
+	def save_user(self, request, user, form, commit=True):
+		"""
+		Saves a new `User` instance using information provided in the
+		signup form.
+		"""
+		data = form.cleaned_data
+		
+		email = data.get('email')
+		user_email(user, email)
+		
+		try:
+			user.來源
+		except:
+			username = data.get('username')
+			first_name = data.get('first_name')
+			last_name = data.get('last_name')
+			if username:
+				來源名 = username
+			elif last_name and first_name:
+				來源名 = last_name + first_name
+			else:
+				來源名 = email
+			user.來源 = 來源表. 加來源({ '名':來源名})
+
+		if 'password1' in data:
+			user.set_password(data["password1"])
+		else:
+			user.set_unusable_password()
+
+		if commit:
+			user.save()
+		
+		return user
 
 class 評分狀況表(models.Model):
 	使用者 = models.ForeignKey(來源表, related_name='+')
