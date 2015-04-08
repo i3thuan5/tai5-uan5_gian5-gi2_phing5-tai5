@@ -22,9 +22,11 @@ class 使用者表試驗(TestCase):
 		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
 		來源 = 來源表. 加來源(來源內容)
 		使用者 = 使用者表(來源=來源)
+		使用者.set_unusable_password()
 		self.assertRaises(ValidationError, 使用者.full_clean,)
 	def test_愛有來源(self):
 		使用者 = 使用者表(email='sui2@pigu.tw')
+		使用者.set_unusable_password()
 		self.assertRaises(ValidationError, 使用者.full_clean,)
 		
 # 	加使用者
