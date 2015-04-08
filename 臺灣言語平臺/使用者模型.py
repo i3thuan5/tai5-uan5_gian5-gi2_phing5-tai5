@@ -17,7 +17,6 @@ class 使用者表管理(BaseUserManager):
 class 使用者表(AbstractBaseUser):
 	來源 = models.OneToOneField(來源表, related_name='使用者', primary_key=True, null=False)
 	email = models.EmailField(unique=True, null=False)
-	密碼 = models.CharField(max_length=16, blank=True)
 # 	服務 = models.CharField(max_length=50)  # ??
 # 	編號 = models.IntegerField()  # ??
 	分數 = models.IntegerField(default=0)
