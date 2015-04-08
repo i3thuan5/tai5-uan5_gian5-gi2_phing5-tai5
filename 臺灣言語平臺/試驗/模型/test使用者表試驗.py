@@ -30,15 +30,20 @@ class 使用者表試驗(TestCase):
 		self.assertRaises(ValidationError, 使用者.full_clean,)
 		
 # 	加使用者
-	def test_加使用者(self):
+	def 加鄉民使用者(self):
 		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
-		使用者 = 使用者表.加使用者('sui2@pigu.tw', 來源內容,)
+		return 使用者表.加使用者('sui2@pigu.tw', 來源內容,)
+	def test_加使用者(self):
+		使用者=self.加鄉民使用者()
 		self.assertEqual(使用者.來源.編號(), 使用者.編號())
 	def test_重覆email(self):
+		self.加鄉民使用者()
 		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
-		使用者表.加使用者('sui2@pigu.tw', 來源內容,)
 		self.assertRaises(IntegrityError, 使用者表.加使用者, 'sui2@pigu.tw', 來源內容,)
 	def test_密碼愛鎖起來(self):
-		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
-		使用者 = 使用者表.加使用者('sui2@pigu.tw', 來源內容,)
+		使用者 = self.加鄉民使用者()
 		self.assertFalse(使用者.has_usable_password())
+	def test_來源有使用者資料記錄(self):
+		使用者 = self.加鄉民使用者()
+		self.assertEqual(使用者.來源.屬性.get(分類='使用者資料').內容(),
+			{'使用者資料':'有'})

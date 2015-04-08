@@ -29,6 +29,10 @@ class 使用者一般接口試驗(TestCase):
 	def test_愛有名(self):
 		self.一般設定()
 		self.assertEqual(self.使用者.來源.名, '蔡古錐')
+	def test_來源有使用者資料紀錄(self):
+		self.一般設定()
+		self.assertEqual(self.使用者.來源.屬性.get(分類='使用者資料').內容(),
+			{'使用者資料':'有'})
 	def test_有username(self):
 		資料表 = Mock()
 		資料表.cleaned_data = {
