@@ -29,6 +29,34 @@ class 使用者表(AbstractBaseUser):
 # 	階級 = models.IntegerField() 用函式算好矣
 	def 編號(self):
 		return self.來源.編號()
+	def 設定欄位內容(self,資料內容={}):
+		"讓allauth的接口使用"
+		email = valid_email_or_none(資料內容.get('email')) or ''
+		if email:
+			user_email(self, email)
+		
+		try:
+			self.來源
+		except:
+			name = 資料內容.get('name')
+			username = 資料內容.get('username')
+			last_name = 資料內容.get('last_name')
+			first_name = 資料內容.get('first_name')
+			if name:
+				來源名 = name
+			elif username:
+				來源名 = username
+			elif last_name and first_name:
+				來源名 = last_name + first_name
+			else:
+				來源名 = email
+			self.來源 = 來源表. 加來源({ '名':來源名})
+
+		if 'password1' in 資料內容:
+			self.set_password(資料內容["password1"])
+		else:
+			self.set_unusable_password()
+		return
 	@classmethod
 	def 加使用者(cls, email, 來源內容):
 		來源 = 來源表. 加來源(來源內容)
@@ -43,121 +71,31 @@ class 使用者表(AbstractBaseUser):
 
 class	使用者一般接口(DefaultAccountAdapter):
 	def save_user(self, request, user, form, commit=True):
-		"""
-		Saves a new `User` instance using information provided in the
-		signup form.
-		"""
+		"讓allauth從網頁表格寫的資料填入使用者資料表"
 		data = form.cleaned_data
-		
-		email = data.get('email')
-		user_email(user, email)
-		
-		try:
-			user.來源
-		except:
-			username = data.get('username')
-			first_name = data.get('first_name')
-			last_name = data.get('last_name')
-			if username:
-				來源名 = username
-			elif last_name and first_name:
-				來源名 = last_name + first_name
-			else:
-				來源名 = email
-			user.來源 = 來源表. 加來源({ '名':來源名})
-
-		if 'password1' in data:
-			user.set_password(data["password1"])
-		else:
-			user.set_unusable_password()
-
+		user.設定欄位內容(data)
 		if commit:
 			user.save()
-		
 		return user
 	
 class 使用者社群接口(DefaultSocialAccountAdapter):
 	def save_user(self, request, sociallogin, form=None):
-		"""
-		Saves a newly signed up social login. In case of auto-signup,
-		the signup form is not available.
-		"""
-		user = sociallogin.user
-		user.set_unusable_password()
+		"讓allauth從server提供的資料填入使用者資料表"
+		使用者 = sociallogin.user
 		if form:
-			data = form.cleaned_data
-			email = data.get('email')
-			user_email(user, email)
-			
-			try:
-				user.來源
-			except:
-				name = data.get('name')
-				username = data.get('username')
-				first_name = data.get('first_name')
-				last_name = data.get('last_name')
-				if name:
-					來源名 = name
-				elif username:
-					來源名 = username
-				elif last_name and first_name:
-					來源名 = last_name + first_name
-				else:
-					來源名 = email
-				user.來源 = 來源表. 加來源({ '名':來源名})
-	
-			if 'password1' in data:
-				user.set_password(data["password1"])
-			else:
-				user.set_unusable_password()
-	
-			user.save()
+			資料內容 = form.cleaned_data
 		else:
-			try:
-				user.來源
-			except:
-				user.來源 = 來源表. 加來源({ '名':user.email})
-
+			資料內容={ 'email':使用者.email}
+		使用者.設定欄位內容(資料內容)		
+		使用者.save()
 		sociallogin.save(request)
 		
-		return user
+		return 使用者
 	def populate_user(self, request, sociallogin, data):
-		"""
-		Hook that can be used to further populate the user instance.
-		
-		For convenience, we populate several common fields.
-		
-		Note that the user instance being populated represents a
-		suggested User instance that represents the social user that is
-		in the process of being logged in.
-		
-		The User instance need not be completely valid and conflict
-		free. For example, verifying whether or not the username
-		already exists, is not a responsibility.
-  	  """
-		user = sociallogin.user
-
-		email = data.get('email')
-		user_email(user, valid_email_or_none(email) or '')
-
-		name = data.get('name')
-		username = data.get('username')
-		first_name = data.get('first_name')
-		last_name = data.get('last_name')
-		
-		if name :
-			來源名 = name
-		elif username:
-			來源名 = username
-		elif last_name and first_name:
-			來源名 = last_name + first_name
-		else:
-			來源名 = email
-		try:
-			user.來源
-		except:
-			user.來源 = 來源表. 加來源({ '名':來源名})
-		return user
+		"讓allauth從server提供的資料填入使用者資料表"
+		使用者 = sociallogin.user
+		使用者.設定欄位內容(data)
+		return 使用者
 
 class 評分狀況表(models.Model):
 	使用者 = models.ForeignKey(來源表, related_name='+')
