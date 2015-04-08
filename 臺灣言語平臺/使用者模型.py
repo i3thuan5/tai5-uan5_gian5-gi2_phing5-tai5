@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+from allauth.account.adapter import DefaultAccountAdapter
+from allauth.account.utils import user_email
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from allauth.utils import valid_email_or_none
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db import models
 
@@ -6,8 +10,6 @@ from django.db import models
 from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 資料類型表
-from allauth.account.adapter import DefaultAccountAdapter
-from allauth.account.utils import user_email
 
 class 使用者表管理(BaseUserManager):
 	def create_superuser(self, email, password):
@@ -72,6 +74,89 @@ class	使用者一般接口(DefaultAccountAdapter):
 		if commit:
 			user.save()
 		
+		return user
+	
+class 使用者社群接口(DefaultSocialAccountAdapter):
+	def save_user(self, request, sociallogin, form=None):
+		"""
+		Saves a newly signed up social login. In case of auto-signup,
+		the signup form is not available.
+		"""
+		user = sociallogin.user
+		user.set_unusable_password()
+		if form:
+			data = form.cleaned_data
+			email = data.get('email')
+			user_email(user, email)
+			
+			try:
+				user.來源
+			except:
+				name = data.get('name')
+				username = data.get('username')
+				first_name = data.get('first_name')
+				last_name = data.get('last_name')
+				if name:
+					來源名 = name
+				elif username:
+					來源名 = username
+				elif last_name and first_name:
+					來源名 = last_name + first_name
+				else:
+					來源名 = email
+				user.來源 = 來源表. 加來源({ '名':來源名})
+	
+			if 'password1' in data:
+				user.set_password(data["password1"])
+			else:
+				user.set_unusable_password()
+	
+			user.save()
+		else:
+			try:
+				user.來源
+			except:
+				user.來源 = 來源表. 加來源({ '名':user.email})
+
+		sociallogin.save(request)
+		
+		return user
+	def populate_user(self, request, sociallogin, data):
+		"""
+		Hook that can be used to further populate the user instance.
+		
+		For convenience, we populate several common fields.
+		
+		Note that the user instance being populated represents a
+		suggested User instance that represents the social user that is
+		in the process of being logged in.
+		
+		The User instance need not be completely valid and conflict
+		free. For example, verifying whether or not the username
+		already exists, is not a responsibility.
+  	  """
+		user = sociallogin.user
+
+		email = data.get('email')
+		user_email(user, valid_email_or_none(email) or '')
+
+		name = data.get('name')
+		username = data.get('username')
+		first_name = data.get('first_name')
+		last_name = data.get('last_name')
+		
+		if name :
+			來源名 = name
+		elif username:
+			來源名 = username
+		elif last_name and first_name:
+			來源名 = last_name + first_name
+		else:
+			來源名 = email
+		try:
+			user.來源
+		except:
+			user.來源 = 來源表. 加來源({ '名':來源名})
 		return user
 
 class 評分狀況表(models.Model):
