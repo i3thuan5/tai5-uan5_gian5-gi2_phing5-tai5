@@ -9,7 +9,13 @@ from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
-_自己json字串 = json.dumps('自己')
+_自己 = '自己'
+_自己json字串 = [json.dumps(_自己), json.dumps(_自己, ensure_ascii=False)]
+
+def 內容是自己的json字串(內容):
+	if 內容['來源'] in _自己json字串:
+		return True
+	return False
 
 class 失敗的json回應(JsonResponse):
 	def __init__(self, 失敗原因):
@@ -43,10 +49,10 @@ def 加外語請教條(request):
 			內容[欄位] = request.POST[欄位]
 	except MultiValueDictKeyError:
 		return 失敗的json回應('資料欄位有缺')
-	if 內容['來源'] == _自己json字串:
-		內容['來源'] = 內容['收錄者']
 		
 	try:
+		if 內容是自己的json字串(內容):
+			內容['來源'] = 內容['收錄者']
 		平臺項目 = 平臺項目表.加外語資料(內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
@@ -85,10 +91,10 @@ def 加新詞影音(request):
 		return 失敗的json回應('資料欄位有缺')
 	except ValueError:
 		return 失敗的json回應('編號欄位不是數字字串')
-	if 內容['來源'] == _自己json字串:
-		內容['來源'] = 內容['收錄者']
 		
 	try:
+		if 內容是自己的json字串(內容):
+			內容['來源'] = 內容['收錄者']
 		平臺項目 = 平臺項目表.外語錄母語(外語請教條項目編號, 內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
@@ -129,10 +135,10 @@ def 加新詞文本(request):
 		return 失敗的json回應('資料欄位有缺')
 	except ValueError:
 		return 失敗的json回應('編號欄位不是數字字串')
-	if 內容['來源'] == _自己json字串:
-		內容['來源'] = 內容['收錄者']
 		
 	try:
+		if 內容是自己的json字串(內容):
+			內容['來源'] = 內容['收錄者']
 		平臺項目 = 平臺項目表.影音寫文本(新詞影音項目編號, 內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
@@ -173,10 +179,10 @@ def 外語加新詞文本(request):
 		return 失敗的json回應('資料欄位有缺')
 	except ValueError:
 		return 失敗的json回應('編號欄位不是數字字串')
-	if 內容['來源'] == _自己json字串:
-		內容['來源'] = 內容['收錄者']
 		
 	try:
+		if 內容是自己的json字串(內容):
+			內容['來源'] = 內容['收錄者']
 		平臺項目 = 平臺項目表.外語翻母語(外語請教條項目編號, 內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
