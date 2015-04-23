@@ -69,19 +69,3 @@ class 平臺項目表(models.Model):
 		文本 = 外語.翻母語(內容)
 		return 文本.平臺項目.create(是資料源頭=False)
 	
-	
-class 項目解釋表(models.Model):
-	使用者 = models.ForeignKey(平臺項目表, unique=True, related_name='+')
-	原始鸔釋資料 = models.FileField()
-	網頁鸔釋資料 = models.FileField()
-	class Meta:
-		abstract = True
-
-class 解釋圖表(項目解釋表):
-	圖 = models.ForeignKey(平臺項目表, related_name='解釋圖')
-
-class 解釋聲表(項目解釋表):
-	聲 = models.ForeignKey(平臺項目表, related_name='解釋聲')
-
-class 解釋影音表(項目解釋表):
-	影音 = models.ForeignKey(平臺項目表, related_name='解釋影音')
