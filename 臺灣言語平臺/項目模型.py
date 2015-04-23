@@ -17,6 +17,7 @@ class 平臺項目表(models.Model):
 	文本 = models.ForeignKey(文本表, null=True, unique=True, related_name=項目名)
 	聽拍 = models.ForeignKey(聽拍表, null=True, unique=True, related_name=項目名)
 	是資料源頭 = models.BooleanField(default=False)
+	推薦用字 = models.BooleanField(default=False)
 	def 編號(self):
 		return self.pk
 	@classmethod
@@ -46,7 +47,7 @@ class 平臺項目表(models.Model):
 			return 外語.平臺項目.create(是資料源頭=True)
 		raise ValidationError('已經有相同的外語資料了')
 	@classmethod
-	def 找外語資料(cls,內容):
+	def 找外語資料(cls, 內容):
 		return 外語表.objects.get(
 				種類=種類表.objects.get(種類=內容['種類']),
 				語言腔口=語言腔口表.objects.get(語言腔口=內容['語言腔口']),
@@ -68,4 +69,12 @@ class 平臺項目表(models.Model):
 		外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
 		文本 = 外語.翻母語(內容)
 		return 文本.平臺項目.create(是資料源頭=False)
+	def 是推薦用字(self):
+		return self.推薦用字
+	def 設為推薦用字(self):
+		self.推薦用字 = True
+		self.save()
+	def 取消推薦用字(self):
+		self.推薦用字 = False
+		self.save()
 	

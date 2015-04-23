@@ -24,7 +24,7 @@ class 標註正規化試驗(TestCase):
 
 	def test_取消維護團隊(self):
 		self.管理者.設維護團隊('閩南語')
-		self.管理者.test_取消維護團隊('閩南語')
+		self.管理者.取消維護團隊('閩南語')
 		self.assertFalse(self.管理者.是維護團隊('閩南語'))
 
 	def test_無仝語言袂使濫(self):

@@ -9,6 +9,7 @@ from django.db import models
 
 from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語資料庫.資料模型 import 來源屬性表
+from 臺灣言語資料庫.資料模型 import 語言腔口表
 
 class 使用者表管理(BaseUserManager):
 	def create_superuser(self, email, password):
@@ -25,6 +26,7 @@ class 使用者表(AbstractBaseUser):
 	註冊時間 = models.DateTimeField(auto_now_add=True)
 	分數 = models.IntegerField(default=0)
 	is_staff = models.BooleanField(default=False)  # for admin
+	維護團隊=models.ManyToManyField(語言腔口表)
 	REQUIRED_FIELDS = ()  # for auth
 	USERNAME_FIELD = 'email'  # for auth
 # 	階級 = models.IntegerField() 用函式算好矣
@@ -83,6 +85,14 @@ class 使用者表(AbstractBaseUser):
 		return self.來源.名
 	def get_short_name(self):
 		return self.來源.名
+	def 是維護團隊(self,語言腔口):
+		return self.維護團隊.filter(語言腔口=語言腔口).count()>0
+	def 設維護團隊(self,語言腔口):
+		結果=語言腔口表.objects.get_or_create(語言腔口=語言腔口)
+		return self.維護團隊.add(結果[0])
+	def 取消維護團隊(self,語言腔口):
+		結果=語言腔口表.objects.get_or_create(語言腔口=語言腔口)
+		return self.維護團隊.remove(結果[0])
 
 class	使用者一般接口(DefaultAccountAdapter):
 	def save_user(self, request, user, form, commit=True):
