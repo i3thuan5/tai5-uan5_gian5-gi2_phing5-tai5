@@ -10,7 +10,6 @@ from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語資料庫.資料模型 import 版權表
 from 臺灣言語資料庫.欄位資訊 import 字詞
 from 臺灣言語資料庫.資料模型 import 種類表
-from dateutil import tz
 
 class 看外語請教條相關資料內容試驗(TestCase):
 	def setUp(self):		
@@ -72,9 +71,6 @@ class 看外語請教條相關資料內容試驗(TestCase):
 					'屬性':json.dumps({'詞性':'形容詞', '字數':'1'}),
 					'文本資料':'䖳',
 				}
-		
-		self.臺北時間 = tz.gettz('Asia/Taipei')
-		self.時間樣式 = '%Y-%m-%d %H:%M:%S'
 	def tearDown(self):
 		pass
 	
