@@ -15,7 +15,7 @@ class 看來源內容試驗(TestCase):
 		來源內容 = {"名":'鄉民', '出世年':'1950', '出世地':'臺灣', }
 		使用者 = 使用者表.加使用者('sui2@pigu.tw', 來源內容,)
 # 		前端輸入
-		回應 = self.client.get('/來源內容', {'來源編號':使用者.編號()})
+		回應 = self.client.get('/來源/內容', {'來源編號':使用者.編號()})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -30,7 +30,7 @@ class 看來源內容試驗(TestCase):
 	def test_一般來源無使用者(self):
 		鄉民 = 來源表. 加來源({"名":'鄉民', '出世年':'1950', '出世地':'臺灣', })
 # 		前端輸入
-		回應 = self.client.get('/來源內容', {'來源編號':鄉民.編號()})
+		回應 = self.client.get('/來源/內容', {'來源編號':鄉民.編號()})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -40,7 +40,7 @@ class 看來源內容試驗(TestCase):
 		})
 	def test_無來源(self):
 # 		前端輸入
-		回應 = self.client.get('/來源內容', {'來源編號':來源表.objects.count() + 10})
+		回應 = self.client.get('/來源/內容', {'來源編號':來源表.objects.count() + 10})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -49,7 +49,7 @@ class 看來源內容試驗(TestCase):
 		})
 	def test_沒有來源編號參數(self):
 # 		前端輸入
-		回應 = self.client.get('/來源內容')
+		回應 = self.client.get('/來源/內容')
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
