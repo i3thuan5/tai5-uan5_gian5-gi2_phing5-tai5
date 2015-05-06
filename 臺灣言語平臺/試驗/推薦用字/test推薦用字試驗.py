@@ -11,7 +11,7 @@ from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語資料庫.資料模型 import 語言腔口表
 
-class 標註正規化試驗(TestCase):
+class 推薦用字試驗(TestCase):
 	def setUp(self):
 		版權表.objects.create(版權='會使公開')
 		種類表.objects.create(種類=字詞)

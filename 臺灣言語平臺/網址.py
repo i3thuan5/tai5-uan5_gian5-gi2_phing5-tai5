@@ -12,8 +12,8 @@ from 臺灣言語平臺.介面.揣外語請教條 import 揣外語請教條
 from 臺灣言語平臺.介面.看資料內容 import 外語請教條相關資料內容
 from 臺灣言語平臺.介面.看資料內容 import 看資料單一內容
 from 臺灣言語平臺.介面.看資料內容 import 看來源內容
-from 臺灣言語平臺.介面.維護團隊 import 推薦用字
-from 臺灣言語平臺.介面.維護團隊 import 取消推薦用字
+from 臺灣言語平臺.介面.推薦用字 import 推薦用字
+from 臺灣言語平臺.介面.推薦用字 import 取消推薦用字
 
 urlpatterns = patterns('',
 	url(r'^看csrf$', 看csrf, name='加外語請教條'),
