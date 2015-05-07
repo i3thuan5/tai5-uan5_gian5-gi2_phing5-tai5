@@ -8,7 +8,11 @@ HOST: http://polls.apiblueprint.org/
 
 ## Group 資料列表
 
-## 顯示列表 [/列表/外語請教條&第幾頁={page}]
+## 顯示列表 [/列表/外語請教條{?%E7%AC%AC%E5%B9%BE%E9%A0%81}]
+
++ Parameters
+    + %E7%AC%AC%E5%B9%BE%E9%A0%81 (optional, numbe.r, `1`) ... 顯示第幾頁的列表
+    
 ### GET
 列出目前的外語請教條，每頁最多15筆。
 
@@ -17,9 +21,6 @@ HOST: http://polls.apiblueprint.org/
 + 列表.外語語言 (string)
 + 列表.種類 (string) - "字詞"或"語句"
 + 列表.外語資料 (string)
-
-+ Parameters
-    + page (optional, number, `1`) ... 顯示第幾頁的列表
 
 + Response 200 (application/json)
 
@@ -35,7 +36,11 @@ HOST: http://polls.apiblueprint.org/
           ]
         }
 
-## 找特定項目 [/揣/外語請教條?關鍵字={keyword}]
+## 找特定項目 [/揣/外語請教條{?%E9%97%9C%E9%8D%B5%E5%AD%97}]
+
++ Parameters
+    + %E9%97%9C%E9%8D%B5%E5%AD%97 (string, `漂亮`) ... 要搜尋的關鍵字
+    
 ### GET
 + Response 200 (application/json)
 
