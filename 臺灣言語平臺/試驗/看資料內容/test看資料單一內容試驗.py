@@ -76,8 +76,8 @@ class 看資料單一內容試驗(TestCase):
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
-			'收錄者':self.鄉民.編號(),
-			'來源':self.阿媠.編號(),
+			'收錄者':str(self.鄉民.編號()),
+			'來源':str(self.阿媠.編號()),
 			'收錄時間':平臺項目表.揣編號(外語項目編號).資料().收錄時間\
 				.astimezone(self.臺北時間).strftime(self.時間樣式),
 			'種類':'字詞',
@@ -97,8 +97,8 @@ class 看資料單一內容試驗(TestCase):
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
-			'收錄者':self.鄉民.編號(),
-			'來源':self.阿媠.編號(),
+			'收錄者':str(self.鄉民.編號()),
+			'來源':str(self.阿媠.編號()),
 			'收錄時間':平臺項目表.揣編號(影音項目編號).資料().收錄時間\
 				.astimezone(self.臺北時間).strftime(self.時間樣式),
 			'種類':'字詞',
@@ -119,8 +119,8 @@ class 看資料單一內容試驗(TestCase):
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
-			'收錄者':self.鄉民.編號(),
-			'來源':self.阿媠.編號(),
+			'收錄者':str(self.鄉民.編號()),
+			'來源':str(self.阿媠.編號()),
 			'收錄時間':平臺項目表.揣編號(文本項目編號).資料().收錄時間\
 				.astimezone(self.臺北時間).strftime(self.時間樣式),
 			'種類':'字詞',
