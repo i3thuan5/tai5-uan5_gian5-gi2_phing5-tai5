@@ -95,7 +95,7 @@ Polls is a simple API
           "收錄時間": "2015-04-13 22:04:54"
         }
 
-## GET /資料/單一內容?平臺項目編號={number}
+## GET /資料/詳細內容?平臺項目編號={number}
 + Response 200 (application/json)
 
         {
@@ -111,6 +111,16 @@ Polls is a simple API
             "推薦用字":"否"
         }
         
+## GET /來源/內容?來源編號={number}
++ Response 200 (application/json)
+
+        {
+            "名":"鄉民",
+            "屬性內容":{"出世年":"1950", "出世地":"臺灣", "使用者資料": "有", },
+            "email":"sui2@pigu.tw",
+            "分數":0
+        }
+        
 ## Group POST操作
 Resources related to questions in the API.
 
@@ -123,47 +133,58 @@ Resources related to questions in the API.
 
 ## Group 加資料
 Resources related to questions in the API.
-ns in the API.
 
 ## POST /加資料/外語請教條
 + Response 200 (application/json)
 
         {
+            '結果': '成功',
+            '平臺項目編號':'1',
         }
 
 ## POST /加資料/新詞影音
 + Response 200 (application/json)
 
         {
+            '結果': '成功',
+            '平臺項目編號':'2',
         }
 
 ## POST /加資料/新詞文本
 + Response 200 (application/json)
 
         {
+            '結果': '成功',
+            '平臺項目編號':'3',
         }
 
 ## POST /加資料/外語新詞文本
 + Response 200 (application/json)
 
         {
+            '結果': '成功',
+            '平臺項目編號':'4',
         }
 
 
 ## Group 資料操作
 Resources related to questions in the API.
 
-## POST /資料/推薦用字
+## POST /資料/設定推薦用字
 + Response 200 (application/json)
 
         {
+            '結果':'成功'
         }
 
 ## POST /資料/取消推薦用字
 + Response 200 (application/json)
 
         {
+            '結果':'成功'
         }
+
+## group example
 
 ## Question [/questions/{question_id}]
 
