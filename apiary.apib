@@ -11,7 +11,7 @@ HOST: http://polls.apiblueprint.org/
 ## 顯示列表 [/列表/外語請教條{?%E7%AC%AC%E5%B9%BE%E9%A0%81}]
 
 + Parameters
-    + %E7%AC%AC%E5%B9%BE%E9%A0%81 (optional, numbe.r, `1`) ... 顯示第幾頁的列表
+    + %E7%AC%AC%E5%B9%BE%E9%A0%81 (optional, number, `1`) ... 顯示第幾頁的列表
     
 ### GET
 列出目前的外語請教條，每頁最多15筆。
@@ -75,7 +75,12 @@ HOST: http://polls.apiblueprint.org/
 ## Group 看資料
 看資料的內容，其中資料詳細內容和來源內容有另外做api。
 
-## 看項目以及其相關項目內容 [/資料/內容?平臺項目編號={number}]
+## 看項目以及其相關項目內容 [/資料/內容{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
+
++ Parameters
+    + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`)
+        要查的項目編號
+    
 ### GET
 待改
 + Response 200 (application/json)
@@ -102,7 +107,12 @@ HOST: http://polls.apiblueprint.org/
           "收錄時間": "2015-04-13 22:04:54"
         }
 
-## 看資料項目的詳細內容 [/資料/詳細內容?平臺項目編號={number}]
+## 看資料項目的詳細內容 [/資料/詳細內容{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
+
++ Parameters
+    + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`) 
+         要查的項目編號
+
 ### GET
 + Response 200 (application/json)
 
@@ -119,7 +129,12 @@ HOST: http://polls.apiblueprint.org/
             "推薦用字":"否"
         }
         
-## 看收錄者、來源的詳細內容 [/來源/內容?來源編號={number}]
+## 看收錄者、來源的詳細內容 [/來源/內容{?%E4%BE%86%E6%BA%90%E7%B7%A8%E8%99%9F}]
+
++ Parameters
+    + %E4%BE%86%E6%BA%90%E7%B7%A8%E8%99%9F (number, `1`) 
+         要查的收錄者、來源編號
+
 ### GET
 + Response 200 (application/json)
 
