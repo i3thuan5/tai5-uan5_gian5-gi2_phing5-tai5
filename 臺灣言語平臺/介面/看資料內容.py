@@ -49,7 +49,7 @@ def 外語請教條相關資料內容(request):
 		回應資料['新詞文本'].append(回應文本)
 	return JsonResponse(回應資料)
 
-def 看資料單一內容(request):
+def 看資料詳細內容(request):
 	try:
 		平臺項目編號 = request.GET['平臺項目編號']
 	except:
