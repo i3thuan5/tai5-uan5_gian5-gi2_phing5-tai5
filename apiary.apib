@@ -1,0 +1,309 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# taigi-neologism
+
+Polls is a simple API 
+
+## Group 資料列表
+
+
+## GET /列表/外語請教條
+列出目前的外語請教條。
+
++ 列表 (array[string]) - 本頁的外語請教條項目資料陣列
++ 列表.外語請教條項目編號 (number)
++ 列表.外語語言 (string)
++ 列表.種類 (string) - "字詞"或"語句"
++ 列表.外語資料 (string)
+
++ Parameters
+    + page (optional, number, `1`) ... 顯示第幾頁的列表
+    <!--+ 第幾頁 (optional, number, `1`) ... 顯示第幾頁的列表-->
+
++ Response 200 (application/json)
+
+        {
+          "列表": [
+            {
+              "外語請教條項目編號": "47765",
+              "外語語言": "華語",
+              "種類": "字詞",
+              "語言腔口": "閩南語",
+              "外語資料": "鬱歲"
+            },
+          ]
+        }
+
+## GET /揣/外語請教條?關鍵字={keyword}
++ Response 200 (application/json)
+
+        {
+          "資料": [
+            {
+              "外語請教條項目編號": "37991",
+              "外語語言": "華語",
+              "種類": "字詞",
+              "語言腔口": "閩南語",
+              "外語資料": "漂亮"
+            }
+          ],
+          "其他建議": [
+            {
+              "外語請教條項目編號": "37998",
+              "外語語言": "華語",
+              "種類": "字詞",
+              "語言腔口": "閩南語",
+              "外語資料": "漂漂亮亮"
+            },
+            {
+              "外語請教條項目編號": "34267",
+              "外語語言": "華語",
+              "種類": "字詞",
+              "語言腔口": "閩南語",
+              "外語資料": "愛漂亮"
+            }
+          ]
+        }
+
+## Group 看資料
+
+
+## GET /資料/內容?平臺項目編號={number}
+待改
++ Response 200 (application/json)
+
+        {
+          "外語請教條項目編號": "47765",
+          "外語語言": "華語",
+          "新詞文本": [
+            {
+              "文本資料": "鬱歲",
+              "屬性內容": {
+                "音標": "ut-huè/ut-hè"
+              },
+              "來源": 2,
+              "新詞文本項目編號": "47766",
+              "收錄者": 1,
+              "收錄時間": "2015-04-13 22:04:54"
+            }
+          ],
+          "收錄者": 1,
+          "新詞影音": [],
+          "語言腔口": "閩南語",
+          "外語資料": "鬱歲",
+          "收錄時間": "2015-04-13 22:04:54"
+        }
+
+## GET /資料/單一內容?平臺項目編號={number}
++ Response 200 (application/json)
+
+        {
+        }
+
+## GET /來源/內容?來源編號={number}
++ Response 200 (application/json)
+
+        {
+        }
+        
+## Group POST操作
+Resources related to questions in the API.
+
+## GET /看csrf
++ Response 200 (application/json)
+
+        {
+          "csrftoken": "YNojHNaWlKN40iV9O0iyNBfZFkRw3laW"
+        }
+
+## Group 加資料
+Resources related to questions in the API.
+ns in the API.
+
+## POST /加資料/外語請教條
++ Response 200 (application/json)
+
+        {
+        }
+
+## POST /加資料/新詞影音
++ Response 200 (application/json)
+
+        {
+        }
+
+## POST /加資料/新詞文本
++ Response 200 (application/json)
+
+        {
+        }
+
+## POST /加資料/外語新詞文本
++ Response 200 (application/json)
+
+        {
+        }
+
+
+## Group 資料操作
+Resources related to questions in the API.
+
+## POST /資料/推薦用字
++ Response 200 (application/json)
+
+        {
+        }
+
+## POST /資料/取消推薦用字
++ Response 200 (application/json)
+
+        {
+        }
+
+## Question [/questions/{question_id}]
+
+A Question object has the following attributes:
+
++ question
++ published_at - An ISO8601 date when the question was published.
++ url
++ choices - An array of Choice objects.
+
++ Parameters
+    + question_id (required, number, `1`) ... ID of the Question in form of an integer
+
+### View a Questions Detail [GET]
+
++ Response 200 (application/json)
+
+                {
+                    "question": "Favourite programming language?",
+                    "published_at": "2014-11-11T08:40:51.620Z",
+                    "url": "/questions/1",
+                    "choices": [
+                        {
+                            "choice": "Swift",
+                            "url": "/questions/1/choices/1",
+                            "votes": 2048
+                        }, {
+                            "choice": "Python",
+                            "url": "/questions/1/choices/2",
+                            "votes": 1024
+                        }, {
+                            "choice": "Objective-C",
+                            "url": "/questions/1/choices/3",
+                            "votes": 512
+                        }, {
+                            "choice": "Ruby",
+                            "url": "/questions/1/choices/4",
+                            "votes": 256
+                        }
+                    ]
+                }
+
+## Choice [/questions/{question_id}/choices/{choice_id}]
+
++ Parameters
+    + question_id (required, number, `1`) ... ID of the Question in form of an integer
+    + choice_id (required, number, `1`) ... ID of the Choice in form of an integer
+
+### Vote on a Choice [POST]
+
+This action allows you to vote on a question's choice.
+
++ Response 201
+
+    + Headers
+
+            Location: /questions/1
+
+## Questions Collection [/questions{?page}]
+
+
+### List All Questions [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </questions?page=2>; rel="next"
+
+    + Body
+
+            [
+                {
+                    "question": "Favourite programming language?",
+                    "published_at": "2014-11-11T08:40:51.620Z",
+                    "url": "/questions/1",
+                    "choices": [
+                        {
+                            "choice": "Swift",
+                            "url": "/questions/1/choices/1",
+                            "votes": 2048
+                        }, {
+                            "choice": "Python",
+                            "url": "/questions/1/choices/2",
+                            "votes": 1024
+                        }, {
+                            "choice": "Objective-C",
+                            "url": "/questions/1/choices/3",
+                            "votes": 512
+                        }, {
+                            "choice": "Ruby",
+                            "url": "/questions/1/choices/4",
+                            "votes": 256
+                        }
+                    ]
+                }
+            ]
+
+### Create a New Question [POST]
+
+
++ Request (application/json)
+
+            {
+                "question": "Favourite programming language?",
+                "choices": [
+                    "Swift",
+                    "Python",
+                    "Objective-C",
+                    "Ruby"
+                ]
+            }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+                {
+                    "question": "Favourite programming language?",
+                    "published_at": "2014-11-11T08:40:51.620Z",
+                    "url": "/questions/2",
+                    "choices": [
+                        {
+                            "choice": "Swift",
+                            "url": "/questions/2/choices/1",
+                            "votes": 0
+                        }, {
+                            "choice": "Python",
+                            "url": "/questions/2/choices/2",
+                            "votes": 0
+                        }, {
+                            "choice": "Objective-C",
+                            "url": "/questions/2/choices/3",
+                            "votes": 0
+                        }, {
+                            "choice": "Ruby",
+                            "url": "/questions/2/choices/4",
+                            "votes": 0
+                        }
+                    ]
+                }
+
+
