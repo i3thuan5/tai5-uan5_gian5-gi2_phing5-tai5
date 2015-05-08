@@ -147,7 +147,7 @@ HOST: http://polls.apiblueprint.org/
         
 # Group POST操作
 POST的之前，必須先取得csrf的參數。
-
+<!--csrfmiddlewaretoken=nTboUYpC4kTHnOKTZthmqElf74ZL5DTJ-->
 
 ## 取得主機csrf [/看csrf]
 ### GET
@@ -157,7 +157,31 @@ POST的之前，必須先取得csrf的參數。
           "csrftoken": "YNojHNaWlKN40iV9O0iyNBfZFkRw3laW"
         }
 
+# Group 登入登出
+目前綁定FB
+
+## 登入 [/accounts/facebook/login/{?next}]
+
+需要先登入，而且需要傳csrf的參數。
+
++ Parameters
+    + next (string, `/`)
+        登入完要前往的網頁網址
+
+### GET
++ Response 302 (text/html)
+
+## 登出 [/accounts/logout/{?next}]
+
++ Parameters
+    + next (string, `/`)
+        登出後要前往的網頁網址
+
+### POST
++ Response 302 (text/html)
+
 # Group 加資料
+
 需要先登入，而且需要傳csrf的參數。
 
 ## 加外語請教條 [/加資料/外語請教條{?%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E5%A4%96%E8%AA%9E%E8%AA%9E%E8%A8%80,%E5%A4%96%E8%AA%9E%E8%B3%87%E6%96%99}]
