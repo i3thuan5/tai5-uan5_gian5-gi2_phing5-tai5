@@ -17,7 +17,7 @@ class 外語請教條列表試驗(TestCase):
 		pass
 
 	def test_空列表(self):
-		回應 = self.client.get('/列表/外語請教條',
+		回應 = self.client.get('/平臺項目列表/看列表',
 			{'第幾頁':1})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
@@ -26,7 +26,7 @@ class 外語請教條列表試驗(TestCase):
 		
 	def test_一个外語請教條(self):
 		水母編號 = self.資料庫加外語請教條('水母')
-		回應 = self.client.get('/列表/外語請教條',
+		回應 = self.client.get('/平臺項目列表/看列表',
 			{'第幾頁':1})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
@@ -44,7 +44,7 @@ class 外語請教條列表試驗(TestCase):
 	def test_兩个外語請教條(self):
 		水母編號 = self.資料庫加外語請教條('水母')
 		水母腦編號 = self.資料庫加外語請教條('水母腦')
-		回應 = self.client.get('/列表/外語請教條',
+		回應 = self.client.get('/平臺項目列表/看列表',
 			{'第幾頁':1})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
@@ -69,16 +69,16 @@ class 外語請教條列表試驗(TestCase):
 	def test_無第幾頁就是第一頁(self):
 		self.資料庫加外語請教條('水母')
 		self.資料庫加外語請教條('水母腦')
-		回應 = self.client.get('/列表/外語請教條')
+		回應 = self.client.get('/平臺項目列表/看列表')
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		self.assertEqual(回應.content,
-			self.client.get('/列表/外語請教條', {'第幾頁':1}).content)
+			self.client.get('/平臺項目列表/看列表', {'第幾頁':1}).content)
 		
 	def test_資料無夠濟空的頁面(self):
 		self.資料庫加外語請教條('水母')
 		self.資料庫加外語請教條('水母腦')
-		回應 = self.client.get('/列表/外語請教條', {'第幾頁':10})
+		回應 = self.client.get('/平臺項目列表/看列表', {'第幾頁':10})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))

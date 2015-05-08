@@ -77,7 +77,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 	def test_外語請教條無物件(self):
 		水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -93,7 +93,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
 		影音編號 = 平臺項目表.外語錄母語(水母編號, self.影音內容).編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -116,7 +116,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		影音一編號 = 平臺項目表.外語錄母語(水母編號, self.影音內容).編號()
 		影音二編號 = 平臺項目表.外語錄母語(水母編號, self.影音內容).編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -145,7 +145,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		影音編號 = 平臺項目表.外語錄母語(水母編號, self.影音內容).編號()
 		䖳文本編號 = 平臺項目表.影音寫文本(影音編號, self.䖳文本內容).編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -176,7 +176,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		䖳文本編號 = 平臺項目表.影音寫文本(影音編號, self.䖳文本內容).編號()
 		水母文本編號 = 平臺項目表.影音寫文本(影音編號, self.水母文本內容).編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -208,7 +208,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
 		䖳文本編號 = 平臺項目表.外語翻母語(水母編號, self.䖳文本內容)	.編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -231,7 +231,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		䖳文本編號 = 平臺項目表.外語翻母語(水母編號, self.䖳文本內容)	.編號()
 		水母文本編號 = 平臺項目表.外語翻母語(水母編號, self.水母文本內容)	.編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -258,7 +258,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		影音編號 = 平臺項目表.外語錄母語(水母編號, self.影音內容).編號()
 		文本編號 = 平臺項目表.外語翻母語(水母編號, self.水母文本內容)	.編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -287,7 +287,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		䖳文本編號 = 平臺項目表.影音寫文本(影音編號, self.䖳文本內容).編號()
 		水母文本編號 = 平臺項目表.外語翻母語(水母編號, self.水母文本內容).編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':水母編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':水母編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -317,7 +317,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 
 	def test_無外語請教條(self):
 # 		前端輸入
-		回應 = self.client.get('/資料/內容', {'平臺項目編號':平臺項目表.objects.all().count() + 1})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':平臺項目表.objects.all().count() + 1})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -327,7 +327,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 		水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
 		影音編號 = 平臺項目表.外語錄母語(水母編號, self.影音內容).編號()
 # 		前端輸入
-		回應 = self.client.get('/資料/內容/', {'平臺項目編號':影音編號})
+		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':影音編號})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
@@ -335,7 +335,7 @@ class 看外語請教條相關資料內容試驗(TestCase):
 
 	def test_無傳平臺項目編號(self):
 # 		前端輸入
-		回應 = self.client.get('/資料/內容/')
+		回應 = self.client.get('/平臺項目/看對應內容')
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
