@@ -1,12 +1,12 @@
 FORMAT: 1A
 HOST: http://polls.apiblueprint.org/
 
-# taigi-neologism
+# 新台語運動
 
 [新台語運動](https://g0v.hackpad.com/moed7ct-taigi-neologism)
 是提供一母語學習網路媒介。
 
-## Group 資料列表
+# Group 資料列表
 
 ## 顯示列表 [/列表/外語請教條{?%E7%AC%AC%E5%B9%BE%E9%A0%81}]
 
@@ -72,7 +72,7 @@ HOST: http://polls.apiblueprint.org/
           ]
         }
 
-## Group 看資料
+# Group 看資料
 看資料的內容，其中資料詳細內容和來源內容有另外做api。
 
 ## 看項目以及其相關項目內容 [/資料/內容{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
@@ -145,8 +145,9 @@ HOST: http://polls.apiblueprint.org/
             "分數":0
         }
         
-## Group POST操作
-Resources related to questions in the API.
+# Group POST操作
+POST的之前，必須先取得csrf的參數。
+
 
 ## 取得主機csrf [/看csrf]
 ### GET
@@ -156,10 +157,29 @@ Resources related to questions in the API.
           "csrftoken": "YNojHNaWlKN40iV9O0iyNBfZFkRw3laW"
         }
 
-## Group 加資料
-Resources related to questions in the API.
+# Group 加資料
+需要先登入，而且需要傳csrf的參數。
 
-## 加外語請教條 [/加資料/外語請教條]
+## 加外語請教條 [/加資料/外語請教條{?%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E5%A4%96%E8%AA%9E%E8%AA%9E%E8%A8%80,%E5%A4%96%E8%AA%9E%E8%B3%87%E6%96%99}]
+
++ Parameters
+    + %E4%BE%86%E6%BA%90 (string, `'{"名": "阿媠", "職業": "學生"}'`)
+        要先轉成字串。一定要有「名」，其餘資訊視情況增加
+    + %E7%A8%AE%E9%A1%9E (string, `字詞`)
+        資料的種類：「字詞」、「語句」、…
+    + %E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3 (string, `閩南語`)
+        不設限，隨意增加語言
+    + %E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0 (string, `花蓮`)
+        不設限，隨意增加
+    + %E8%91%97%E4%BD%9C%E5%B9%B4 (string, `2014`)
+        不設限，隨意增加
+    + %E5%B1%AC%E6%80%A7 (string, `'{"字數": "2", "詞性": "形容詞"}'`)
+        json要先轉成字串。內容不設限，隨意增減
+    + %E5%A4%96%E8%AA%9E%E8%AA%9E%E8%A8%80 (string, `華語`)
+        不設限，隨意增加
+    + %E5%A4%96%E8%AA%9E%E8%B3%87%E6%96%99 (string, `漂亮`)
+        不設限，隨意增加
+
 ### POST
 + Response 200 (application/json)
 
@@ -168,7 +188,24 @@ Resources related to questions in the API.
             '平臺項目編號':'1',
         }
 
-## 加新詞影音 [/加資料/新詞影音]
+## 加新詞影音 [/加資料/新詞影音{?%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E5%BD%B1%E9%9F%B3%E8%B3%87%E6%96%99}]
+
++ Parameters
+    + %E4%BE%86%E6%BA%90 (string, `'{"名": "阿媠", "職業": "學生"}'`)
+        要先轉成字串。一定要有「名」，其餘資訊視情況增加
+    + %E7%A8%AE%E9%A1%9E (string, `字詞`)
+        資料的種類：「字詞」、「語句」、…
+    + %E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3 (string, `閩南語`)
+        不設限，隨意增加語言
+    + %E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0 (string, `花蓮`)
+        不設限，隨意增加
+    + %E8%91%97%E4%BD%9C%E5%B9%B4 (string, `2014`)
+        不設限，隨意增加
+    + %E5%B1%AC%E6%80%A7 (string, `'{"字數": "2", "詞性": "形容詞"}'`)
+        json要先轉成字串。內容不設限，隨意增減
+    + %E5%BD%B1%E9%9F%B3%E8%B3%87%E6%96%99 (file)
+        不設限，隨意增加
+
 ### POST
 + Response 200 (application/json)
 
@@ -177,7 +214,24 @@ Resources related to questions in the API.
             '平臺項目編號':'2',
         }
 
-## 加新詞文本 [/加資料/新詞文本]
+## 加新詞文本 [/加資料/新詞文本{?%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99}]
+
++ Parameters
+    + %E4%BE%86%E6%BA%90 (string, `'{"名": "阿媠", "職業": "學生"}'`)
+        要先轉成字串。一定要有「名」，其餘資訊視情況增加
+    + %E7%A8%AE%E9%A1%9E (string, `字詞`)
+        資料的種類：「字詞」、「語句」、…
+    + %E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3 (string, `閩南語`)
+        不設限，隨意增加語言
+    + %E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0 (string, `花蓮`)
+        不設限，隨意增加
+    + %E8%91%97%E4%BD%9C%E5%B9%B4 (string, `2014`)
+        不設限，隨意增加
+    + %E5%B1%AC%E6%80%A7 (string, `'{"字數": "2", "詞性": "形容詞"}'`)
+        json要先轉成字串。內容不設限，隨意增減
+    + %E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99 (string, `媠`)
+        不設限，隨意增加
+
 ### POST
 + Response 200 (application/json)
 
@@ -186,7 +240,24 @@ Resources related to questions in the API.
             '平臺項目編號':'3',
         }
 
-## 加外語新詞文本 [/加資料/外語新詞文本]
+## 加外語新詞文本 [/加資料/外語新詞文本{?%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99}]
+
++ Parameters
+    + %E4%BE%86%E6%BA%90 (string, `'{"名": "阿媠", "職業": "學生"}'`)
+        要先轉成字串。一定要有「名」，其餘資訊視情況增加
+    + %E7%A8%AE%E9%A1%9E (string, `字詞`)
+        資料的種類：「字詞」、「語句」、…
+    + %E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3 (string, `閩南語`)
+        不設限，隨意增加語言
+    + %E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0 (string, `花蓮`)
+        不設限，隨意增加
+    + %E8%91%97%E4%BD%9C%E5%B9%B4 (string, `2014`)
+        不設限，隨意增加
+    + %E5%B1%AC%E6%80%A7 (string, `'{"字數": "2", "詞性": "形容詞"}'`)
+        json要先轉成字串。內容不設限，隨意增減
+    + %E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99 (string, `媠`)
+        不設限，隨意增加
+
 ### POST
 + Response 200 (application/json)
 
@@ -196,9 +267,14 @@ Resources related to questions in the API.
         }
 
 
-## Group 互動操作
+# Group 互動操作
+需要先登入，而且需要傳csrf的參數。
+## 設定推薦用字 [/資料/設定推薦用字{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
 
-## 設定推薦用字 [/資料/設定推薦用字]
++ Parameters
+    + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`) 
+         要設定的項目編號
+
 ### POST
 + Response 200 (application/json)
 
@@ -206,7 +282,12 @@ Resources related to questions in the API.
             '結果':'成功'
         }
 
-## 取消推薦用字 [/資料/取消推薦用字]
+## 取消推薦用字 [/資料/取消推薦用字{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
+
++ Parameters
+    + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`) 
+         要取消的項目編號
+
 ### POST
 + Response 200 (application/json)
 
