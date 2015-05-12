@@ -160,7 +160,28 @@ HOST: http://polls.apiblueprint.org/
         
 # Group POST操作
 POST的之前，必須先取得csrf的參數。
-<!--csrfmiddlewaretoken=nTboUYpC4kTHnOKTZthmqElf74ZL5DTJ-->
+使用方法：
+## HTML Form
+```html
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrftoken }}">
+```
+
+## JQuery
+```js
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+```
+## Angular
+
 
 ## 取得主機csrf [/csrf/看]
 ### GET
