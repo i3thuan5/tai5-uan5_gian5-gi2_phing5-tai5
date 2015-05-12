@@ -25,7 +25,7 @@ class 揣外語請教條試驗(TestCase):
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
-			'資料':[],
+			'列表':[],
 			'其他建議':[],
 		})
 		
@@ -41,7 +41,7 @@ class 揣外語請教條試驗(TestCase):
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
-		self.assertEqual(回應資料['資料'], [{
+		self.assertEqual(回應資料['列表'], [{
 					'外語請教條項目編號':str(水母編號),
 					'種類':'字詞',
 					'語言腔口':'閩南語',
@@ -82,7 +82,7 @@ class 揣外語請教條試驗(TestCase):
 				'外語語言':'華語',
 				'外語資料':'水母',
 			},
-			回應資料['資料'])
+			回應資料['列表'])
 		self.assertIn({
 				'外語請教條項目編號':str(帛琉水母編號),
 				'種類':'字詞',
@@ -90,7 +90,7 @@ class 揣外語請教條試驗(TestCase):
 				'外語語言':'帛琉語',
 				'外語資料':'水母',
 			},
-			回應資料['資料'])
+			回應資料['列表'])
 	
 	def test_無傳關鍵字(self):
 # 		前端輸入
