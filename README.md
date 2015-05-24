@@ -13,3 +13,13 @@ python manage.py migrate
 ```python3
 python manage.py runserver
 ```
+## add admin
+```bash
+python manage.py createsuperuser
+```
+
+browse /admin
+
+login and add social application
+FB id：590065061070994
+key:db4f3fa26d26890e720d17a83ff5a6fe
