@@ -60,7 +60,7 @@ MIDDLEWARE_CLASSES = (
 	'corsheaders.middleware.CorsMiddleware',
 	'django.middleware.common.CommonMiddleware',
 )
-CORS_ORIGIN_REGEX_WHITELIST = ('^.*$', )
+CORS_ORIGIN_REGEX_WHITELIST = ('^.*$', ) # reponse with origin instead of all(*)
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'tai5uan5_gian5gi2_phing5thai5.urls'
