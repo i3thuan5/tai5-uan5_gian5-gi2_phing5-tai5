@@ -10,7 +10,12 @@ python manage.py migrate
 ```
 ## initial data setting
 ```bash
-python manage.py shell < initial_data.py
+python manage.py shell 
+```
+add enter
+```python3
+from 佳怡表匯入資料庫 import 走 
+走()
 ```
 
 ## run
