@@ -10,3 +10,4 @@ six==1.9.0
 tai5-uan5-gian5-gi2-tsu1-liau7-khoo3==3.0.4
 -e git+https://github.com/conrado/libavwrapper@6409123ee24df823a5ee0bac7a08043e6b317721#egg=libavwrapper
 django-cors-headers
+xlrd==0.9.3
