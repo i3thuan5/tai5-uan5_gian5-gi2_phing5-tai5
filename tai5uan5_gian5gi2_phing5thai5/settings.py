@@ -42,6 +42,8 @@ INSTALLED_APPS = (
 	'allauth.account',
 	'allauth.socialaccount',
 	'allauth.socialaccount.providers.facebook',
+	
+	'corsheaders',
 # 	家己的
 	'臺灣言語資料庫',
 	'臺灣言語平臺',
@@ -55,7 +57,10 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'corsheaders.middleware.CorsMiddleware',
+	'django.middleware.common.CommonMiddleware',
 )
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'tai5uan5_gian5gi2_phing5thai5.urls'
 
