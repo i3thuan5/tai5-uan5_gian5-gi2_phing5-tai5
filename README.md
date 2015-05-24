@@ -8,8 +8,12 @@ virtualenv venv --python python3
 pip install -r requirements.txt
 python manage.py migrate
 ```
+## initial data setting
+```bash
+python manage.py shell < initial_data.py
+```
 
-# run
+## run
 ```python3
 python manage.py runserver
 ```
@@ -23,3 +27,5 @@ browse /admin
 login and add social application
 FB id：590065061070994
 key:db4f3fa26d26890e720d17a83ff5a6fe
+
+add choose all site
