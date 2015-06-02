@@ -7,10 +7,10 @@ env:
   global:
   matrix:
 install:
+ - sudo apt-get update
+ - sudo apt-get install -y libav-tools libmp3lame0 libavcodec-extra-*
  - pip install -r requirements.txt
  - pip install coverage
- - sudo apt-get update
- - sudo apt-get install -y libav-tools
  - python manage.py makemigrations
 branches:
  only:
