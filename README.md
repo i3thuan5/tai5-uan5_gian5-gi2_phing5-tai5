@@ -10,7 +10,15 @@
 virtualenv venv --python python3 # 設置環境檔
 . venv/bin/activate # 載入環境
 pip install -r requirements.txt # 安裝套件
-python manage.py migrate #初使化資料庫欄位
+python manage.py makemigrations #初使化資料庫欄位
+python manage.py migrate #建立資料庫欄位
+sudo apt-get install libav-tools -y # 安裝avconv for Ubuntu
+```
+[OSX安裝avconv](http://superuser.com/questions/568464/how-to-install-libav-avconv-on-osx)
+
+### 檢查設定
+```bash
+bash 走試驗.sh
 ```
 
 ### 跑服務
