@@ -168,7 +168,7 @@ class 外語加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
 				'結果':'失敗',

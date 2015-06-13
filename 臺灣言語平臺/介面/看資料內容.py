@@ -5,6 +5,7 @@ from django.http.response import JsonResponse
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
 from 臺灣言語資料庫.資料模型 import 來源表
+from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 
 _臺北時間 = tz.gettz('Asia/Taipei')
 _時間輸出樣式 = '%Y-%m-%d %H:%M:%S'
@@ -15,7 +16,7 @@ def 外語請教條相關資料內容(request):
 	try:
 		外語項目編號 = request.GET['平臺項目編號']
 	except:
-		return JsonResponse({'錯誤': '沒有平臺項目的編號'})
+		return Json失敗回應({'錯誤': '沒有平臺項目的編號'})
 		
 	try:
 		外語項目 = 平臺項目表.揣編號(int(外語項目編號))
@@ -26,7 +27,7 @@ def 外語請教條相關資料內容(request):
 		回應資料['外語資料'] = 外語.外語資料
 		回應資料['外語語言'] = 外語.外語語言.語言腔口
 	except:
-		return JsonResponse({'錯誤': '這不是外語的編號'})
+		return Json失敗回應({'錯誤': '這不是外語的編號'})
 	
 	回應資料['新詞影音'] = []
 	for 翻譯影音 in 外語.翻譯影音.all():
@@ -53,12 +54,12 @@ def 看資料詳細內容(request):
 	try:
 		平臺項目編號 = request.GET['平臺項目編號']
 	except:
-		return JsonResponse({'錯誤': '沒有平臺項目的編號'})
+		return Json失敗回應({'錯誤': '沒有平臺項目的編號'})
 	try:
 		平臺項目 = 平臺項目表.揣編號(int(平臺項目編號))
 		資料 = 平臺項目.資料()
 	except:
-		return JsonResponse({'錯誤': '這不是合法平臺項目的編號'})
+		return Json失敗回應({'錯誤': '這不是合法平臺項目的編號'})
 	return JsonResponse({
 			'收錄者':str(資料.收錄者.編號()),
 			'來源':str(資料.來源.編號()),
@@ -76,11 +77,11 @@ def 看來源內容(request):
 	try:
 		來源編號 = request.GET['來源編號']
 	except:
-		return JsonResponse({'錯誤': '沒有來源編號的參數'})
+		return Json失敗回應({'錯誤': '沒有來源編號的參數'})
 	try:
 		來源 = 來源表.objects.get(pk=來源編號)
 	except:
-		return JsonResponse({'錯誤': '這不是合法的來源編號'})
+		return Json失敗回應({'錯誤': '這不是合法的來源編號'})
 	來源內容 = {
 			'名':來源.名,
 			'屬性內容':來源.屬性內容(),

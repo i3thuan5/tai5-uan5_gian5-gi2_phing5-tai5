@@ -8,6 +8,7 @@ import json
 from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.項目模型 import 平臺項目表
+from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 
 _自己 = '自己'
 _自己json字串 = [json.dumps(_自己), json.dumps(_自己, ensure_ascii=False)]
@@ -17,7 +18,7 @@ def 內容是自己的json字串(內容):
 		return True
 	return False
 
-class 失敗的json回應(JsonResponse):
+class 失敗的json回應(Json失敗回應):
 	def __init__(self, 失敗原因):
 		super(失敗的json回應, self).__init__({
 				'結果':'失敗',
