@@ -7,7 +7,7 @@ from 臺灣言語資料庫.資料模型 import 版權表
 from 臺灣言語資料庫.欄位資訊 import 字詞
 from 臺灣言語資料庫.資料模型 import 種類表
 
-class 外語請教條列表試驗(TestCase):
+class 外語列表試驗(TestCase):
 	def setUp(self):
 		self.會使公開 = 版權表.objects.create(版權='會使公開')
 		self.字詞 = 種類表.objects.create(種類=字詞)
@@ -24,8 +24,8 @@ class 外語請教條列表試驗(TestCase):
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {'列表':[]})
 		
-	def test_一个外語請教條(self):
-		水母編號 = self.資料庫加外語請教條('水母')
+	def test_一个外語(self):
+		水母編號 = self.資料庫加外語('水母')
 		回應 = self.client.get('/平臺項目列表/看列表',
 			{'第幾頁':1})
 # 		前端回傳結果
@@ -33,7 +33,7 @@ class 外語請教條列表試驗(TestCase):
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {'列表':[
 			{
-				'外語請教條項目編號':str(水母編號),
+				'外語項目編號':str(水母編號),
 				'種類':'字詞',
 				'語言腔口':'閩南語',
 				'外語語言':'華語',
@@ -41,9 +41,9 @@ class 外語請教條列表試驗(TestCase):
 			},
 		]})
 	
-	def test_兩个外語請教條(self):
-		水母編號 = self.資料庫加外語請教條('水母')
-		水母腦編號 = self.資料庫加外語請教條('水母腦')
+	def test_兩个外語(self):
+		水母編號 = self.資料庫加外語('水母')
+		水母腦編號 = self.資料庫加外語('水母腦')
 		回應 = self.client.get('/平臺項目列表/看列表',
 			{'第幾頁':1})
 # 		前端回傳結果
@@ -51,14 +51,14 @@ class 外語請教條列表試驗(TestCase):
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {'列表':[
 			{
-				'外語請教條項目編號':str(水母腦編號),
+				'外語項目編號':str(水母腦編號),
 				'種類':'字詞',
 				'語言腔口':'閩南語',
 				'外語語言':'華語',
 				'外語資料':'水母腦',
 			},
 			{
-				'外語請教條項目編號':str(水母編號),
+				'外語項目編號':str(水母編號),
 				'種類':'字詞',
 				'語言腔口':'閩南語',
 				'外語語言':'華語',
@@ -67,8 +67,8 @@ class 外語請教條列表試驗(TestCase):
 		]})
 	
 	def test_無第幾頁就是第一頁(self):
-		self.資料庫加外語請教條('水母')
-		self.資料庫加外語請教條('水母腦')
+		self.資料庫加外語('水母')
+		self.資料庫加外語('水母腦')
 		回應 = self.client.get('/平臺項目列表/看列表')
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
@@ -76,15 +76,15 @@ class 外語請教條列表試驗(TestCase):
 			self.client.get('/平臺項目列表/看列表', {'第幾頁':1}).content)
 		
 	def test_資料無夠濟空的頁面(self):
-		self.資料庫加外語請教條('水母')
-		self.資料庫加外語請教條('水母腦')
+		self.資料庫加外語('水母')
+		self.資料庫加外語('水母腦')
 		回應 = self.client.get('/平臺項目列表/看列表', {'第幾頁':10})
 # 		前端回傳結果
 		self.assertEqual(回應.status_code, 200)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {'列表':[]})
 	
-	def 資料庫加外語請教條(self, 外語詞):
+	def 資料庫加外語(self, 外語詞):
 		return 平臺項目表.加外語資料({
 					'收錄者':self.鄉民.編號(),
 					'來源':json.dumps({'名':'阿媠', '職業':'學生'}),
