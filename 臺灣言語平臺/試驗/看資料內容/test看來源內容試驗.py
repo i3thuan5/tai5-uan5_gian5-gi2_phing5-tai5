@@ -42,7 +42,7 @@ class 看來源內容試驗(TestCase):
 # 		前端輸入
 		回應 = self.client.get('/平臺項目來源/看內容', {'來源編號':來源表.objects.count() + 10})
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
 			'錯誤':'這不是合法的來源編號'
@@ -51,7 +51,7 @@ class 看來源內容試驗(TestCase):
 # 		前端輸入
 		回應 = self.client.get('/平臺項目來源/看內容')
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {
 			'錯誤':'沒有來源編號的參數'

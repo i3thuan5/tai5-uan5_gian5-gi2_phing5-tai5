@@ -69,7 +69,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'無登入',
@@ -91,7 +91,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料欄位有缺',
@@ -110,7 +110,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'編號號碼有問題',
@@ -129,7 +129,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'編號欄位不是數字字串',
@@ -148,7 +148,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'來源抑是屬性無轉json字串',
@@ -167,7 +167,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'來源抑是屬性無轉json字串',
@@ -186,7 +186,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'資料欄位有缺',
@@ -205,7 +205,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'來源沒有「名」的欄位',
@@ -224,7 +224,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'種類和外語不一樣',
@@ -244,7 +244,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'種類和外語不一樣',
@@ -263,7 +263,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'語言腔口和外語不一樣',
@@ -282,7 +282,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 			}
 		)
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		self.assertEqual(json.loads(回應.content.decode("utf-8")), {
 				'結果':'失敗',
 				'原因':'影音資料不是檔案',

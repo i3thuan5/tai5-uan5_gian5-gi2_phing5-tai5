@@ -1,11 +1,14 @@
 from django.http.response import JsonResponse
+
+
 from 臺灣言語資料庫.資料模型 import 外語表
+from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 
 def 揣外語請教條(request):
 	try:
 		外語資料=request.GET['關鍵字']
 	except:
-		return JsonResponse({'錯誤':'無傳關鍵字'})
+		return Json失敗回應({'錯誤':'無傳關鍵字'})
 	符合資料 = []
 	for 外語 in 外語表.objects\
 			.filter(外語資料=外語資料)\
