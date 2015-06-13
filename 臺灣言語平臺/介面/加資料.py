@@ -63,7 +63,7 @@ def 加外語請教條(request):
 	except 種類表.DoesNotExist:
 		return 失敗的json回應('種類欄位不符規範')
 	except ValidationError:
-		return 失敗的json回應('請教條已經有了')
+		return 失敗的json回應('這個外語已經有了')
 	else:
 		return 成功的json回應(平臺項目.編號())
 	
@@ -86,7 +86,7 @@ def 加新詞影音(request):
 		for 欄位 in 欄位表:
 			內容[欄位] = request.POST[欄位]
 		內容['原始影音資料'] = request.FILES['影音資料']
-		外語請教條項目編號 = int(request.POST['外語請教條項目編號'])
+		外語項目編號 = int(request.POST['外語項目編號'])
 	except MultiValueDictKeyError:
 		return 失敗的json回應('資料欄位有缺')
 	except ValueError:
@@ -95,15 +95,15 @@ def 加新詞影音(request):
 	try:
 		if 內容是自己的json字串(內容):
 			內容['來源'] = 內容['收錄者']
-		平臺項目 = 平臺項目表.外語錄母語(外語請教條項目編號, 內容)
+		平臺項目 = 平臺項目表.外語錄母語(外語項目編號, 內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
 	except ValueError as 錯誤:
 		錯誤資訊 = 錯誤.args[0]
 		if '新資料的種類' in 錯誤資訊 and '原本資料的種類' in 錯誤資訊:
-			return 失敗的json回應('種類和外語請教條不一樣')
+			return 失敗的json回應('種類和外語不一樣')
 		elif '新資料的語言腔口' in 錯誤資訊 and '原本資料的語言腔口' in 錯誤資訊:
-			return 失敗的json回應('語言腔口和外語請教條不一樣')
+			return 失敗的json回應('語言腔口和外語不一樣')
 		else: 
 			return 失敗的json回應('來源抑是屬性無轉json字串')
 	except KeyError:
@@ -174,7 +174,7 @@ def 外語加新詞文本(request):
 	try:
 		for 欄位 in 欄位表:
 			內容[欄位] = request.POST[欄位]
-		外語請教條項目編號 = int(request.POST['外語請教條項目編號'])
+		外語項目編號 = int(request.POST['外語項目編號'])
 	except MultiValueDictKeyError:
 		return 失敗的json回應('資料欄位有缺')
 	except ValueError:
@@ -183,15 +183,15 @@ def 外語加新詞文本(request):
 	try:
 		if 內容是自己的json字串(內容):
 			內容['來源'] = 內容['收錄者']
-		平臺項目 = 平臺項目表.外語翻母語(外語請教條項目編號, 內容)
+		平臺項目 = 平臺項目表.外語翻母語(外語項目編號, 內容)
 	except TypeError:
 		return 失敗的json回應('無登入')
 	except ValueError as 錯誤:
 		錯誤資訊 = 錯誤.args[0]
 		if '新資料的種類' in 錯誤資訊 and '原本資料的種類' in 錯誤資訊: 
-			return 失敗的json回應('種類和外語請教條不一樣')
+			return 失敗的json回應('種類和外語不一樣')
 		elif '新資料的語言腔口' in 錯誤資訊 and '原本資料的語言腔口' in 錯誤資訊: 
-			return 失敗的json回應('語言腔口和外語請教條不一樣')
+			return 失敗的json回應('語言腔口和外語不一樣')
 		else: 
 			return 失敗的json回應('來源抑是屬性無轉json字串')
 	except KeyError:
