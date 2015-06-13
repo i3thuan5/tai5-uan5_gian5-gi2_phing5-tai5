@@ -98,7 +98,7 @@ class 揣外語試驗(TestCase):
 # 				'關鍵字':'水母'
 			})
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {'錯誤':'無傳關鍵字'})
 

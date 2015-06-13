@@ -319,7 +319,7 @@ class 看外語相關資料內容試驗(TestCase):
 # 		前端輸入
 		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':平臺項目表.objects.all().count() + 1})
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {'錯誤':'這不是外語的編號'})
 
@@ -329,7 +329,7 @@ class 看外語相關資料內容試驗(TestCase):
 # 		前端輸入
 		回應 = self.client.get('/平臺項目/看對應內容', {'平臺項目編號':影音編號})
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {'錯誤':'這不是外語的編號'})
 
@@ -337,6 +337,6 @@ class 看外語相關資料內容試驗(TestCase):
 # 		前端輸入
 		回應 = self.client.get('/平臺項目/看對應內容')
 # 		前端回傳結果
-		self.assertEqual(回應.status_code, 200)
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料, {'錯誤':'沒有平臺項目的編號'})

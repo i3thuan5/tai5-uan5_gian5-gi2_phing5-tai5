@@ -63,7 +63,7 @@ class 推薦用字試驗(TestCase):
 				'平臺項目編號':str(平臺項目.編號()),
 			}
 		)
-		self.assertEqual(回應.status_code, 200)  # 403
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料['結果'], '失敗', 回應資料)
 		self.assertEqual(回應資料['原因'], '無登入', 回應資料)
@@ -82,7 +82,7 @@ class 推薦用字試驗(TestCase):
 				'平臺項目編號':str(平臺項目.編號()),
 			}
 		)
-		self.assertEqual(回應.status_code, 200)  # 403
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料['結果'], '失敗', 回應資料)
 		self.assertEqual(回應資料['原因'], '不是維護團隊', 回應資料)
@@ -102,7 +102,7 @@ class 推薦用字試驗(TestCase):
 				'平臺項目編號':str(平臺項目.編號()),
 			}
 		)
-		self.assertEqual(回應.status_code, 200)  # 403
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料['結果'], '失敗', 回應資料)
 		self.assertEqual(回應資料['原因'], '不是維護團隊', 回應資料)
@@ -117,7 +117,7 @@ class 推薦用字試驗(TestCase):
 			'/平臺項目/設定推薦用字', {
 			}
 		)
-		self.assertEqual(回應.status_code, 200)  # 403
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料['結果'], '失敗', 回應資料)
 		self.assertEqual(回應資料['原因'], '平臺項目編號有問題', 回應資料)
@@ -150,7 +150,7 @@ class 推薦用字試驗(TestCase):
 				'平臺項目編號':str(平臺項目.編號()),
 			}
 		)
-		self.assertEqual(回應.status_code, 200)  # 403
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料['結果'], '失敗', 回應資料)
 		self.assertEqual(回應資料['原因'], '不是維護團隊', 回應資料)
@@ -171,7 +171,7 @@ class 推薦用字試驗(TestCase):
 				'平臺項目編號':str(平臺項目.編號()),
 			}
 		)
-		self.assertEqual(回應.status_code, 200)  # 403
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料['結果'], '失敗', 回應資料)
 		self.assertEqual(回應資料['原因'], '無登入', 回應資料)
@@ -187,7 +187,7 @@ class 推薦用字試驗(TestCase):
 				'平臺項目編號':str(平臺項目.編號()),
 			}
 		)
-		self.assertEqual(回應.status_code, 200)  # 403
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料['結果'], '失敗', 回應資料)
 		self.assertEqual(回應資料['原因'], '不是維護團隊', 回應資料)
@@ -207,7 +207,7 @@ class 推薦用字試驗(TestCase):
 			'/平臺項目/取消推薦用字', {
 			}
 		)
-		self.assertEqual(回應.status_code, 200)  # 403
+		self.assertEqual(回應.status_code, 400)
 		回應資料 = json.loads(回應.content.decode("utf-8"))
 		self.assertEqual(回應資料['結果'], '失敗', 回應資料)
 		self.assertEqual(回應資料['原因'], '平臺項目編號有問題', 回應資料)
