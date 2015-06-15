@@ -111,6 +111,8 @@ def 加新詞影音(request):
 		return 失敗的json回應('來源沒有「名」的欄位')
 	except 平臺項目表.DoesNotExist:
 		return 失敗的json回應('編號號碼有問題')
+	except OSError:
+		return 失敗的json回應('影音資料不是影音檔案')
 	else:
 		return 成功的json回應(平臺項目.編號())
 		
