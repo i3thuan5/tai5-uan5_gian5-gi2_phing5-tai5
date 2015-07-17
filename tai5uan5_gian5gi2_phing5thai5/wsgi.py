@@ -8,7 +8,10 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/
 """
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tai5uan5_gian5gi2_phing5thai5.settings")
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE",
+    "tai5uan5_gian5gi2_phing5thai5.settings"
+)
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

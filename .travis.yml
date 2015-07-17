@@ -10,6 +10,7 @@ install:
  - sudo apt-get install -y libav-tools libmp3lame0 libavcodec-extra-*
  - pip install -r requirements.txt
  - pip install coverage
+ - pip install flake8
  - python manage.py makemigrations
 branches:
  only:
@@ -17,6 +18,7 @@ branches:
 script:
  - rm __init__.py
  - coverage run --source=臺灣言語平臺 manage.py test
+ - flake8 --exclude=venv,migrations
 matrix:
 after_success:
   - coverage report

@@ -30,37 +30,39 @@ ALLOWED_HOSTS = ['localhost']
 # Application definition
 
 INSTALLED_APPS = (
-	'django.contrib.admin',
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
-# 	allauth
-	'django.contrib.sites',# The Django sites framework is required for allauth
-	'allauth',
-	'allauth.account',
-	'allauth.socialaccount',
-	'allauth.socialaccount.providers.facebook',
-	
-	'corsheaders',
-# 	家己的
-	'臺灣言語資料庫',
-	'臺灣言語平臺',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # 	allauth
+    # The Django sites framework is required for allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+
+    'corsheaders',
+    # 	家己的
+    '臺灣言語資料庫',
+    '臺灣言語平臺',
 )
 
 MIDDLEWARE_CLASSES = (
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'corsheaders.middleware.CorsMiddleware',
-	'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 )
-CORS_ORIGIN_REGEX_WHITELIST = ('^.*$', ) # reponse with origin instead of all(*)
+# reponse with origin instead of all(*)
+CORS_ORIGIN_REGEX_WHITELIST = ('^.*$', )
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'tai5uan5_gian5gi2_phing5thai5.urls'
@@ -72,10 +74,10 @@ WSGI_APPLICATION = 'tai5uan5_gian5gi2_phing5thai5.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-	}
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 # Internationalization
@@ -101,7 +103,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "資料庫影音檔案")
 MEDIA_URL = '/影音檔案/'
 
-#佮使用者有關係
+# 佮使用者有關係
 AUTH_USER_MODEL = '臺灣言語平臺.使用者表'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -110,34 +112,33 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 
-ACCOUNT_ADAPTER='臺灣言語平臺.使用者模型.使用者一般接口'
-SOCIALACCOUNT_ADAPTER ='臺灣言語平臺.使用者模型.使用者社群接口'
+ACCOUNT_ADAPTER = '臺灣言語平臺.使用者模型.使用者一般接口'
+SOCIALACCOUNT_ADAPTER = '臺灣言語平臺.使用者模型.使用者社群接口'
 TEMPLATE_CONTEXT_PROCESSORS = (
-	# Required by allauth template tags
-	"django.core.context_processors.request",
-	# allauth specific context processors
-	"allauth.account.context_processors.account",
-	"allauth.socialaccount.context_processors.socialaccount",
-	'django.contrib.auth.context_processors.auth',
+    # Required by allauth template tags
+    "django.core.context_processors.request",
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
+    'django.contrib.auth.context_processors.auth',
 )
 
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = (
-	# Needed to login by username in Django admin, regardless of `allauth`
-	"django.contrib.auth.backends.ModelBackend",
-	# `allauth` specific authentication methods, such as login by e-mail
-	"allauth.account.auth_backends.AuthenticationBackend",
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 SOCIALACCOUNT_PROVIDERS = \
-	{'facebook':
-		{'SCOPE': ['email',],
-		'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-		'METHOD': 'js_sdk',
-		'LOCALE_FUNC': lambda request: 'zh_TW',
-		'VERIFIED_EMAIL': False,
-		'VERSION': 'v2.3',
-		}
-	}
-
+    {'facebook':
+     {'SCOPE': ['email', ],
+      'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+      'METHOD': 'js_sdk',
+      'LOCALE_FUNC': lambda request: 'zh_TW',
+      'VERIFIED_EMAIL': False,
+      'VERSION': 'v2.3',
+      }
+     }
