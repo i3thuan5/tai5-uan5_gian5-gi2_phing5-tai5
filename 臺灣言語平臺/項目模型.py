@@ -49,7 +49,7 @@ class 平臺項目表(models.Model):
             cls.找外語資料(內容)
         except ObjectDoesNotExist:
             外語 = 外語表.加資料(內容)
-            return cls.objects.create(外語=外語,是資料源頭=True)
+            return cls.objects.create(外語=外語, 是資料源頭=True)
         raise ValidationError('已經有相同的外語資料了')
 
     @classmethod
@@ -65,19 +65,19 @@ class 平臺項目表(models.Model):
     def 外語錄母語(cls, 外語請教條項目編號, 內容):
         外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
         影音 = 外語.錄母語(內容)
-        return cls.objects.create(影音=影音,是資料源頭=False)
+        return cls.objects.create(影音=影音, 是資料源頭=False)
 
     @classmethod
     def 影音寫文本(cls, 新詞影音項目編號, 內容):
         影音 = 平臺項目表.objects.get(pk=新詞影音項目編號).影音
         文本 = 影音.寫文本(內容)
-        return cls.objects.create(文本=文本,是資料源頭=False)
+        return cls.objects.create(文本=文本, 是資料源頭=False)
 
     @classmethod
     def 外語翻母語(cls, 外語請教條項目編號, 內容):
         外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
         文本 = 外語.翻母語(內容)
-        return cls.objects.create(文本=文本,是資料源頭=False)
+        return cls.objects.create(文本=文本, 是資料源頭=False)
 
     def 是推薦用字(self):
         return self.推薦用字
