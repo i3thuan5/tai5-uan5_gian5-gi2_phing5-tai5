@@ -1,4 +1,4 @@
-Django==1.7.7
+Django==1.8.3
 defusedxml==0.4.1
 -e git+https://github.com/pennersr/django-allauth.git#egg=django-allauth
 oauthlib==0.7.2
@@ -7,8 +7,8 @@ python3-openid==3.0.5
 requests==2.6.0
 requests-oauthlib==0.4.2
 six==1.9.0
-tai5-uan5-gian5-gi2-tsu1-liau7-khoo3==3.0.7
+tai5-uan5-gian5-gi2-tsu1-liau7-khoo3==3.1.0
 -e git+https://github.com/conrado/libavwrapper@master#egg=libavwrapper
 django-cors-headers
 xlrd==0.9.3
-tai5-uan5-gian5-gi2-kang1-ku7>=0.5.3
+tai5-uan5-gian5-gi2-kang1-ku7>=0.5.5
