@@ -16,7 +16,6 @@ branches:
  only:
   - master
 script:
- - rm __init__.py
  - coverage run --source=臺灣言語平臺 manage.py test
  - flake8 --exclude=venv,migrations .
 matrix:
