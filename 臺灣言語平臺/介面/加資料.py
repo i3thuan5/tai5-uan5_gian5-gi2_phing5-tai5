@@ -52,6 +52,8 @@ def 加外語請教條(request):
         '收錄者': 使用者表 .判斷編號(request.user),
         '版權': '會使公開',
     }
+    if 內容['收錄者'] is None:
+        return 失敗的json回應('無登入')
     try:
         for 欄位 in 欄位表:
             內容[欄位] = request.POST[欄位]
@@ -62,8 +64,6 @@ def 加外語請教條(request):
         if 內容是自己的json字串(內容):
             內容['來源'] = 內容['收錄者']
         平臺項目 = 平臺項目表.加外語資料(內容)
-    except TypeError:
-        return 失敗的json回應('無登入')
     except ValueError:
         return 失敗的json回應('來源抑是屬性無轉json字串')
     except KeyError:
@@ -91,6 +91,8 @@ def 加新詞影音(request):
         '收錄者': 使用者表 .判斷編號(request.user),
         '版權': '會使公開',
     }
+    if 內容['收錄者'] is None:
+        return 失敗的json回應('無登入')
     try:
         for 欄位 in 欄位表:
             內容[欄位] = request.POST[欄位]
@@ -105,8 +107,6 @@ def 加新詞影音(request):
         if 內容是自己的json字串(內容):
             內容['來源'] = 內容['收錄者']
         平臺項目 = 平臺項目表.外語錄母語(外語項目編號, 內容)
-    except TypeError:
-        return 失敗的json回應('無登入')
     except ValueError as 錯誤:
         錯誤資訊 = 錯誤.args[0]
         if '新資料的種類' in 錯誤資訊 and '原本資料的種類' in 錯誤資訊:
@@ -139,6 +139,8 @@ def 加新詞文本(request):
         '收錄者': 使用者表 .判斷編號(request.user),
         '版權': '會使公開',
     }
+    if 內容['收錄者'] is None:
+        return 失敗的json回應('無登入')
     try:
         for 欄位 in 欄位表:
             內容[欄位] = request.POST[欄位]
@@ -152,8 +154,6 @@ def 加新詞文本(request):
         if 內容是自己的json字串(內容):
             內容['來源'] = 內容['收錄者']
         平臺項目 = 平臺項目表.影音寫文本(新詞影音項目編號, 內容)
-    except TypeError:
-        return 失敗的json回應('無登入')
     except ValueError as 錯誤:
         錯誤資訊 = 錯誤.args[0]
         if '新資料的種類' in 錯誤資訊 and '原本資料的種類' in 錯誤資訊:
@@ -184,6 +184,8 @@ def 外語加新詞文本(request):
         '收錄者': 使用者表 .判斷編號(request.user),
         '版權': '會使公開',
     }
+    if 內容['收錄者'] is None:
+        return 失敗的json回應('無登入')
     try:
         for 欄位 in 欄位表:
             內容[欄位] = request.POST[欄位]
@@ -197,8 +199,6 @@ def 外語加新詞文本(request):
         if 內容是自己的json字串(內容):
             內容['來源'] = 內容['收錄者']
         平臺項目 = 平臺項目表.外語翻母語(外語項目編號, 內容)
-    except TypeError:
-        return 失敗的json回應('無登入')
     except ValueError as 錯誤:
         錯誤資訊 = 錯誤.args[0]
         if '新資料的種類' in 錯誤資訊 and '原本資料的種類' in 錯誤資訊:

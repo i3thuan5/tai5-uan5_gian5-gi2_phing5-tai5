@@ -16,7 +16,7 @@ class 項目模型試驗(TestCase):
 
     def setUp(self):
         版權表.objects.create(版權='會使公開')
-        種類表.objects.create(種類=字詞)
+        種類表.objects.get(種類=字詞)
         self.鄉民 = 來源表. 加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
         self.外語內容 = {
             '收錄者': self.鄉民.編號(),
