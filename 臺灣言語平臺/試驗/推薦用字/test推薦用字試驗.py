@@ -16,7 +16,7 @@ class 推薦用字試驗(TestCase):
 
     def setUp(self):
         版權表.objects.create(版權='會使公開')
-        種類表.objects.create(種類=字詞)
+        種類表.objects.get(種類=字詞)
         語言腔口表.objects.create(語言腔口='客語')
         self.管理者 = 使用者表.加使用者(
             'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', },)
