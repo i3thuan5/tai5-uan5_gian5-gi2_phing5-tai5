@@ -121,20 +121,27 @@ INSTALLED_APPS += (
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
 )
-TEMPLATE_CONTEXT_PROCESSORS = (
-    # Required by allauth template tags
-    "django.core.context_processors.request",
-    # allauth specific context processors
-    "allauth.account.context_processors.account",
-    "allauth.socialaccount.context_processors.socialaccount",
-    'django.contrib.auth.context_processors.auth',
-)
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Required by allauth template tags
+                'django.contrib.auth.context_processors.auth',
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
+            ],
+        },
+    },
+]
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', ],
