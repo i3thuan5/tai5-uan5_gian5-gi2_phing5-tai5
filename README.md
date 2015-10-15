@@ -9,16 +9,95 @@
 ```python3
 virtualenv venv --python python3 # 設置環境檔
 . venv/bin/activate # 載入環境
-pip install -r requirements.txt # 安裝套件
-python manage.py makemigrations #初使化資料庫欄位
+pip install tai5-uan5_gian5-gi2_phing5-tai5 git+https://github.com/conrado/libavwrapper@master#egg=libavwrapper
 python manage.py migrate #建立資料庫欄位
 sudo apt-get install libav-tools -y # 安裝avconv for Ubuntu
 ```
 [OSX安裝avconv](http://superuser.com/questions/568464/how-to-install-libav-avconv-on-osx)
 
-### 檢查設定
-```bash
-bash 走試驗.sh
+### 設定檔
+除了自己`臺灣言語平臺`的設定外，還需要設定cors的套件`django-cors-headers`佮`django-allauth`。
+在`setting.py`最後加上
+```python3
+TIME_ZONE = 'Asia/Taipei'
+
+INSTALLED_APPS += (
+    # 	allauth
+    # The Django sites framework is required for allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+
+    'corsheaders',
+    # 	家己的
+    '臺灣言語資料庫',
+    '臺灣言語平臺',
+)
+MIDDLEWARE_CLASSES += (
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+)
+# reponse with origin instead of all(*)
+CORS_ORIGIN_REGEX_WHITELIST = ('^.*$', )
+CORS_ALLOW_CREDENTIALS = True
+# 使用者上傳檔案
+MEDIA_ROOT = os.path.join(BASE_DIR, "資料庫影音檔案")
+MEDIA_URL = '/影音檔案/'
+# 佮使用者有關係
+AUTH_USER_MODEL = '臺灣言語平臺.使用者表'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_ADAPTER = '臺灣言語平臺.使用者模型.使用者一般接口'
+SOCIALACCOUNT_ADAPTER = '臺灣言語平臺.使用者模型.使用者社群接口'
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # Required by allauth template tags
+    "django.core.context_processors.request",
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
+    'django.contrib.auth.context_processors.auth',
+)
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+     {'SCOPE': ['email', ],
+      'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+      'METHOD': 'js_sdk',
+      'LOCALE_FUNC': lambda request: 'zh_TW',
+      'VERIFIED_EMAIL': False,
+      'VERSION': 'v2.3',
+      }
+     }
+```
+
+
+`urls.py`要加`django-allauth`、`臺灣言語平臺`佮`影音檔案`的路徑，網頁管理介面`admin`可以需要更改 
+```python3
+urlpatterns = patterns(
+    '',
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^', include('臺灣言語平臺.網址')),
+    url(r'^影音檔案/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT,
+    }),
+    url(r'^admin/', include(admin.site.urls)),
+)
 ```
 
 ### 跑服務
@@ -27,16 +106,7 @@ python manage.py runserver
 ```
 
 ### 匯入資料
-```bash
-python manage.py shell 
-```
-之後在django的shell裡輸入
-```python3
-from 佳怡表匯入資料庫 import 走 
-走()
-```
-完整匯入需等待一段時間，等待途中可以繼續做其他事
-若只需試驗，可中途中斷
+請看各專案說定，或參考臺灣言語資料庫的[資料匯入](http://tai5-uan5-gian5-gi2-tsu1-liau7-khoo3.readthedocs.org/zh_TW/latest/資料匯入.html)。
 
 ### 設定FB登入
 #### 增加管理員帳號
@@ -54,3 +124,18 @@ id：590065061070994
 key：db4f3fa26d26890e720d17a83ff5a6fe
 最後左下角choose all site
 其他欄位隨便填
+
+## 開發
+### 環境設定
+```python3
+virtualenv venv --python python3 # 設置環境檔
+. venv/bin/activate # 載入環境
+pip install -r requirements.txt # 安裝套件
+sudo apt-get install libav-tools -y # 安裝avconv for Ubuntu
+```
+[OSX安裝avconv](http://superuser.com/questions/568464/how-to-install-libav-avconv-on-osx)
+
+### 試驗
+```
+python manage.py test
+```
