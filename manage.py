@@ -5,7 +5,7 @@ import sys
 if __name__ == "__main__":
     os.environ.setdefault(
         "DJANGO_SETTINGS_MODULE",
-        "tai5uan5_gian5gi2_phing5thai5.settings"
+        "phing5tai5.settings"
     )
 
     from django.core.management import execute_from_command_line

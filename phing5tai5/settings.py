@@ -1,5 +1,5 @@
 """
-Django settings for itaigi project.
+Django settings for phing5tai5 project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -46,9 +46,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'itaigi.urls'
+ROOT_URLCONF = 'phing5tai5.urls'
 
-WSGI_APPLICATION = 'itaigi.wsgi.application'
+WSGI_APPLICATION = 'phing5tai5.wsgi.application'
 
 
 # Database
