@@ -1,5 +1,5 @@
 """
-WSGI config for tai5uan5_gian5gi2_phing5thai5 project.
+WSGI config for phing5tai5 project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/
 import os
 os.environ.setdefault(
     "DJANGO_SETTINGS_MODULE",
-    "tai5uan5_gian5gi2_phing5thai5.settings"
+    "phing5tai5.settings"
 )
 
 from django.core.wsgi import get_wsgi_application

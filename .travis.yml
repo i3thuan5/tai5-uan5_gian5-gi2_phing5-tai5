@@ -11,7 +11,6 @@ install:
  - pip install -r requirements.txt
  - pip install coverage
  - pip install flake8
- - python manage.py migrate
 branches:
  only:
   - master

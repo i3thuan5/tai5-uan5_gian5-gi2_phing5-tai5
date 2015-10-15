@@ -1,5 +1,5 @@
 """
-Django settings for tai5uan5_gian5gi2_phing5thai5 project.
+Django settings for phing5tai5 project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -17,12 +17,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$26ktnn8evagv3z31i5btlne4lj8-)=by6j^ed3k#z6gx04yrk'
+SECRET_KEY = 'ar307x56sv7!iodrfx3@))%lp0&^^tg0xhw-@ijr0c4ic_q&wo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -36,18 +34,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 	allauth
-    # The Django sites framework is required for allauth
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-
-    'corsheaders',
-    # 	家己的
-    '臺灣言語資料庫',
-    '臺灣言語平臺',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,16 +44,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 )
-# reponse with origin instead of all(*)
-CORS_ORIGIN_REGEX_WHITELIST = ('^.*$', )
-CORS_ALLOW_CREDENTIALS = True
 
-ROOT_URLCONF = 'tai5uan5_gian5gi2_phing5thai5.urls'
+ROOT_URLCONF = 'phing5tai5.urls'
 
-WSGI_APPLICATION = 'tai5uan5_gian5gi2_phing5thai5.wsgi.application'
+WSGI_APPLICATION = 'phing5tai5.wsgi.application'
 
 
 # Database
@@ -85,7 +66,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Taipei'
 
 USE_I18N = True
 
@@ -99,46 +80,73 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# 套件設定
+INSTALLED_APPS += (
+    '臺灣言語資料庫',
+    '臺灣言語平臺',
+)
+
 # 使用者上傳檔案
 MEDIA_ROOT = os.path.join(BASE_DIR, "資料庫影音檔案")
 MEDIA_URL = '/影音檔案/'
 
-# 佮使用者有關係
-AUTH_USER_MODEL = '臺灣言語平臺.使用者表'
+# django-cors-headers
+CORS_ORIGIN_REGEX_WHITELIST = ('^.*$', )
+CORS_ALLOW_CREDENTIALS = True
+INSTALLED_APPS += (
+    'corsheaders',
+)
+MIDDLEWARE_CLASSES += (
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+)
 
+# django-allauth，佮使用者有關係
+AUTH_USER_MODEL = '臺灣言語平臺.使用者表'
+ACCOUNT_ADAPTER = '臺灣言語平臺.使用者模型.使用者一般接口'
+SOCIALACCOUNT_ADAPTER = '臺灣言語平臺.使用者模型.使用者社群接口'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
-
-ACCOUNT_ADAPTER = '臺灣言語平臺.使用者模型.使用者一般接口'
-SOCIALACCOUNT_ADAPTER = '臺灣言語平臺.使用者模型.使用者社群接口'
-TEMPLATE_CONTEXT_PROCESSORS = (
-    # Required by allauth template tags
-    "django.core.context_processors.request",
-    # allauth specific context processors
-    "allauth.account.context_processors.account",
-    "allauth.socialaccount.context_processors.socialaccount",
-    'django.contrib.auth.context_processors.auth',
-)
-
 SITE_ID = 1
-
+INSTALLED_APPS += (
+    # The Django sites framework is required for allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+)
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
-
-SOCIALACCOUNT_PROVIDERS = \
-    {'facebook':
-     {'SCOPE': ['email', ],
-      'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-      'METHOD': 'js_sdk',
-      'LOCALE_FUNC': lambda request: 'zh_TW',
-      'VERIFIED_EMAIL': False,
-      'VERSION': 'v2.3',
-      }
-     }
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Required by allauth template tags
+                'django.contrib.auth.context_processors.auth',
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
+            ],
+        },
+    },
+]
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', ],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'METHOD': 'js_sdk',
+        'LOCALE_FUNC': lambda request: 'zh_TW',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.3',
+    }
+}

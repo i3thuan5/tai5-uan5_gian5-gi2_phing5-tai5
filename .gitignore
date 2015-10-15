@@ -5,3 +5,5 @@ __pycache__/
 /MANIFEST
 /.settings/
 /venv
+.coverage
+db.sqlite3
