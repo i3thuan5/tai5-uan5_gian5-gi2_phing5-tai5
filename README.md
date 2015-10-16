@@ -1,9 +1,16 @@
-# 平臺
+# 臺灣言語平臺
 [![Build Status](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5.svg?branch=master)](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
 [![Coverage Status](https://coveralls.io/repos/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-thai5/badge.svg)](https://coveralls.io/r/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-thai5)
 
-## API介面
-* [API介面](http://docs.tai5uan5gian5gi2phing5thai5.apiary.io/#)
+臺灣言語平臺是[臺灣言語資料庫]的編輯後端API介面，前端網頁藉由GET/POST，將資料傳來後端主機，主機並以json的格式回傳。
+
+* API介面
+  * [apiary](http://docs.tai5uan5gian5gi2phing5thai5.apiary.io/#)
+* 前端網頁
+  * [itaigi](http://itaigi.tw/)
+* 相關專案
+  * [臺灣言語工具](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_kang1-ku7)
+  * [臺灣言語服務](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_hok8-bu7)
 
 ## 環境設定
 ```python3
