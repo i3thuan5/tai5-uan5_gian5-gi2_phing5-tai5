@@ -70,8 +70,12 @@ def 加外語請教條(request):
         return 失敗的json回應('來源沒有「名」的欄位')
     except 種類表.DoesNotExist:
         return 失敗的json回應('種類欄位不符規範')
-    except ValidationError:
-        return 失敗的json回應('這個外語已經有了')
+    except ValidationError as 錯誤:
+        return Json失敗回應({
+            '結果': '失敗',
+            '原因': '這個外語已經有了',
+            '平臺項目編號': str(錯誤.平臺項目編號),
+        })
     else:
         return 成功的json回應(平臺項目.編號())
 

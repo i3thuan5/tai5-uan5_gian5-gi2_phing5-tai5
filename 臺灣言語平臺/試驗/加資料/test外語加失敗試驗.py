@@ -151,7 +151,7 @@ class 外語加失敗試驗(試驗基本資料):
     def test_仝款資料加兩擺(self, 登入使用者編號mock):
         # 種類、語言腔口、外語語言、外語資料，四个攏仝款就袂使閣加矣
         登入使用者編號mock.return_value = self.鄉民.編號()
-        self.client.post(
+        第一擺回應 = self.client.post(
             '/平臺項目/加外語', {
                 '來源': json.dumps({'名': '阿媠', '職業': '學生'}),
                 '種類': '字詞',
@@ -163,6 +163,7 @@ class 外語加失敗試驗(試驗基本資料):
                         '外語資料': '漂亮',
             }
         )
+        第一擺回應資料 = json.loads(第一擺回應.content.decode("utf-8"))
         self.外語表資料數 = 外語表.objects.all().count()
         self.平臺項目表資料數 = 平臺項目表.objects.all().count()
         回應 = self.client.post(
@@ -183,4 +184,5 @@ class 外語加失敗試驗(試驗基本資料):
         self.assertEqual(回應資料, {
             '結果': '失敗',
             '原因': '這個外語已經有了',
+            '平臺項目編號': 第一擺回應資料['平臺項目編號'],
         })
