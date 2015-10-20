@@ -46,11 +46,13 @@ class 平臺項目表(models.Model):
     @classmethod
     def 加外語資料(cls, 內容):
         try:
-            cls.找外語資料(內容)
+            原本外語 = cls.找外語資料(內容)
         except ObjectDoesNotExist:
             外語 = 外語表.加資料(內容)
             return cls.objects.create(外語=外語, 是資料源頭=True)
-        raise ValidationError('已經有相同的外語資料了')
+        錯誤 = ValidationError('已經有相同的外語資料了')
+        錯誤.平臺項目編號 = 原本外語.編號()
+        raise 錯誤
 
     @classmethod
     def 找外語資料(cls, 內容):
