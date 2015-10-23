@@ -1,0 +1,7 @@
+{
+  "private_key_id": "taigi_key",
+  "private_key": "taigi",
+  "client_email": "itaigi@developer.gserviceaccount.com",
+  "client_id": "itaigi.apps.googleusercontent.com",
+  "type": "service_account"
+}
