@@ -18,7 +18,7 @@ class 新文本文本加入sheet試驗(TestCase):
 
     def setUp(self):
         self.阿媠 = 來源表.objects.create(名='阿媠')
-        版權表.objects.create(版權='CC0')
+        版權表.objects.create(版權='會使公開')
         閩南語 = 語言腔口表.objects.create(語言腔口='閩南語')
         正規化sheet表.objects.create(
             client_email='sui2@ti1tiau5.tw',
@@ -31,7 +31,7 @@ class 新文本文本加入sheet試驗(TestCase):
         資料內容.update({
             '收錄者': json.dumps({'名': '阿媠'}),
             '來源': json.dumps({'名': '阿媠'}),
-            '版權': 'CC0',
+            '版權': '會使公開',
             '種類': '字詞',
             '語言腔口': '閩南語',
             '著作所在地': '花蓮',

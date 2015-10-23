@@ -1,5 +1,7 @@
 
 
+import json
+
 import gspread
 from oauth2client.client import SignedJwtAssertionCredentials
 from 臺灣言語平臺.項目模型 import 平臺項目表
@@ -34,7 +36,6 @@ class 維護團隊功能:
         return gspread.authorize(登入憑證).open_by_url(
             正規化sheet.url
         ).sheet1
-        
 
     def _編號有佇表內底無(self, 編號, 資料表):
         for 第幾筆 in range(2, 資料表.row_count + 1):
