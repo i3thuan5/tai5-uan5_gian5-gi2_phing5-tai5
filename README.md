@@ -15,8 +15,9 @@
 ## 環境設定
 ```python3
 virtualenv venv --python python3 # 設置環境檔
+sudo apt-get install libffi-dev # 為了連google oauth2
 . venv/bin/activate # 載入環境
-pip install tai5-uan5_gian5-gi2_phing5-tai5 git+https://github.com/conrado/libavwrapper@master#egg=libavwrapper
+pip install tai5-uan5_gian5-gi2_phing5-tai5 git+https://github.com/conrado/libavwrapper@master#egg=libavwrapper pyOpenSSL oauth2client gspread
 python manage.py migrate #建立資料庫欄位
 sudo apt-get install libav-tools -y # 安裝avconv for Ubuntu
 ```
