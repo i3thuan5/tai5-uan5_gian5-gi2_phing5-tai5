@@ -81,6 +81,12 @@ class 平臺項目表(models.Model):
         文本 = 外語.翻母語(內容)
         return cls.objects.create(文本=文本, 是資料源頭=False)
 
+    @classmethod
+    def 校對母語文本(cls, 文本項目編號, 內容):
+        舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
+        新文本 = 舊文本.校對做(內容)
+        return cls.objects.create(文本=新文本, 是資料源頭=False)
+
     def 是推薦用字(self):
         return self.推薦用字
 
