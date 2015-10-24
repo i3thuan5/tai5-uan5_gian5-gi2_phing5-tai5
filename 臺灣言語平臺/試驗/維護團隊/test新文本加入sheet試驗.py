@@ -6,7 +6,6 @@ import wave
 from django.test.testcases import TestCase
 
 
-from 臺灣言語平臺.介面.維護團隊功能 import 維護團隊功能
 from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語資料庫.資料模型 import 版權表
 from 臺灣言語平臺.項目模型 import 平臺項目表
@@ -39,7 +38,7 @@ class 新文本文本加入sheet試驗(TestCase):
         })
         return 資料內容
 
-    @patch('臺灣言語平臺.介面.維護團隊功能.維護團隊功能.文本加入sheet')
+    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.文本加入sheet')
     @patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
     def test_加新詞有叫函式(self, 登入使用者編號mock, 文本加入sheetMocka):
         登入使用者編號mock.return_value = self.阿媠.編號()
@@ -81,7 +80,7 @@ class 新文本文本加入sheet試驗(TestCase):
         回應資料 = json.loads(回應.content.decode("utf-8"))
         文本加入sheetMocka.assert_called_once_with(回應資料['平臺項目編號'])
 
-    @patch('臺灣言語平臺.介面.維護團隊功能.維護團隊功能.文本加入sheet')
+    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.文本加入sheet')
     @patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
     def test_加外語新詞有叫函式(self, 登入使用者編號mock, 文本加入sheetMocka):
         登入使用者編號mock.return_value = self.阿媠.編號()
@@ -104,11 +103,11 @@ class 新文本文本加入sheet試驗(TestCase):
         回應資料 = json.loads(回應.content.decode("utf-8"))
         文本加入sheetMocka.assert_called_once_with(回應資料['平臺項目編號'])
 
-    @patch('臺灣言語平臺.介面.維護團隊功能.維護團隊功能._編號有佇表內底無')
+    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表._編號有佇表內底無')
     @patch('gspread.authorize')
     def test_有看全部的資料(self, authorizeMocka, 有佇表內底無mocka):
         文本項目 = self.加入新文本()
-        維護團隊功能().文本加入sheet(文本項目.編號())
+        正規化sheet表.文本加入sheet(文本項目.編號())
         self.assertEqual(有佇表內底無mocka.call_count, 1)
 
     @patch('gspread.authorize')
@@ -118,7 +117,7 @@ class 新文本文本加入sheet試驗(TestCase):
             ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者']
         ]
         文本項目 = self.加入新文本()
-        維護團隊功能().文本加入sheet(文本項目.編號())
+        正規化sheet表.文本加入sheet(文本項目.編號())
         資料表mocka.append_row.assert_called_once_with(
             [str(文本項目.編號()), '阿媠', '媠', '', '', '', '', '']
         )
@@ -131,7 +130,7 @@ class 新文本文本加入sheet試驗(TestCase):
             ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
             [str(文本項目.編號()), '阿媠', '媠', '', '', '', '', '']
         ]
-        維護團隊功能().文本加入sheet(文本項目.編號())
+        正規化sheet表.文本加入sheet(文本項目.編號())
         資料表mocka.append_row.assert_not_called()
 
     @patch('gspread.authorize')
@@ -143,7 +142,7 @@ class 新文本文本加入sheet試驗(TestCase):
             '文本資料': '媠媠',
         })
         平臺項目表.校對母語文本(文本項目.編號(), 新資料)
-        維護團隊功能().文本加入sheet(文本項目.編號())
+        正規化sheet表.文本加入sheet(文本項目.編號())
         資料表mocka.append_row.assert_not_called()
 
     @patch('gspread.authorize')
@@ -151,7 +150,7 @@ class 新文本文本加入sheet試驗(TestCase):
         正規化sheet表.objects.all().delete()
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         文本項目 = self.加入新文本()
-        維護團隊功能().文本加入sheet(文本項目.編號())
+        正規化sheet表.文本加入sheet(文本項目.編號())
         資料表mocka.append_row.assert_not_called()
 
     def 加入新文本(self):

@@ -2,6 +2,7 @@ from django.db import models
 import gspread
 from oauth2client.client import SignedJwtAssertionCredentials
 from 臺灣言語資料庫.資料模型 import 語言腔口表
+from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
 class 正規化sheet表(models.Model):
@@ -34,3 +35,28 @@ class 正規化sheet表(models.Model):
         return gspread.authorize(登入憑證).open_by_url(
             self.url
         ).sheet1
+
+    @classmethod
+    def 文本加入sheet(cls, 平臺項目編號):
+        平臺項目 = 平臺項目表.揣編號(平臺項目編號)
+        文本 = 平臺項目.資料()
+        if 文本.文本校對.exists():
+            return
+        try:
+            正規化sheet = 文本.語言腔口.正規化sheet
+        except:
+            return
+        資料表 = 正規化sheet.提著資料表()
+        編號 = 平臺項目.編號()
+        if cls._編號有佇表內底無(編號, 資料表):
+            return
+        資料表.append_row(
+            [str(平臺項目.編號()), 文本.來源.名, 文本.文本資料, '', '', '', '', '']
+        )
+
+    @classmethod
+    def _編號有佇表內底無(cls, 編號, 資料表):
+        for 第幾筆 in range(2, 資料表.row_count + 1):
+            if 編號 == 資料表.cell(第幾筆, 1):
+                return True
+        return False

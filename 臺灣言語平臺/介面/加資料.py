@@ -10,11 +10,10 @@ from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
-from 臺灣言語平臺.介面.維護團隊功能 import 維護團隊功能
+from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
 
 _自己 = '自己'
 _自己json字串 = [json.dumps(_自己), json.dumps(_自己, ensure_ascii=False)]
-_功能 = 維護團隊功能()
 
 
 def 內容是自己的json字串(內容):
@@ -46,7 +45,7 @@ def 加文本了愛加入sheet(介面函式):
         json回應 = 介面函式(參數)
         try:
             平臺項目編號 = json.loads(json回應.content.decode('utf-8'))['平臺項目編號']
-            _功能.文本加入sheet(平臺項目編號)
+            正規化sheet表.文本加入sheet(平臺項目編號)
         except KeyError:
             pass
         return json回應
