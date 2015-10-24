@@ -1,6 +1,5 @@
 
 
-import json
 
 import gspread
 from oauth2client.client import SignedJwtAssertionCredentials
@@ -20,7 +19,7 @@ class 維護團隊功能:
             正規化sheet = 文本.語言腔口.正規化sheet
         except:
             return
-        資料表 = self._提著資料表(正規化sheet)
+        資料表 = self.提著資料表(正規化sheet)
         編號 = 平臺項目.編號()
         if self._編號有佇表內底無(編號, 資料表):
             return
@@ -28,7 +27,7 @@ class 維護團隊功能:
             [str(平臺項目.編號()), 文本.來源.名, 文本.文本資料, '', '', '', '', '']
         )
 
-    def _提著資料表(self, 正規化sheet):
+    def 提著資料表(self, 正規化sheet):
         登入憑證 = SignedJwtAssertionCredentials(
             正規化sheet.client_email, 正規化sheet.private_key.encode(
             ), self.google_sheet_scope
