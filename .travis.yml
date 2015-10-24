@@ -20,5 +20,5 @@ script:
 matrix:
 after_success:
   - coverage report
-  - pip install --quiet python-coveralls
+  - pip install python-coveralls
   - coveralls
