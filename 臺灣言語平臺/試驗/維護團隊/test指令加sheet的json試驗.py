@@ -18,7 +18,8 @@ class 指令加sheet的json試驗(TestCase):
     def test_有加資料入去(self, 加sheetMocka):
         with io.StringIO() as 輸出:
             call_command(
-                '加sheet的json', '臺語', self.json檔名, 'https://itaigi.tw', stdout=輸出
+                '加sheet的json', '臺語', self.json檔名, 'https://itaigi.tw',
+                stdout=輸出
             )
         加sheetMocka.assert_called_once_with(
             語言腔口='臺語',
@@ -31,7 +32,8 @@ class 指令加sheet的json試驗(TestCase):
     def test_提示email愛加入編輯者(self, 加sheetMocka):
         with io.StringIO() as 輸出:
             call_command(
-                '加sheet的json', '臺語', self.json檔名, 'https://itaigi.tw', stdout=輸出
+                '加sheet的json', '臺語', self.json檔名, 'https://itaigi.tw',
+                stdout=輸出
             )
             self.assertIn(
                 '愛記得分享sheet的權限予{}'.format(

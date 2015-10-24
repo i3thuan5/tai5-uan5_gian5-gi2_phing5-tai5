@@ -53,7 +53,8 @@ class 顯示全部sheet狀態指令試驗(TestCase):
 
     @patch('gspread.authorize')
     def test_網址有問題(self, authorizeMocka):
-        authorizeMocka.return_value.open_by_url.side_effect = SpreadsheetNotFound()
+        open_by_url = authorizeMocka.return_value.open_by_url
+        open_by_url.side_effect = SpreadsheetNotFound()
         with io.StringIO() as 輸出:
             call_command('顯示全部sheet狀態', stdout=輸出)
             self.assertIn('網址有問題', 輸出.getvalue())

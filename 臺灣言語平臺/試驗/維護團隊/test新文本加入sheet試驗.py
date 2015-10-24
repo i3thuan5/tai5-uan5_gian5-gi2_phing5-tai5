@@ -146,7 +146,7 @@ class 新文本文本加入sheet試驗(TestCase):
         資料表mocka.append_row.assert_not_called()
 
     @patch('gspread.authorize')
-    def test_無sheet資料就莫校做代誌(self,authorizeMocka):
+    def test_無sheet資料就莫校做代誌(self, authorizeMocka):
         正規化sheet表.objects.all().delete()
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         文本項目 = self.加入新文本()

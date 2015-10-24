@@ -10,14 +10,13 @@ from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
 class Command(BaseCommand):
     help = '顯示全部sheet狀態，看設定有著無'
 
-
     def handle(self, *args, **參數):
-        數量=0
-        for 數量,sheet資料 in enumerate(正規化sheet表.全部資料()):
+        數量 = 0
+        for 數量, sheet資料 in enumerate(正規化sheet表.全部資料()):
             try:
-                資料表=sheet資料.提著資料表()
+                資料表 = sheet資料.提著資料表()
                 if 資料表 is None:
-                    raise ValueError('無工作表')                    
+                    raise ValueError('無工作表')
             except AccessTokenRefreshError:
                 print(
                     '{}的email有問題'.format(sheet資料.語言腔口.語言腔口),
@@ -39,7 +38,7 @@ class Command(BaseCommand):
                     file=self.stdout
                 )
             else:
-                    print(
+                print(
                     '{}設定正常'.format(sheet資料.語言腔口.語言腔口),
                     file=self.stdout
                 )
