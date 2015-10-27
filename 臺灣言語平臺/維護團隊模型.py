@@ -67,4 +67,24 @@ class 正規化sheet表(models.Model):
         return False
 
     def 整理到資料庫(self):
-        pass
+        資料表 = self.提著資料表()
+        全部資料 = 資料表.get_all_values()
+        標題 = 全部資料[0]
+        愛留 = []
+        有改 = False
+        for 一筆 in 全部資料[1:]:
+            這筆資料 = dict(zip(標題, 一筆))
+            if 這筆資料['編輯者'].strip() == '':
+                愛留.append(一筆)
+            else:
+                有改 = True
+                正規化sheet表.匯入資料(這筆資料)
+        if 有改:
+            資料表.resize(rows=1)
+            for 愛留的一筆 in 愛留:
+                資料表.append_row(愛留的一筆)
+
+    @staticmethod
+    def 匯入資料(這筆資料):
+        平臺項目 = 平臺項目表.揣編號(int(這筆資料['流水號']))
+        return 平臺項目
