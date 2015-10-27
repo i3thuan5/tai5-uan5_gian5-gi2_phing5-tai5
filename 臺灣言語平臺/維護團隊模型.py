@@ -25,7 +25,8 @@ class 正規化sheet表(models.Model):
 
     @classmethod
     def 全部整理到資料庫(cls):
-        pass
+        for sheet資料 in cls.全部資料():
+            sheet資料.整理到資料庫()
 
     @classmethod
     def 全部資料(cls):
@@ -64,3 +65,6 @@ class 正規化sheet表(models.Model):
             if 編號 == 資料表.cell(第幾筆, 1):
                 return True
         return False
+
+    def 整理到資料庫(self):
+        pass
