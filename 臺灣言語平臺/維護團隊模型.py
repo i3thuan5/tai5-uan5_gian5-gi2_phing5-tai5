@@ -24,6 +24,10 @@ class 正規化sheet表(models.Model):
         )
 
     @classmethod
+    def 全部整理到資料庫(cls):
+        pass
+
+    @classmethod
     def 全部資料(cls):
         return cls.objects.all()
 
