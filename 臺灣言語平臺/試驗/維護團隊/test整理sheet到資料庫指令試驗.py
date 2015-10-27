@@ -143,7 +143,7 @@ class 整理sheet到資料庫指令試驗(TestCase):
         ]
         臺語sheet表 = self._加臺語sheet表()
         臺語sheet表.整理到資料庫()
-        資料表mocka.append_row.assert_hasass_calls([
+        匯入資料mocka.assert_has_calls([
             call({
                 '流水號': '3',
                 '貢獻者': '阿媠',
