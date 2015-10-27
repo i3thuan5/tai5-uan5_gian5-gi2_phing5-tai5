@@ -9,8 +9,8 @@ install:
  - sudo apt-get update
  - sudo apt-get install -y libav-tools libmp3lame0 libavcodec-extra-*
  - pip install -r requirements.txt
- - pip install coverage
  - pip install flake8
+ - pip install python-coveralls
 branches:
  only:
   - master
@@ -20,5 +20,4 @@ script:
 matrix:
 after_success:
   - coverage report
-  - pip install python-coveralls
   - coveralls
