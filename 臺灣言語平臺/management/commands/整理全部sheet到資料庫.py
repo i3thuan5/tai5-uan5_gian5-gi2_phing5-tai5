@@ -4,6 +4,7 @@ import kronos
 
 from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
 
+
 @kronos.register('0 3 * * *')
 class Command(BaseCommand):
     help = '整理全部sheet到資料庫'
