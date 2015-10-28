@@ -1,6 +1,6 @@
 # 臺灣言語平臺
 [![Build Status](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5.svg?branch=master)](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
-[![Coverage Status](https://coveralls.io/repos/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-thai5/badge.svg)](https://coveralls.io/r/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
+[![Coverage Status](https://coveralls.io/repos/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5/badge.svg)](https://coveralls.io/r/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
 
 臺灣言語平臺是[臺灣言語資料庫](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_tsu1-liau7-khoo3)的編輯後端API介面，前端網頁藉由GET/POST，將資料傳來後端主機，主機並以json的格式回傳。
 
