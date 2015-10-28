@@ -14,8 +14,6 @@ from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語資料庫.資料模型 import 來源表
 
-系統管理者 = 來源表.objects.get_or_create(名='系統管理者')[0]
-
 
 class 平臺項目表(models.Model):
     項目名 = '平臺項目'
@@ -124,7 +122,7 @@ class 平臺項目表(models.Model):
     def _校對做(self, 編輯者, 新文本, 新音標):
         文本 = self.資料()
         新文本內容 = {
-            '收錄者': 系統管理者,
+            '收錄者': 來源表.objects.get_or_create(名='系統管理者')[0],
             '來源': json.dumps({'名': 編輯者}),
             '版權': '會使公開',
             '種類': 文本.種類.種類,
