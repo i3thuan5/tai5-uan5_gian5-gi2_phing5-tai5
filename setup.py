@@ -54,5 +54,9 @@ setup(
         'django-allauth==0.23.0',
         'python-dateutil==2.4.1',
         'django-cors-headers',
+        'pyOpenSSL',
+        'oauth2client',
+        'gspread',
+        'django-kronos',
     ],
 )

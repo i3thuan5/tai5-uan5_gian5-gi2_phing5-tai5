@@ -1,8 +1,8 @@
 # 臺灣言語平臺
 [![Build Status](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5.svg?branch=master)](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
-[![Coverage Status](https://coveralls.io/repos/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-thai5/badge.svg)](https://coveralls.io/r/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-thai5)
+[![Coverage Status](https://coveralls.io/repos/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5/badge.svg)](https://coveralls.io/r/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
 
-臺灣言語平臺是[臺灣言語資料庫]的編輯後端API介面，前端網頁藉由GET/POST，將資料傳來後端主機，主機並以json的格式回傳。
+臺灣言語平臺是[臺灣言語資料庫](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_tsu1-liau7-khoo3)的編輯後端API介面，前端網頁藉由GET/POST，將資料傳來後端主機，主機並以json的格式回傳。
 
 * API介面
   * [apiary](http://docs.tai5uan5gian5gi2phing5thai5.apiary.io/#)
@@ -15,6 +15,7 @@
 ## 環境設定
 ```python3
 virtualenv venv --python python3 # 設置環境檔
+sudo apt-get install libffi-dev # 為了連google oauth2
 . venv/bin/activate # 載入環境
 pip install tai5-uan5_gian5-gi2_phing5-tai5 git+https://github.com/conrado/libavwrapper@master#egg=libavwrapper
 python manage.py migrate #建立資料庫欄位
@@ -98,6 +99,11 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v2.3',
     }
 }
+
+# django-kronos，定時掠google sheet正規化資料
+INSTALLED_APPS += (
+    'kronos',
+)
 ```
 
 
@@ -138,6 +144,26 @@ id：590065061070994
 key：db4f3fa26d26890e720d17a83ff5a6fe
 最後左下角choose all site
 其他欄位隨便填
+
+### 加google sheet編輯資料
+#### 看sheet設定
+```bash
+python manage.py 加sheet的json 語言腔口 服務帳戶json 網址
+python manage.py 顯示全部sheet狀態
+```
+
+#### 將資料對sheet匯入資料庫
+#### 設定crontab
+```bash
+echo "KRONOS_PREFIX = 'source `echo $VIRTUAL_ENV`/bin/activate && '" >> phing5thai5/settings.py # 設定django-kronos
+python manage.py installtasks
+crontab -l
+```
+##### 人工做一擺
+```bash
+python manage.py 整理全部sheet到資料庫
+```
+
 
 ## 開發
 ### 環境設定

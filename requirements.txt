@@ -12,3 +12,7 @@ tai5-uan5-gian5-gi2-tsu1-liau7-khoo3==3.1.4
 django-cors-headers
 xlrd==0.9.3
 tai5-uan5-gian5-gi2-kang1-ku7==0.5.9
+pyOpenSSL
+oauth2client
+gspread
+django-kronos

@@ -1,14 +1,16 @@
 # -*- coding:utf-8 -*-
+import json
+
 from django.core.exceptions import ValidationError
 from django.http.response import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
-import json
 
 
 from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
+from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
 
 _自己 = '自己'
 _自己json字串 = [json.dumps(_自己), json.dumps(_自己, ensure_ascii=False)]
@@ -36,6 +38,18 @@ class 成功的json回應(JsonResponse):
             '結果': '成功',
             '平臺項目編號': str(平臺項目編號),
         })
+
+
+def 加文本了愛加入sheet(介面函式):
+    def 包起來(參數):
+        json回應 = 介面函式(參數)
+        try:
+            平臺項目編號 = json.loads(json回應.content.decode('utf-8'))['平臺項目編號']
+            正規化sheet表.文本加入sheet(平臺項目編號)
+        except KeyError:
+            pass
+        return json回應
+    return 包起來
 
 
 def 加外語請教條(request):
@@ -129,6 +143,7 @@ def 加新詞影音(request):
         return 成功的json回應(平臺項目.編號())
 
 
+@加文本了愛加入sheet
 def 加新詞文本(request):
     欄位表 = [
         '來源',
@@ -174,6 +189,7 @@ def 加新詞文本(request):
         return 成功的json回應(平臺項目.編號())
 
 
+@加文本了愛加入sheet
 def 外語加新詞文本(request):
     欄位表 = [
         '來源',
