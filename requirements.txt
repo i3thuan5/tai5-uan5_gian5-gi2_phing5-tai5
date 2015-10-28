@@ -15,3 +15,4 @@ tai5-uan5-gian5-gi2-kang1-ku7==0.5.9
 pyOpenSSL
 oauth2client
 gspread
+django-kronos

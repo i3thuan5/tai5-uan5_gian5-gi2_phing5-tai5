@@ -17,7 +17,7 @@
 virtualenv venv --python python3 # 設置環境檔
 sudo apt-get install libffi-dev # 為了連google oauth2
 . venv/bin/activate # 載入環境
-pip install tai5-uan5_gian5-gi2_phing5-tai5 git+https://github.com/conrado/libavwrapper@master#egg=libavwrapper pyOpenSSL oauth2client gspread
+pip install tai5-uan5_gian5-gi2_phing5-tai5 git+https://github.com/conrado/libavwrapper@master#egg=libavwrapper
 python manage.py migrate #建立資料庫欄位
 sudo apt-get install libav-tools -y # 安裝avconv for Ubuntu
 ```
@@ -99,6 +99,11 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v2.3',
     }
 }
+
+# django-kronos，定時掠google sheet正規化資料
+INSTALLED_APPS += (
+    'kronos',
+)
 ```
 
 
@@ -141,9 +146,22 @@ key：db4f3fa26d26890e720d17a83ff5a6fe
 其他欄位隨便填
 
 ### 加google sheet編輯資料
+#### 看sheet設定
 ```bash
 python manage.py 加sheet的json 語言腔口 服務帳戶json 網址
 python manage.py 顯示全部sheet狀態
+```
+
+#### 將資料對sheet匯入資料庫
+#### 設定crontab
+```bash
+echo "KRONOS_PREFIX = 'source `echo $VIRTUAL_ENV`/bin/activate && '" >> `grep settings manage.py | sed 's/\"//g' | sed 's/\..*//g'`/settings.py # 設定django-kronos
+python manage.py installtasks
+crontab -l
+```
+##### 人工做一擺
+```bash
+python manage.py 整理全部sheet到資料庫
 ```
 
 
