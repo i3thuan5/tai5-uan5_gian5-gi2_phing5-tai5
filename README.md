@@ -155,7 +155,7 @@ python manage.py 顯示全部sheet狀態
 #### 將資料對sheet匯入資料庫
 #### 設定crontab
 ```bash
-echo "KRONOS_PREFIX = 'source `echo $VIRTUAL_ENV`/bin/activate && '" >> `grep settings manage.py | sed 's/\"//g' | sed 's/\..*//g'`/settings.py # 設定django-kronos
+echo "KRONOS_PREFIX = 'source `echo $VIRTUAL_ENV`/bin/activate && '" >> phing5thai5/settings.py # 設定django-kronos
 python manage.py installtasks
 crontab -l
 ```
