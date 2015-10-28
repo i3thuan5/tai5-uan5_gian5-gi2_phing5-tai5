@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from datetime import date
+import json
+
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 
@@ -89,10 +92,15 @@ class 平臺項目表(models.Model):
         return cls.objects.create(文本=新文本, 是資料源頭=False)
 
     @classmethod
-    def 對正規化sheet校對母語文本(cls, 文本項目編號, 編輯者,新文本,新音標):
-        舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
-        新文本 = 舊文本.校對做()
-        return cls.objects.create(文本=新文本, 是資料源頭=False)
+    def 對正規化sheet校對母語文本(cls, 文本項目編號, 編輯者, 新文本, 新音標):
+        舊文本項目 = 平臺項目表.objects.get(pk=文本項目編號)
+        舊文本項目.取消推薦用字()
+        新文本項目 = 舊文本項目._校對做(編輯者, 新文本, 新音標)
+        新文本項目.設為推薦用字()
+        return 新文本項目
+
+    def 校對後的文本(self):
+        return self.資料().文本校對.get().新文本.平臺項目
 
     def 是推薦用字(self):
         return self.推薦用字
@@ -109,3 +117,19 @@ class 平臺項目表(models.Model):
     def 取消推薦用字(self):
         self.推薦用字 = False
         self.save()
+
+    def _校對做(self, 編輯者, 新文本, 新音標):
+        文本 = self.資料()
+        新文本內容 = {
+            '收錄者': json.dumps({'名': '阿媠'}),
+            '來源': json.dumps({'名': 編輯者}),
+            '版權': '會使公開',
+            '種類': 文本.種類.種類,
+            '語言腔口': 文本.語言腔口.語言腔口,
+            '著作所在地': '臺灣',
+            '著作年': str(date.today().year),
+            '文本資料': 新文本,
+        }
+        if 新音標:
+            新文本內容['屬性'] = json.dumps({'音標': 新音標})
+        return self.__class__.objects.create(文本=文本.校對做(新文本內容), 是資料源頭=False)
