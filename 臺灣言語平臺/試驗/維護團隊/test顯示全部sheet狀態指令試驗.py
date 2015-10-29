@@ -30,6 +30,32 @@ class 顯示全部sheet狀態指令試驗(TestCase):
         全部資料mocka.assert_called_once_with()
 
     @patch('gspread.authorize')
+    def test_無資料(self, authorizeMocka):
+        語言腔口表.objects.all().delete()
+        with io.StringIO() as 輸出:
+            call_command('顯示全部sheet狀態', stdout=輸出)
+            self.assertIn('有0个', 輸出.getvalue())
+
+    @patch('gspread.authorize')
+    def test_一筆資料(self, authorizeMocka):
+        with io.StringIO() as 輸出:
+            call_command('顯示全部sheet狀態', stdout=輸出)
+            self.assertIn('有1个', 輸出.getvalue())
+
+    @patch('gspread.authorize')
+    def test_兩筆資料(self, authorizeMocka):
+        阿美語 = 語言腔口表.objects.create(語言腔口='阿美語')
+        正規化sheet表.objects.create(
+            client_email='sui2@ti1tiau5.tw',
+            private_key='(oo)',
+            url='http://ti1tiau5.tw/amis',
+            語言腔口=阿美語
+        )
+        with io.StringIO() as 輸出:
+            call_command('顯示全部sheet狀態', stdout=輸出)
+            self.assertIn('有2个', 輸出.getvalue())
+
+    @patch('gspread.authorize')
     def test_狀態正常(self, authorizeMocka):
         with io.StringIO() as 輸出:
             call_command('顯示全部sheet狀態', stdout=輸出)
