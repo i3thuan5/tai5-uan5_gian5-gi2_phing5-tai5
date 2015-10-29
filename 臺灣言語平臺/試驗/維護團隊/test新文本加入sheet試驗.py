@@ -111,27 +111,31 @@ class 新文本文本加入sheet試驗(TestCase):
         self.assertEqual(有佇表內底無mocka.call_count, 1)
 
     @patch('gspread.authorize')
-    def test_有加資料進去(self, authorizeMocka):
+    def test_有檢查重覆資料(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
-        資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者']
-        ]
         文本項目 = self.加入新文本()
         正規化sheet表.文本加入sheet(文本項目.編號())
-        資料表mocka.append_row.assert_called_once_with(
-            [str(文本項目.編號()), '阿媠', '媠', '', '', '', '', '']
-        )
+        資料表mocka.col_values.assert_called_once_with(1)
 
     @patch('gspread.authorize')
     def test_重覆資料袂加第二擺(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         文本項目 = self.加入新文本()
-        資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
-            [str(文本項目.編號()), '阿媠', '媠', '', '', '', '', '']
+        資料表mocka.col_values.return_value = [
+            '流水號',
+            str(文本項目.編號()),
         ]
         正規化sheet表.文本加入sheet(文本項目.編號())
         資料表mocka.append_row.assert_not_called()
+
+    @patch('gspread.authorize')
+    def test_有加資料進去(self, authorizeMocka):
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        文本項目 = self.加入新文本()
+        正規化sheet表.文本加入sheet(文本項目.編號())
+        資料表mocka.append_row.assert_called_once_with(
+            [str(文本項目.編號()), '阿媠', '媠', '', '', '', '', '']
+        )
 
     @patch('gspread.authorize')
     def test_有校對資料就莫加入去(self, authorizeMocka):

@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **參數):
         數量 = 0
-        for 數量, sheet資料 in enumerate(正規化sheet表.全部資料()):
+        for 數量, sheet資料 in enumerate(正規化sheet表.全部資料(), start=1):
             try:
                 資料表 = sheet資料.提著資料表()
                 if 資料表 is None:
