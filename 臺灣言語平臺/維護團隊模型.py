@@ -61,7 +61,7 @@ class 正規化sheet表(models.Model):
 
     @classmethod
     def _編號有佇表內底無(cls, 編號, 資料表):
-        if str(編號) == 資料表.col_values(1)[1:]:
+        if str(編號) in 資料表.col_values(1)[1:]:
             return True
         return False
 
