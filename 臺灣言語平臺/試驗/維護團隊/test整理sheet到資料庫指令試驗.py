@@ -182,6 +182,24 @@ class 整理sheet到資料庫指令試驗(TestCase):
             call(['33', '阿媠', '媠', '', '', '', '', '']),
         ])
 
+    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表._資料清掉重匯入')
+    @patch('gspread.authorize')
+    def test_錯誤流水號程式愛繼續走(self, authorizeMocka, 清掉重匯入mocka):
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        資料表mocka.get_all_values.return_value = [
+            ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['333', '阿媠', '媠', '', '媠媠', '', '', '丞宏']
+        ]
+        臺語sheet表 = self._加臺語sheet表()
+        臺語sheet表.整理到資料庫()
+        清掉重匯入mocka.assert_called_once_with(
+            False,
+            資料表mocka,
+            [
+                ['333', '阿媠', '媠', '', '媠媠', '', '', '丞宏']
+            ]
+        )
+
     @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')
     def test_濟筆資料有編輯的匯入去(self, authorizeMocka, 匯入資料mocka):

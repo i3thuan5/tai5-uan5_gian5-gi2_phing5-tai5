@@ -79,8 +79,15 @@ class 正規化sheet表(models.Model):
             elif 這筆資料['流水號'].strip() == '' or 這筆資料['編輯者'].strip() == '':
                 愛留.append(一筆)
             else:
-                有改 = True
-                正規化sheet表.匯入資料(這筆資料)
+                try:
+                    正規化sheet表.匯入資料(這筆資料)
+                    有改 = True
+                except:
+                    愛留.append(一筆)
+        self._資料清掉重匯入(有改, 資料表, 愛留)
+
+    @staticmethod
+    def _資料清掉重匯入(有改, 資料表, 愛留):
         if 有改:
             資料表.resize(rows=1)
             for 愛留的一筆 in 愛留:
