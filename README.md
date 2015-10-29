@@ -15,11 +15,11 @@
 ## 環境設定
 ```python3
 virtualenv venv --python python3 # 設置環境檔
-sudo apt-get install libffi-dev # 為了連google oauth2
+sudo apt-get install -y libffi-dev # 為了連google oauth2
 . venv/bin/activate # 載入環境
 pip install tai5-uan5_gian5-gi2_phing5-tai5 git+https://github.com/conrado/libavwrapper@master#egg=libavwrapper
 python manage.py migrate #建立資料庫欄位
-sudo apt-get install libav-tools -y # 安裝avconv for Ubuntu
+sudo apt-get install -y libav-tools # 安裝avconv for Ubuntu
 ```
 [OSX安裝avconv](http://superuser.com/questions/568464/how-to-install-libav-avconv-on-osx)
 
@@ -146,6 +146,13 @@ key：db4f3fa26d26890e720d17a83ff5a6fe
 其他欄位隨便填
 
 ### 加google sheet編輯資料
+#### 設定google development
+參考[Obtain OAuth2 credentials from Google Developers Console](http://gspread.readthedocs.org/en/latest/oauth2.html)
+
+1. 申請服務
+2. 開啟Drive API
+3. 用Service Account得到一個`服務帳戶json`
+
 #### 看sheet設定
 ```bash
 python manage.py 加sheet的json 語言腔口 服務帳戶json 網址
