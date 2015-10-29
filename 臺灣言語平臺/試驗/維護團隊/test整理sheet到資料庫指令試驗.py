@@ -75,6 +75,50 @@ class 整理sheet到資料庫指令試驗(TestCase):
         臺語sheet表.整理到資料庫()
         資料表mocka.append_row.assert_not_called()
 
+    @patch('gspread.authorize')
+    def test_無流水號無編輯免清掉(self, authorizeMocka):
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        資料表mocka.get_all_values.return_value = [
+            ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['', '', '', '', '', '', '如何呈現?', '可自動連結嗎?']
+        ]
+        臺語sheet表 = self._加臺語sheet表()
+        臺語sheet表.整理到資料庫()
+        資料表mocka.resize.assert_not_called()
+
+    @patch('gspread.authorize')
+    def test_無流水號無編輯免閣匯入(self, authorizeMocka):
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        資料表mocka.get_all_values.return_value = [
+            ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['', '', '', '', '', '', '如何呈現?', '可自動連結嗎?']
+        ]
+        臺語sheet表 = self._加臺語sheet表()
+        臺語sheet表.整理到資料庫()
+        資料表mocka.append_row.assert_not_called()
+
+    @patch('gspread.authorize')
+    def test_空的所在清掉(self, authorizeMocka):
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        資料表mocka.get_all_values.return_value = [
+            ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['', '', '', '', '', '', '', ''],
+        ]
+        臺語sheet表 = self._加臺語sheet表()
+        臺語sheet表.整理到資料庫()
+        資料表mocka.resize.assert_called_once_with(rows=1)
+
+    @patch('gspread.authorize')
+    def test_空的所在清掉免閣匯入(self, authorizeMocka):
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        資料表mocka.get_all_values.return_value = [
+            ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['', '', '', '', '', '', '', ''],
+        ]
+        臺語sheet表 = self._加臺語sheet表()
+        臺語sheet表.整理到資料庫()
+        資料表mocka.append_row.assert_not_called()
+
     @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')
     def test_有編輯者的資料免留(self, authorizeMocka, 匯入資料mocka):
@@ -126,15 +170,17 @@ class 整理sheet到資料庫指令試驗(TestCase):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
             ['流水號', '貢獻者', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['', '', '', '', '', '', '如何呈現?', '可自動連結嗎?'],
             ['3', '阿媠', '媠', '', '媠媠', '', '', '丞宏'],
             ['33', '阿媠', '媠', '', '', '', '', ''],
             ['333', '阿媠', '美', '', '媠', '', '', '丞宏'],
         ]
         臺語sheet表 = self._加臺語sheet表()
         臺語sheet表.整理到資料庫()
-        資料表mocka.append_row.assert_called_once_with(
-            ['33', '阿媠', '媠', '', '', '', '', '']
-        )
+        資料表mocka.append_row.assert_has_calls([
+            call(['', '', '', '', '', '', '如何呈現?', '可自動連結嗎?']),
+            call(['33', '阿媠', '媠', '', '', '', '', '']),
+        ])
 
     @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')

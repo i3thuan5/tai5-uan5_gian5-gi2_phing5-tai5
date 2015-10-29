@@ -71,9 +71,12 @@ class 正規化sheet表(models.Model):
         標題 = 全部資料[0]
         愛留 = []
         有改 = False
+        無資料 = set([''])
         for 一筆 in 全部資料[1:]:
             這筆資料 = dict(zip(標題, 一筆))
-            if 這筆資料['編輯者'].strip() == '':
+            if set(一筆) == 無資料:
+                有改 = True
+            elif 這筆資料['流水號'].strip() == '' or 這筆資料['編輯者'].strip() == '':
                 愛留.append(一筆)
             else:
                 有改 = True
