@@ -61,9 +61,8 @@ class 正規化sheet表(models.Model):
 
     @classmethod
     def _編號有佇表內底無(cls, 編號, 資料表):
-        for 第幾筆 in range(2, 資料表.row_count + 1):
-            if 編號 == 資料表.cell(第幾筆, 1):
-                return True
+        if str(編號) == 資料表.col_values(1)[1:]:
+            return True
         return False
 
     def 整理到資料庫(self):
