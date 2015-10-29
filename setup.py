@@ -46,11 +46,11 @@ setup(
         'Operating System :: Unix',
         'Framework :: Django',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
     ],
     install_requires=[
         'django>=1.8.5',
-        'tai5-uan5-gian5-gi2-kang1-ku7==0.5.9',
-        'tai5-uan5-gian5-gi2-tsu1-liau7-khoo3==3.1.4',
+        'tai5-uan5-gian5-gi2-tsu1-liau7-khoo3>=3.1.5',
         'django-allauth==0.23.0',
         'python-dateutil==2.4.1',
         'django-cors-headers',
