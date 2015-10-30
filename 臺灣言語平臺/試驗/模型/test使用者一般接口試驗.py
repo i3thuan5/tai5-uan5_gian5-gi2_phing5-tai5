@@ -80,3 +80,8 @@ class 使用者一般接口試驗(TestCase):
         }
         self.使用者 = self.一般接口.save_user(HttpRequest(), 使用者表(), 資料表)
         self.assertTrue(self.使用者.has_usable_password())
+
+    def test_註冊關起來(self):
+        self.assertFalse(
+            self.一般接口.is_open_for_signup(HttpRequest())
+        )
