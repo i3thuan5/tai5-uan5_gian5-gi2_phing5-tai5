@@ -15,6 +15,7 @@ from 臺灣言語平臺.介面.看資料內容 import 看來源內容
 from 臺灣言語平臺.介面.推薦用字 import 推薦用字
 from 臺灣言語平臺.介面.推薦用字 import 取消推薦用字
 from 臺灣言語平臺.介面.登出入 import 登入狀況
+from 臺灣言語平臺.介面.fb登入sdk import FB登入SDK
 
 urlpatterns = patterns(
     '',
@@ -39,4 +40,5 @@ urlpatterns = patterns(
     url(r'^平臺項目/設定推薦用字$', 推薦用字),
     url(r'^平臺項目/取消推薦用字$', 取消推薦用字),
 
+    url(r'^FB登入SDK$', FB登入SDK.as_view()),
 )
