@@ -114,6 +114,9 @@ class 使用者表(AbstractBaseUser):
 
 class 使用者一般接口(DefaultAccountAdapter):
 
+    def is_open_for_signup(self, request):
+        return False
+
     def save_user(self, request, user, form, commit=True):
         "讓allauth從網頁表格寫的資料填入使用者資料表"
         data = form.cleaned_data
