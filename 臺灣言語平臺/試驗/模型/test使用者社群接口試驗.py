@@ -163,3 +163,8 @@ class 使用者社群接口試驗(TestCase):
             'email': 'sui2@pigu.tw',
         })
         self.assertEqual(self.使用者.來源.名, 'sui2@pigu.tw')
+
+    def test_註冊愛開起來(self):
+        self.assertTrue(
+            self.社群接口.is_open_for_signup(HttpRequest(), None)
+        )
