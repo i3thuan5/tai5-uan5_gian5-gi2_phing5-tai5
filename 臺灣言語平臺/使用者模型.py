@@ -128,6 +128,9 @@ class 使用者一般接口(DefaultAccountAdapter):
 
 class 使用者社群接口(DefaultSocialAccountAdapter):
 
+    def is_open_for_signup(self, request, sociallogin):
+        return True
+
     def save_user(self, request, sociallogin, form=None):
         "讓allauth從server提供的資料填入使用者資料表"
         使用者 = sociallogin.user
