@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
 tar無法度下傷長的檔案名，所以愛用zip
-find . -name '*pyc' -exec rm {} -f \;
 python setup.py sdist --format=zip upload
 '''
 from distutils.core import setup
@@ -9,9 +8,9 @@ from os import walk
 from 版本 import 版本
 
 _專案說明 = '''
-提供語料問答的django函式庫
-
-希望能方便語言學習、研究。
+臺灣言語平臺是臺灣言語資料庫的編輯後端API介面，
+前端網頁藉由GET/POST，將資料傳來後端主機，
+主機並以json的格式回傳。
 
 感謝您的使用與推廣～～勞力！承蒙
 '''
