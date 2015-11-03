@@ -35,7 +35,6 @@ class Command(BaseCommand):
             private_key=服務帳戶資料['private_key'],
             url=參數['網址'],
         )
-        print(
-            '愛記得分享sheet的權限予{}'.format(服務帳戶資料['client_email']),
-            file=self.stdout
+        self.stdout.write(
+            '愛記得分享sheet的權限予{}'.format(服務帳戶資料['client_email'])
         )

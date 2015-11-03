@@ -18,32 +18,25 @@ class Command(BaseCommand):
                 if 資料表 is None:
                     raise ValueError('無工作表')
             except AccessTokenRefreshError:
-                print(
-                    '{}的email有問題'.format(sheet資料.語言腔口.語言腔口),
-                    file=self.stdout
+                self.stdout.write(
+                    '{}的email有問題'.format(sheet資料.語言腔口.語言腔口)
                 )
             except OpenSSL.crypto.Error:
-                print(
-                    '{}的private_key有問題'.format(sheet資料.語言腔口.語言腔口),
-                    file=self.stdout
+                self.stdout.write(
+                    '{}的private_key有問題'.format(sheet資料.語言腔口.語言腔口)
                 )
             except SpreadsheetNotFound:
-                print(
-                    '{}的網址有問題'.format(sheet資料.語言腔口.語言腔口),
-                    file=self.stdout
+                self.stdout.write(
+                    '{}的網址有問題'.format(sheet資料.語言腔口.語言腔口)
                 )
             except ValueError:
-                print(
-                    '{}的sheet內底無工作表'.format(sheet資料.語言腔口.語言腔口),
-                    file=self.stdout
+                self.stdout.write(
+                    '{}的sheet內底無工作表'.format(sheet資料.語言腔口.語言腔口)
                 )
             else:
-                print(
-                    '{}設定正常'.format(sheet資料.語言腔口.語言腔口),
-                    file=self.stdout
+                self.stdout.write(
+                    '{}設定正常'.format(sheet資料.語言腔口.語言腔口)
                 )
-
-        print(
-            '攏總有{}个設定'.format(數量),
-            file=self.stdout
+        self.stdout.write(
+            '攏總有{}个設定'.format(數量)
         )
