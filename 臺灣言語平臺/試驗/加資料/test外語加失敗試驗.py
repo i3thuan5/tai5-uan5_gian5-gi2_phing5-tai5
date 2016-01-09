@@ -178,11 +178,11 @@ class 外語加失敗試驗(試驗基本資料):
                         '外語資料': '漂亮',
             }
         )
-# 		前端回傳結果
-        self.assertEqual(回應.status_code, 400)
+#         前端回傳結果
+        self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
-            '結果': '失敗',
-            '原因': '這個外語已經有了',
+            '結果': '成功',
+            '其他': '這個外語已經有了',
             '平臺項目編號': 第一擺回應資料['平臺項目編號'],
         })

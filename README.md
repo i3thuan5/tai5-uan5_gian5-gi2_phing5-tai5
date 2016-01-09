@@ -178,7 +178,7 @@ python manage.py 整理全部sheet到資料庫
 virtualenv venv --python python3 # 設置環境檔
 . venv/bin/activate # 載入環境
 pip install -r requirements.txt # 安裝套件
-sudo apt-get install libav-tools -y # 安裝avconv for Ubuntu
+sudo apt-get install libav-tools libmp3lame0 libavcodec-extra-* -y # 安裝avconv for Ubuntu
 ```
 [OSX安裝avconv](http://superuser.com/questions/568464/how-to-install-libav-avconv-on-osx)
 
