@@ -5,6 +5,7 @@ python setup.py sdist --format=zip upload
 '''
 from distutils.core import setup
 from os import walk
+import sys
 from 版本 import 版本
 
 _專案說明 = '''
@@ -14,6 +15,15 @@ _專案說明 = '''
 
 感謝您的使用與推廣～～勞力！承蒙
 '''
+
+# tar無法度下傷長的檔案名，所以愛用zip
+# python setup.py sdist --format=zip upload
+try:
+    # travis攏先`python setup.py sdist`才閣上傳
+    sys.argv.insert(sys.argv.index('sdist') + 1, '--format=zip')
+except ValueError:
+    # 無upload
+    pass
 
 
 def 揣工具包(頭='.'):
