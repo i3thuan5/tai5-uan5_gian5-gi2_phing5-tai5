@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 
 from 臺灣言語平臺.介面.csrf import 看csrf
@@ -17,9 +17,7 @@ from 臺灣言語平臺.介面.推薦用字 import 取消推薦用字
 from 臺灣言語平臺.介面.登出入 import 登入狀況
 from 臺灣言語平臺.介面.fb登入sdk import FB登入SDK
 
-urlpatterns = patterns(
-    '',
-
+urlpatterns = [
     url(r'^平臺項目列表/看列表$', 外語請教條列表),
     url(r'^平臺項目列表/揣列表$', 揣外語請教條),
 
@@ -41,4 +39,4 @@ urlpatterns = patterns(
     url(r'^平臺項目/取消推薦用字$', 取消推薦用字),
 
     url(r'^FB登入SDK$', FB登入SDK.as_view()),
-)
+]
