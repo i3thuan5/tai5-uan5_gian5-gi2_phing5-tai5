@@ -56,9 +56,18 @@ class 正規化sheet表(models.Model):
         if cls._編號有佇表內底無(編號, 資料表):
             return
         資料表.append_row(
-            [str(平臺項目.編號()), 文本.來源.名, 文本.文本資料, '', '', '', '', '']
+            [
+             str(平臺項目.編號()), 文本.來源.名,cls._揣外語資料(文本), 文本.文本資料, 
+             '', '', '', '', ''
+             ]
         )
 
+    @classmethod
+    def _揣外語資料(cls, 文本):
+        try:
+            return 文本.來源外語.外語.外語資料
+        except:
+            return 文本.來源影音.影音.來源外語.外語.外語資料
     @classmethod
     def _編號有佇表內底無(cls, 編號, 資料表):
         if str(編號) in 資料表.col_values(1)[1:]:
