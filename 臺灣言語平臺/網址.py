@@ -40,6 +40,6 @@ urlpatterns = [
     url(r'^平臺項目/取消推薦用字$', 取消推薦用字),
 
     url(r'^FB登入SDK$', FB登入SDK.as_view()),
-    
+
     url(r'^導向$', 重導向前端),
 ]
