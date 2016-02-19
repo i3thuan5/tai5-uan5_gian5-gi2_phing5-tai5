@@ -16,6 +16,7 @@ from 臺灣言語平臺.介面.推薦用字 import 推薦用字
 from 臺灣言語平臺.介面.推薦用字 import 取消推薦用字
 from 臺灣言語平臺.介面.登出入 import 登入狀況
 from 臺灣言語平臺.介面.fb登入sdk import FB登入SDK
+from 臺灣言語平臺.介面.前端工具 import 重導向前端
 
 urlpatterns = [
     url(r'^平臺項目列表/看列表$', 外語請教條列表),
@@ -39,4 +40,6 @@ urlpatterns = [
     url(r'^平臺項目/取消推薦用字$', 取消推薦用字),
 
     url(r'^FB登入SDK$', FB登入SDK.as_view()),
+
+    url(r'^導向$', 重導向前端),
 ]
