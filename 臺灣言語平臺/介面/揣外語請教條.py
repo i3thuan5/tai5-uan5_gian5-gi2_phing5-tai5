@@ -35,8 +35,22 @@ def 揣外語請教條(request):
         })
     return JsonResponse({'列表': 符合資料, '其他建議': 其他建議資料})
 
+
 def 揣無建議的外語(request):
-    return
+    符合資料 = []
+    for 外語 in 外語表.objects.filter(
+        翻譯影音__isnull=True,
+        翻譯文本__isnull=True
+    ):
+        符合資料.append({
+            '外語項目編號': str(外語.平臺項目.編號()),
+            '種類': 外語.種類.種類,
+            '語言腔口': 外語.語言腔口.語言腔口,
+            '外語語言': 外語.外語語言.語言腔口,
+            '外語資料': 外語.外語資料,
+        })
+    return JsonResponse({'列表': 符合資料})
+
 # def 顯示全部資料組(第幾个開始,愛幾个):
 # 	資料組陣列=[]
 # 	for 資料組 in 資料組表.objects.order('-pk')[第幾个開始:第幾个開始+愛幾个]:

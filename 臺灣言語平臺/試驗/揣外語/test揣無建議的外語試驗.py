@@ -33,11 +33,11 @@ class 揣無建議的外語試驗(TestCase):
         }
 
     def test_對應函式(self):
-        對應 = resolve('/平臺項目列表/無建議的外語')
+        對應 = resolve('/平臺項目列表/揣無建議的外語')
         self.assertEqual(對應.func, 揣無建議的外語)
 
     def test_無外語物件(self):
-        回應 = self.client.get('/平臺項目列表/無建議的外語')
+        回應 = self.client.get('/平臺項目列表/揣無建議的外語')
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料['列表'], [])
@@ -45,11 +45,13 @@ class 揣無建議的外語試驗(TestCase):
     def test_外語無物件(self):
         水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/無建議的外語')
+        回應 = self.client.get('/平臺項目列表/揣無建議的外語')
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料['列表'], [{
             '外語項目編號': str(水母編號),
+            '種類': '字詞',
+            '語言腔口': '閩南語',
             '外語語言': '華語',
             '外語資料': '水母',
         }])
@@ -69,7 +71,7 @@ class 揣無建議的外語試驗(TestCase):
         }
         平臺項目表.外語翻母語(水母編號, 䖳文本內容)
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/無建議的外語')
+        回應 = self.client.get('/平臺項目列表/揣無建議的外語')
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料['列表'], [])
