@@ -35,7 +35,8 @@ def 揣外語請教條(request):
         })
     return JsonResponse({'列表': 符合資料, '其他建議': 其他建議資料})
 
-
+def 揣無建議的外語(request):
+    return
 # def 顯示全部資料組(第幾个開始,愛幾个):
 # 	資料組陣列=[]
 # 	for 資料組 in 資料組表.objects.order('-pk')[第幾个開始:第幾个開始+愛幾个]:
