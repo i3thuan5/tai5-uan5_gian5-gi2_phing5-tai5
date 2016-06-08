@@ -29,7 +29,8 @@ class 重導向前端試驗(TestCase):
         回應 = self.client.get(
             '/導向',
             {
-                '網址': 'http://itaigi.tw/k/kkk?%25E6%25BC%25A2%25E5%25AD%2597=AA',
+                '網址':
+                'http://itaigi.tw/k/kkk?%25E6%25BC%25A2%25E5%25AD%2597=AA',
                 '%25E9%259F%25B3%25E6%25A8%2599': 'BB'
             }
         )
