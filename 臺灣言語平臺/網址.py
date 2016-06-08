@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^平臺項目來源/看內容$', 看來源內容),
 
     url(r'^csrf/看$', 看csrf),
+    url(r'^FB登入SDK$', FB登入SDK.as_view()),
+    url(r'^導向$', 重導向前端),
 
     url(r'^使用者/看編號$', 登入狀況),
 
@@ -41,7 +43,4 @@ urlpatterns = [
     url(r'^平臺項目/設定推薦用字$', 推薦用字),
     url(r'^平臺項目/取消推薦用字$', 取消推薦用字),
 
-    url(r'^FB登入SDK$', FB登入SDK.as_view()),
-    
-    url(r'^導向$', 重導向前端),
 ]

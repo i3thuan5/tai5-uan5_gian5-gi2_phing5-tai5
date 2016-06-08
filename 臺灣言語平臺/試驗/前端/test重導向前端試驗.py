@@ -35,5 +35,7 @@ class 重導向前端試驗(TestCase):
         )
         self.assertEqual(
             回應.url,
-            'http://itaigi.tw/k/kkk?%25E6%25BC%25A2%25E5%25AD%2597=AA&%25E9%259F%25B3%25E6%25A8%2599=BB'
+            'http://itaigi.tw/k/kkk?' +
+            '%25E6%25BC%25A2%25E5%25AD%2597=AA&' +
+            '%25E9%259F%25B3%25E6%25A8%2599=BB'
         )
