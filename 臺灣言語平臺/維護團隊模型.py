@@ -1,6 +1,6 @@
 from django.db import models
 import gspread
-from oauth2client.client import SignedJwtAssertionCredentials
+from oauth2client.service_account import ServiceAccountCredentials
 from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
@@ -33,7 +33,7 @@ class 正規化sheet表(models.Model):
         return cls.objects.all()
 
     def 提著資料表(self):
-        登入憑證 = SignedJwtAssertionCredentials(
+        登入憑證 = ServiceAccountCredentials.from_p12_keyfil(
             self.client_email, self.private_key.encode(
             ), self.google_sheet_scope
         )
