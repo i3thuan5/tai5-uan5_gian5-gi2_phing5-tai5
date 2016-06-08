@@ -138,6 +138,26 @@ class 新文本文本加入sheet試驗(TestCase):
         )
 
     @patch('gspread.authorize')
+    def test_加有音標的資料進去(self, authorizeMocka):
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        外語項目 = 平臺項目表.加外語資料(self._加公家內容({
+            '屬性': json.dumps({'詞性': '形容詞', '字數': '2'}),
+            '外語語言': '華語',
+            '外語資料': '漂亮',
+        }))
+        文本項目 = 平臺項目表.外語翻母語(
+            外語項目.編號(),
+            self._加公家內容({
+                '屬性': json.dumps({'音標': 'sui2', '字數': '1'}),
+                '文本資料': '媠',
+            })
+        )
+        正規化sheet表.文本加入sheet(文本項目.編號())
+        資料表mocka.append_row.assert_called_once_with(
+            [str(文本項目.編號()), '阿媠', '漂亮', '媠', 'sui2', '', '', '', '']
+        )
+
+    @patch('gspread.authorize')
     def test_有校對資料就莫加入去(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         文本項目 = self.加入新文本()
