@@ -33,7 +33,7 @@ class 正規化sheet表(models.Model):
         return cls.objects.all()
 
     def 提著資料表(self):
-        登入憑證 = ServiceAccountCredentials.from_p12_keyfile(
+        登入憑證 = ServiceAccountCredentials(
             self.client_email, self.private_key.encode(
             ), self.google_sheet_scope
         )
