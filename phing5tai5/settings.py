@@ -155,3 +155,7 @@ SOCIALACCOUNT_PROVIDERS = {
 INSTALLED_APPS += (
     'kronos',
 )
+
+INSTALLED_APPS += (
+    'behave_django',
+)
