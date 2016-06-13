@@ -3,6 +3,9 @@ language: python
 python:
 - '3.4'
 - '3.5'
+env:
+- TEST_SUITE=test
+- TEST_SUITE=behave
 addons:
   apt:
     sources:
@@ -30,7 +33,7 @@ branches:
   - /\d+\.\d+\.\d+/
 script:
 - pip install .
-- coverage run --source=臺灣言語平臺 manage.py test
+- coverage run --source=臺灣言語平臺 manage.py $TEST_SUITE
 - flake8 --exclude=venv,migrations .
 after_success:
 - coverage report
