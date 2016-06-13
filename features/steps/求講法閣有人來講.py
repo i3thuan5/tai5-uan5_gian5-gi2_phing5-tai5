@@ -9,7 +9,8 @@ def 無建議的詞內底無物件(context):
 
 @step('有人求 豬 的講法')
 def 有人求講法(context):
-    context.test.client.post('/平臺項目/加外語', {'外語資料': '豬'})
+    回應 = context.test.client.post('/平臺項目/加外語', {'外語資料': '豬'})
+    context.test.assertEqual(回應.status_code, 200)
 
 
 @then('豬 無任何講法')
