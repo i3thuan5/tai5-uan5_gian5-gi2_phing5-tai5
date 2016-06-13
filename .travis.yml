@@ -4,8 +4,9 @@ python:
 - '3.4'
 - '3.5'
 env:
-- TEST_SUITE=test
-- TEST_SUITE=behave
+- TEST_SUITE='coverage run --source=臺灣言語平臺 manage.py test'
+- TEST_SUITE='coverage run --source=臺灣言語平臺 manage.py behave'
+- TEST_SUITE='flake8 --exclude=venv,migrations .'
 addons:
   apt:
     sources:
@@ -33,8 +34,7 @@ branches:
   - /\d+\.\d+\.\d+/
 script:
 - pip install .
-- coverage run --source=臺灣言語平臺 manage.py $TEST_SUITE
-- flake8 --exclude=venv,migrations .
+- $TEST_SUITE
 after_success:
 - coverage report
 - coveralls
