@@ -108,8 +108,8 @@ class 外語加成功試驗(試驗基本資料):
         編號 = int(回應資料['平臺項目編號'])
         self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
         外語 = 平臺項目表.objects.get(pk=編號).外語
-        self.assertEqual(外語.版權, self.會使公開)
-        self.assertEqual(外語.種類, self.字詞)
+        self.assertEqual(外語.版權.版權, '會使公開')
+        self.assertEqual(外語.種類.種類, '字詞')
         self.assertEqual(外語.語言腔口, self.閩南語)
         self.assertEqual(外語.著作所在地.著作所在地, '臺灣')
         self.assertGreaterEqual(int(外語.著作年.著作年), 2015)

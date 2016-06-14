@@ -5,9 +5,6 @@ from unittest.mock import patch
 
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
-from 臺灣言語資料庫.資料模型 import 版權表
-from 臺灣言語資料庫.欄位資訊 import 字詞
-from 臺灣言語資料庫.資料模型 import 種類表
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語資料庫.資料模型 import 語言腔口表
 
@@ -15,8 +12,6 @@ from 臺灣言語資料庫.資料模型 import 語言腔口表
 class 推薦用字試驗(TestCase):
 
     def setUp(self):
-        版權表.objects.create(版權='會使公開')
-        種類表.objects.get(種類=字詞)
         語言腔口表.objects.create(語言腔口='客語')
         self.管理者 = 使用者表.加使用者(
             'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', },)
