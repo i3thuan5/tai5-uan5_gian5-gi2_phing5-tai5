@@ -60,26 +60,20 @@ def 加外語請教條(request):
     ]
     內容 = {
         '收錄者': 使用者表.判斷編號(request.user),
-        '版權': '會使公開',
     }
+    if 內容['收錄者'] is None:
+        內容['收錄者'] = 來源表.objects.get(名='匿名').編號()
+        
     try:
         for 欄位 in 欄位表:
             內容[欄位] = request.POST[欄位]
     except MultiValueDictKeyError:
         return 失敗的json回應('資料欄位有缺')
 
-    if 內容['收錄者'] is None:
-        內容['收錄者'] = 來源表.objects.get(名='匿名').編號()
     try:
         內容['來源'] = request.POST['來源']
     except:
         內容['來源'] = _自己json字串[0]
-    內容['種類'] = '字詞'
-    內容['語言腔口'] = '閩南語'
-    內容['著作所在地'] = '臺灣'
-    內容['著作年'] = str(timezone.now().year)
-    內容['屬性'] = {}
-    內容['外語語言'] = '華語'
     try:
         if 內容是自己的json字串(內容):
             內容['來源'] = 內容['收錄者']
