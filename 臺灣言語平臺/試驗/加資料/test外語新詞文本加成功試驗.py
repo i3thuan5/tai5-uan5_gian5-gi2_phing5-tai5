@@ -19,9 +19,11 @@ class 外語新詞文本加成功試驗(試驗基本資料):
     def setUp(self):
         super(外語新詞文本加成功試驗, self).setUp()
 
+        self.有對應函式()
+
         self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-        登入使用者編號mock = self.登入使用者編號patcher.start()
-        登入使用者編號mock.return_value = self.鄉民.編號()
+        self.登入使用者編號mock = self.登入使用者編號patcher.start()
+        self.登入使用者編號mock.return_value = self.鄉民.編號()
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
@@ -51,7 +53,7 @@ class 外語新詞文本加成功試驗(試驗基本資料):
         self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 1)
         self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 1)
 
-    def test_有對應函式(self, 登入使用者編號mock):
+    def 有對應函式(self):
         對應 = resolve('/平臺項目/加新詞文本')
         self.assertEqual(對應.func, 外語加新詞文本)
 
@@ -121,13 +123,7 @@ class 外語新詞文本加成功試驗(試驗基本資料):
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
                 '外語項目編號': self.外語項目編號,
-                '來源': json.dumps({'名': '自己'}),
-                '種類': '字詞',
-                '語言腔口': '閩南語',
-                        '著作所在地': '花蓮',
-                        '著作年': '2014',
-                        '屬性': json.dumps({'詞性': '形容詞', '字數': '1'}),
-                        '文本資料': '媠',
+                '文本資料': '媠',
             }
         )
 #         前端回傳結果
@@ -183,7 +179,7 @@ class 外語新詞文本加成功試驗(試驗基本資料):
         文本 = 平臺項目表.objects.get(pk=編號).文本
         self.assertEqual(文本.版權.版權, '會使公開')
         self.assertEqual(文本.種類.種類, '字詞')
-        self.assertEqual(文本.語言腔口, '閩南語')
-        self.assertEqual(文本.著作所在地, '臺灣')
+        self.assertEqual(文本.語言腔口.語言腔口, '閩南語')
+        self.assertEqual(文本.著作所在地.著作所在地, '臺灣')
         self.assertEqual(文本.屬性.count(), 0)
         self.assertEqual(文本.文本資料, '媠')
