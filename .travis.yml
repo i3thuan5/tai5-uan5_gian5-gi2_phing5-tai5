@@ -6,6 +6,7 @@ python:
 env:
 - TEST_SUITE='coverage run --source=臺灣言語平臺 manage.py test'
 - TEST_SUITE='coverage run --source=臺灣言語平臺 manage.py behave'
+- TEST_SUITE='pip install .'
 - TEST_SUITE='flake8 --exclude=venv,migrations .'
 addons:
   apt:
@@ -34,7 +35,6 @@ branches:
   - master
   - /\d+\.\d+\.\d+/
 script:
-- pip install .
 - $TEST_SUITE
 after_success:
 - coverage report
