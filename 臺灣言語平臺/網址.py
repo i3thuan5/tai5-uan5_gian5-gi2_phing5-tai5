@@ -5,7 +5,6 @@ from django.conf.urls import url
 from 臺灣言語平臺.介面.csrf import 看csrf
 from 臺灣言語平臺.介面.加資料 import 加外語請教條
 from 臺灣言語平臺.介面.加資料 import 加新詞影音
-from 臺灣言語平臺.介面.加資料 import 加新詞文本
 from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
 from 臺灣言語平臺.介面.資料列表 import 外語請教條列表
 from 臺灣言語平臺.介面.揣外語請教條 import 揣外語請教條
@@ -37,8 +36,7 @@ urlpatterns = [
 
     url(r'^平臺項目/加外語$', 加外語請教條),
     url(r'^平臺項目/加新詞影音$', 加新詞影音),
-    url(r'^平臺項目/加新詞文本$', 加新詞文本),
-    url(r'^平臺項目/加外語新詞文本$', 外語加新詞文本),
+    url(r'^平臺項目/加新詞文本$', 外語加新詞文本),
 
     url(r'^平臺項目/設定推薦用字$', 推薦用字),
     url(r'^平臺項目/取消推薦用字$', 取消推薦用字),

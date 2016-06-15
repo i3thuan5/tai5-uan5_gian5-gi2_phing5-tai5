@@ -1,7 +1,5 @@
-import io
 import json
 from unittest.mock import patch
-import wave
 
 from django.test.testcases import TestCase
 
@@ -12,7 +10,7 @@ from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
 
 
-class 新文本文本加入sheet試驗(TestCase):
+class 新文本加入sheet試驗(TestCase):
 
     def setUp(self):
         self.阿媠 = 來源表.objects.create(名='阿媠')
@@ -38,48 +36,6 @@ class 新文本文本加入sheet試驗(TestCase):
 
     @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.文本加入sheet')
     @patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-    def test_加新詞有叫函式(self, 登入使用者編號mock, 文本加入sheetMocka):
-        登入使用者編號mock.return_value = self.阿媠.編號()
-        外語回應 = self.client.post(
-            '/平臺項目/加外語', self._加公家內容({
-                '屬性': json.dumps({'詞性': '形容詞', '字數': '2'}),
-                '外語語言': '華語',
-                '外語資料': '漂亮',
-            })
-        )
-        外語回應資料 = json.loads(外語回應.content.decode("utf-8"))
-        外語項目編號 = int(外語回應資料['平臺項目編號'])
-
-        with io.BytesIO() as 檔案:
-            with wave.open(檔案, 'wb') as 音檔:
-                音檔.setnchannels(1)
-                音檔.setframerate(16000)
-                音檔.setsampwidth(2)
-                音檔.writeframesraw(b'sui2' * 20)
-            檔案.seek(0)
-            檔案.name = '試驗音檔'
-            新詞影音回應 = self.client.post(
-                '/平臺項目/加新詞影音', self._加公家內容({
-                    '外語項目編號': 外語項目編號,
-                    '屬性': json.dumps({'詞性': '形容詞', '字數': '1'}),
-                    '影音資料': 檔案,
-                })
-            )
-        新詞影音回應資料 = json.loads(新詞影音回應.content.decode("utf-8"))
-        新詞影音項目編號 = int(新詞影音回應資料['平臺項目編號'])
-
-        回應 = self.client.post(
-            '/平臺項目/加新詞文本', self._加公家內容({
-                '新詞影音項目編號': 新詞影音項目編號,
-                '屬性': json.dumps({'詞性': '形容詞', '字數': '1'}),
-                '文本資料': '媠',
-            })
-        )
-        回應資料 = json.loads(回應.content.decode("utf-8"))
-        文本加入sheetMocka.assert_called_once_with(回應資料['平臺項目編號'])
-
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.文本加入sheet')
-    @patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
     def test_加外語新詞有叫函式(self, 登入使用者編號mock, 文本加入sheetMocka):
         登入使用者編號mock.return_value = self.阿媠.編號()
         外語回應 = self.client.post(
@@ -92,7 +48,7 @@ class 新文本文本加入sheet試驗(TestCase):
         外語回應資料 = json.loads(外語回應.content.decode("utf-8"))
         外語項目編號 = int(外語回應資料['平臺項目編號'])
         回應 = self.client.post(
-            '/平臺項目/加外語新詞文本', self._加公家內容({
+            '/平臺項目/加新詞文本', self._加公家內容({
                 '外語項目編號': 外語項目編號,
                 '屬性': json.dumps({'詞性': '形容詞', '字數': '1'}),
                 '文本資料': '媠',
