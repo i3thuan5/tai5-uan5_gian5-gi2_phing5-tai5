@@ -4,6 +4,7 @@ import json
 
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
+from django.db.models.query_utils import Q
 from django.utils import timezone
 
 
@@ -57,6 +58,17 @@ class 平臺項目表(models.Model):
         if len(結果) == 0:
             raise RuntimeError('平臺項目無指向任何一个物件')
         raise RuntimeError('平臺項目指向兩个以上物件')
+
+    @classmethod
+    def 有建議講法的外語表(cls):
+        return (
+            外語表.objects
+            .filter(
+                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
+                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
+            )
+            .order_by('-pk')
+        )
 
     @classmethod
     def 加外語資料(cls, 內容):
