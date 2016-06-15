@@ -1,3 +1,4 @@
+from django.db.models.query_utils import Q
 from django.http.response import JsonResponse
 
 
@@ -13,12 +14,13 @@ def 揣外語請教條(request):
     符合資料 = []
     for 外語 in 外語表.objects\
             .filter(外語資料=外語資料)\
+            .filter(
+                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
+                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
+            )\
             .order_by('-pk'):
         符合資料.append({
             '外語項目編號': str(外語.平臺項目.編號()),
-            '種類': 外語.種類.種類,
-            '語言腔口': 外語.語言腔口.語言腔口,
-            '外語語言': 外語.外語語言.語言腔口,
             '外語資料': 外語.外語資料,
         })
     其他建議資料 = []
@@ -28,9 +30,6 @@ def 揣外語請教條(request):
             .order_by('-pk'):
         其他建議資料.append({
             '外語項目編號': str(外語.平臺項目.編號()),
-            '種類': 外語.種類.種類,
-            '語言腔口': 外語.語言腔口.語言腔口,
-            '外語語言': 外語.外語語言.語言腔口,
             '外語資料': 外語.外語資料,
         })
     return JsonResponse({'列表': 符合資料, '其他建議': 其他建議資料})

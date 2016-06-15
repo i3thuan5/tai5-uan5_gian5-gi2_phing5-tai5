@@ -163,6 +163,7 @@ class 平臺項目表(models.Model):
     @classmethod
     def _補預設欄位(cls, 內容):
         新內容 = {
+            '收錄者': 來源表.objects.get(名='匿名').編號(),
             '來源': _自己json字串[0],
             '版權': '會使公開',
             '種類': 字詞,

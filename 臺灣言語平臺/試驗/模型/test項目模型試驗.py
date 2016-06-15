@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 import io
-import json
 import wave
 from 臺灣言語平臺.項目模型 import 平臺項目表
-from 臺灣言語資料庫.資料模型 import 來源表
-from 臺灣言語資料庫.資料模型 import 文本表
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -13,7 +10,6 @@ class 項目模型試驗(TestCase):
 
     def setUp(self):
         self.外語內容 = {
-            '收錄者': 來源表.objects.get(名='匿名').編號(),
             '外語資料': '水母',
         }
 
@@ -26,11 +22,9 @@ class 項目模型試驗(TestCase):
         檔案.seek(0)
         檔案.name = '試驗音檔'
         self.影音內容 = {
-            '收錄者': 來源表.objects.get(名='匿名').編號(),
             '原始影音資料': 檔案,
         }
         self.文本內容 = {
-            '收錄者': 來源表.objects.get(名='匿名').編號(),
             '文本資料': '䖳',
         }
 
