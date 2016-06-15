@@ -1,4 +1,4 @@
-from behave import given, when, then, step
+from behave import then, step
 
 
 @then('無建議的詞內底無物件')
