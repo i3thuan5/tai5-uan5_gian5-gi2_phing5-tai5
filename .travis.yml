@@ -35,6 +35,7 @@ branches:
   - master
   - /\d+\.\d+\.\d+/
 script:
+- echo $TEST_SUITE
 - $TEST_SUITE
 after_success:
 - coverage report
