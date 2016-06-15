@@ -55,7 +55,13 @@ def 加文本了愛加入sheet(介面函式):
 
 def 加外語請教條(request):
     欄位表 = [
-        '外語資料',
+        '來源',
+        '種類',
+        '語言腔口',
+        '著作所在地',
+        '著作年',
+        '屬性',
+        '外語語言',
     ]
     內容 = {
         '收錄者': 使用者表.判斷編號(request.user),
@@ -63,19 +69,17 @@ def 加外語請教條(request):
     if 內容['收錄者'] is None:
         內容['收錄者'] = 來源表.objects.get(名='匿名').編號()
 
-    try:
-        for 欄位 in 欄位表:
+    for 欄位 in 欄位表:
+        try:
             內容[欄位] = request.POST[欄位]
+        except:
+            pass
+    try:
+        內容['外語資料'] = request.POST['外語資料']
     except MultiValueDictKeyError:
         return 失敗的json回應('資料欄位有缺')
 
     try:
-        內容['來源'] = request.POST['來源']
-    except:
-        內容['來源'] = _自己json字串[0]
-    try:
-        if 內容是自己的json字串(內容):
-            內容['來源'] = 內容['收錄者']
         平臺項目 = 平臺項目表.加外語資料(內容)
     except ValueError:
         return 失敗的json回應('來源抑是屬性無轉json字串')
@@ -164,8 +168,7 @@ def 外語加新詞文本(request):
         except:
             pass
     try:
-        for 欄位 in 欄位表:
-            內容['文本資料'] = request.POST['文本資料']
+        內容['文本資料'] = request.POST['文本資料']
         外語項目編號 = int(request.POST['外語項目編號'])
     except MultiValueDictKeyError:
         return 失敗的json回應('資料欄位有缺')
