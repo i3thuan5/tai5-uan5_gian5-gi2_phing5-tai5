@@ -3,7 +3,6 @@ import json
 
 from django.core.exceptions import ValidationError
 from django.http.response import JsonResponse
-from django.utils import timezone
 from django.utils.datastructures import MultiValueDictKeyError
 
 
@@ -63,7 +62,7 @@ def 加外語請教條(request):
     }
     if 內容['收錄者'] is None:
         內容['收錄者'] = 來源表.objects.get(名='匿名').編號()
-        
+
     try:
         for 欄位 in 欄位表:
             內容[欄位] = request.POST[欄位]
