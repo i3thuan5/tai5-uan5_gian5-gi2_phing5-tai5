@@ -71,6 +71,17 @@ class 平臺項目表(models.Model):
         )
 
     @classmethod
+    def 無建議講法的外語表(cls):
+        return (
+            外語表.objects
+            .exclude(
+                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
+                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
+            )
+            .order_by('-pk')
+        )
+
+    @classmethod
     def 加外語資料(cls, 內容):
         try:
             原本外語 = cls.找外語資料(內容)

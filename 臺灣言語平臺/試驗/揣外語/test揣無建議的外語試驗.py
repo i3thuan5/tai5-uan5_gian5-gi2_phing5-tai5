@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
-
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 
@@ -15,15 +13,6 @@ class 揣無建議的外語試驗(TestCase):
     def setUp(self):
         self.鄉民 = 來源表. 加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
         self.外語內容 = {
-            '收錄者': self.鄉民.編號(),
-            '來源': json.dumps({'名': '阿媠', '職業': '學生'}),
-            '版權': '會使公開',
-            '種類': '字詞',
-            '語言腔口': '閩南語',
-            '著作所在地': '花蓮',
-            '著作年': '2014',
-            '屬性': json.dumps({'詞性': '形容詞', '字數': '2'}),
-            '外語語言': '華語',
             '外語資料': '水母',
         }
 
@@ -34,7 +23,7 @@ class 揣無建議的外語試驗(TestCase):
     def test_無外語物件(self):
         回應 = self.client.get('/平臺項目列表/揣無建議的外語')
         self.assertEqual(回應.status_code, 200)
-        回應資料 = json.loads(回應.content.decode("utf-8"))
+        回應資料 = 回應.json()
         self.assertEqual(回應資料['列表'], [])
 
     def test_外語無物件(self):
@@ -42,31 +31,36 @@ class 揣無建議的外語試驗(TestCase):
 #         前端輸入
         回應 = self.client.get('/平臺項目列表/揣無建議的外語')
         self.assertEqual(回應.status_code, 200)
-        回應資料 = json.loads(回應.content.decode("utf-8"))
+        回應資料 = 回應.json()
         self.assertEqual(回應資料['列表'], [{
             '外語項目編號': str(水母編號),
-            '種類': '字詞',
-            '語言腔口': '閩南語',
-            '外語語言': '華語',
             '外語資料': '水母',
         }])
 
-    def test_外語有建議袂使出現(self):
+    def test_外語有文本無校對仝款愛出現(self):
         水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
         䖳文本內容 = {
-            '收錄者': self.鄉民.編號(),
-            '來源': json.dumps({'名': '阿媠', '職業': '學生'}),
-            '版權': '會使公開',
-            '種類': '字詞',
-            '語言腔口': '閩南語',
-            '著作所在地': '花蓮',
-            '著作年': '2014',
-            '屬性': json.dumps({'詞性': '形容詞', '字數': '1'}),
             '文本資料': '䖳',
         }
         平臺項目表.外語翻母語(水母編號, 䖳文本內容)
 #         前端輸入
         回應 = self.client.get('/平臺項目列表/揣無建議的外語')
         self.assertEqual(回應.status_code, 200)
-        回應資料 = json.loads(回應.content.decode("utf-8"))
+        回應資料 = 回應.json()
+        self.assertEqual(回應資料['列表'], [{
+            '外語項目編號': str(水母編號),
+            '外語資料': '水母',
+        }])
+
+    def test_外語有建議文本就袂使出現(self):
+        水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
+        䖳文本內容 = {
+            '文本資料': '䖳',
+        }
+        母語 = 平臺項目表.外語翻母語(水母編號, 䖳文本內容)
+        母語.設為推薦用字()
+#         前端輸入
+        回應 = self.client.get('/平臺項目列表/揣無建議的外語')
+        self.assertEqual(回應.status_code, 200)
+        回應資料 = 回應.json()
         self.assertEqual(回應資料['列表'], [])
