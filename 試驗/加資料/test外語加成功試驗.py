@@ -18,6 +18,7 @@ class 外語加成功試驗(TestCase):
 
     def setUp(self):
         self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
+
     def test_有對應函式(self, 登入使用者編號mock):
         對應 = resolve('/平臺項目/加外語')
         self.assertEqual(對應.func, 加外語請教條)
@@ -113,10 +114,10 @@ class 外語加成功試驗(TestCase):
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.版權.版權, '會使公開')
         self.assertEqual(外語.種類.種類, '字詞')
-        self.assertEqual(外語.語言腔口, self.閩南語)
+        self.assertEqual(外語.語言腔口.語言腔口, '閩南語')
         self.assertEqual(外語.著作所在地.著作所在地, '臺灣')
         self.assertGreaterEqual(int(外語.著作年.著作年), 2015)
-        self.assertEqual(外語.外語語言, self.華語)
+        self.assertEqual(外語.外語語言.語言腔口, '華語')
         self.assertEqual(外語.外語資料, '漂亮')
 
     def test_來源預設是自己(self, 登入使用者編號mock):
