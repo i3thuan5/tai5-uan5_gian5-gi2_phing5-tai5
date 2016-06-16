@@ -1,4 +1,5 @@
-from behave import then, step
+from behave import when, then, step
+from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
 @then('無建議的詞內底無物件')
@@ -35,3 +36,9 @@ def 有人答的講法(context):
         }
     )
     context.test.assertEqual(回應.status_code, 200)
+    context.文本編號 = 回應.json()['平臺項目編號']
+
+
+@when('有人校對 豬仔 的講法')
+def 有人校對講法(context):
+    平臺項目表.揣編號(context.文本編號).設為推薦用字()
