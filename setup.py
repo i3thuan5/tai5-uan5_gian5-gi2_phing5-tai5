@@ -30,7 +30,7 @@ def 揣工具包(頭='.'):
     'setup的find_packages無支援windows中文檔案'
     工具包 = []
     for 目錄, _, 檔案 in walk(頭):
-        if '__init__.py' in 檔案 and '試驗' not in 目錄:
+        if '__init__.py' in 檔案:
             工具包.append(目錄.replace('/', '.'))
     return 工具包
 
