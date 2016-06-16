@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from 臺灣言語平臺.試驗.加資料.試驗基本資料 import 試驗基本資料
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.資料模型 import 影音表
 from 臺灣言語資料庫.資料模型 import 文本表
@@ -10,14 +9,19 @@ import json
 from unittest.mock import patch
 
 from django.core.urlresolvers import resolve
+from django.test import TestCase
+
+
 from 臺灣言語資料庫.關係模型 import 翻譯文本表
 from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
+from 臺灣言語資料庫.資料模型 import 來源表
 
 
-class 外語新詞文本加成功試驗(試驗基本資料):
+class 外語新詞文本加成功試驗(TestCase):
 
     def setUp(self):
         super(外語新詞文本加成功試驗, self).setUp()
+        self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
 
         self.有對應函式()
 
