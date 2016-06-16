@@ -82,6 +82,23 @@ class 平臺項目表(models.Model):
         )
 
     @classmethod
+    def 揣新詞文本(cls, 外語):
+        結果 = []
+        for 文本 in (
+            文本表.objects
+            .filter(平臺項目__推薦用字=True)
+            .filter(
+                Q(來源外語__外語=外語) |
+                Q(來源校對資料__舊文本__來源外語__外語=外語)
+            )
+        ):
+            結果.append({
+                '新詞文本項目編號': str(文本.平臺項目.編號()),
+                '文本資料': 文本.文本資料,
+            })
+        return 結果
+
+    @classmethod
     def 加外語資料(cls, 內容):
         try:
             原本外語 = cls.找外語資料(內容)

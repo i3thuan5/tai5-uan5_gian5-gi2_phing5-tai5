@@ -32,7 +32,7 @@ def 有人答的講法(context):
     回應 = context.test.client.post(
         '/平臺項目/加新詞文本', {
             '外語項目編號': 外語回應.json()['平臺項目編號'],  # 針對哪一個外語的母語文本
-            '文本資料': '媠',  # 錄製的文本檔，檔案型態
+            '文本資料': '豬仔',  # 錄製的文本檔，檔案型態
         }
     )
     context.test.assertEqual(回應.status_code, 200)
@@ -42,3 +42,9 @@ def 有人答的講法(context):
 @when('有人校對 豬仔 的講法')
 def 有人校對講法(context):
     平臺項目表.揣編號(context.文本編號).設為推薦用字()
+
+
+@then('查 豬 會當揣著 豬仔')
+def 會當揣著講法(context):
+    講法 = context.test.client.get('/平臺項目列表/揣列表', {'關鍵字': '豬'}).json()['列表']
+    context.test.assertEqual(講法[0]['新詞文本'][0]['文本資料'], '豬仔')
