@@ -79,7 +79,7 @@ class 新詞影音加成功試驗(TestCase):
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數 + 1)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數 + 1)
         編號 = int(回應資料['平臺項目編號'])
-        
+
         影音 = 平臺項目表.objects.get(pk=編號).影音
         self.外語.翻譯影音.get(影音=影音)  # 確定有建立關係
         self.assertEqual(影音.收錄者, self.鄉民)
@@ -119,7 +119,7 @@ class 新詞影音加成功試驗(TestCase):
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數 + 1)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數 + 1)
         編號 = int(回應資料['平臺項目編號'])
-        
+
         影音 = 平臺項目表.objects.get(pk=編號).影音
         self.外語.翻譯影音.get(影音=影音)
         self.assertEqual(影音.收錄者, self.鄉民)
@@ -157,7 +157,7 @@ class 新詞影音加成功試驗(TestCase):
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數 + 1)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數 + 1)
         編號 = int(回應資料['平臺項目編號'])
-        
+
         影音 = 平臺項目表.objects.get(pk=編號).影音
         self.外語.翻譯影音.get(影音=影音)
         self.assertEqual(影音.收錄者, self.鄉民)
@@ -211,7 +211,7 @@ class 新詞影音加成功試驗(TestCase):
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數 + 2)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數 + 2)
         編號 = int(回應資料['平臺項目編號'])
-        
+
         影音 = 平臺項目表.objects.get(pk=編號).影音
         self.外語.翻譯影音.get(影音=影音)  # 確定有建立關係
         self.assertEqual(影音.收錄者, self.鄉民)
