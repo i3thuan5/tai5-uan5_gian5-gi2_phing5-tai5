@@ -33,7 +33,6 @@ class 平臺項目表(models.Model):
     影音 = models.OneToOneField(影音表, null=True, related_name=項目名)
     文本 = models.OneToOneField(文本表, null=True, related_name=項目名)
     聽拍 = models.OneToOneField(聽拍表, null=True, related_name=項目名)
-    是資料源頭 = models.BooleanField(default=False)
     推薦用字 = models.BooleanField(default=False)
 
     def 編號(self):
@@ -108,7 +107,7 @@ class 平臺項目表(models.Model):
         except ObjectDoesNotExist:
             pass
         外語 = 外語表.加資料(cls._補預設欄位(內容))
-        return cls.objects.create(外語=外語, 是資料源頭=True)
+        return cls.objects.create(外語=外語)
 
     @classmethod
     def 找外語資料(cls, 內容):
@@ -137,25 +136,25 @@ class 平臺項目表(models.Model):
     def 外語錄母語(cls, 外語請教條項目編號, 內容):
         外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
         影音 = 外語.錄母語(cls._補預設欄位(內容))
-        return cls.objects.create(影音=影音, 是資料源頭=False)
+        return cls.objects.create(影音=影音)
 
     @classmethod
     def 影音寫文本(cls, 新詞影音項目編號, 內容):
         影音 = 平臺項目表.objects.get(pk=新詞影音項目編號).影音
         文本 = 影音.寫文本(cls._補預設欄位(內容))
-        return cls.objects.create(文本=文本, 是資料源頭=False)
+        return cls.objects.create(文本=文本)
 
     @classmethod
     def 外語翻母語(cls, 外語請教條項目編號, 內容):
         外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
         文本 = 外語.翻母語(cls._補預設欄位(內容))
-        return cls.objects.create(文本=文本, 是資料源頭=False)
+        return cls.objects.create(文本=文本)
 
     @classmethod
     def 校對母語文本(cls, 文本項目編號, 內容):
         舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
         新文本 = 舊文本.校對做(cls._補預設欄位(內容))
-        return cls.objects.create(文本=新文本, 是資料源頭=False)
+        return cls.objects.create(文本=新文本)
 
     @classmethod
     def 對正規化sheet校對母語文本(cls, 文本項目編號, 編輯者, 新文本, 新音標):
@@ -198,7 +197,7 @@ class 平臺項目表(models.Model):
         }
         if 新音標:
             新文本內容['屬性'] = json.dumps({'音標': 新音標})
-        return self.__class__.objects.create(文本=文本.校對做(新文本內容), 是資料源頭=False)
+        return self.__class__.objects.create(文本=文本.校對做(新文本內容))
 
     @classmethod
     def _補預設欄位(cls, 內容):

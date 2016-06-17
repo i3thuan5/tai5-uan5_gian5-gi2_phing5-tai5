@@ -41,7 +41,7 @@ class 外語加成功試驗(TestCase):
         登入使用者編號mock.assert_called_once_with(AnonymousUser())
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
-        self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
+
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.收錄者.名, '匿名')
         self.assertEqual(外語.收錄者.屬性.count(), 0)
@@ -66,7 +66,7 @@ class 外語加成功試驗(TestCase):
         self.assertTrue(登入使用者編號mock.called)
 # 		後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
-        self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
+
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.收錄者, self.鄉民)
 
@@ -86,7 +86,7 @@ class 外語加成功試驗(TestCase):
             '平臺項目編號': 回應資料['平臺項目編號'],
         })
         編號 = int(回應資料['平臺項目編號'])
-        self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
+
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.來源.名, '阿媠')
         self.assertEqual(外語.來源.屬性.count(), 1)
@@ -110,7 +110,7 @@ class 外語加成功試驗(TestCase):
         self.assertTrue(登入使用者編號mock.called)
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
-        self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
+
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.版權.版權, '會使公開')
         self.assertEqual(外語.種類.種類, '字詞')
@@ -139,7 +139,7 @@ class 外語加成功試驗(TestCase):
         self.assertTrue(登入使用者編號mock.called)
 # 		後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
-        self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
+
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.收錄者, self.鄉民)
         self.assertEqual(外語.來源, self.鄉民)
@@ -163,7 +163,7 @@ class 外語加成功試驗(TestCase):
         self.assertTrue(登入使用者編號mock.called)
 # 		後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
-        self.assertEqual(平臺項目表.objects.get(pk=編號).是資料源頭, True)
+
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.收錄者, self.鄉民)
         self.assertEqual(外語.來源.名, '自己')

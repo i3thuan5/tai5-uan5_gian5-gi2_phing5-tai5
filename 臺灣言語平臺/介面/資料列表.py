@@ -12,7 +12,6 @@ def 外語請教條列表(request):
     列表 = []
     for 平臺項目 in 平臺項目表.objects\
             .exclude(外語__isnull=True)\
-            .filter(是資料源頭=True)\
             .order_by('-pk')[
                 列表一頁幾筆 * (第幾頁 - 1):列表一頁幾筆 * 第幾頁
             ]:
