@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
-from unittest.mock import patch
-from 臺灣言語平臺.試驗.加資料.試驗基本資料 import 試驗基本資料
-from 臺灣言語資料庫.資料模型 import 影音表
 import io
+import json
+from unittest.mock import patch
 import wave
+
+from django.contrib.auth.models import AnonymousUser
+from django.test import TestCase
+from 臺灣言語資料庫.資料模型 import 影音表
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.關係模型 import 翻譯影音表
-import json
 from 臺灣言語平臺.項目模型 import 平臺項目表
-from django.contrib.auth.models import AnonymousUser
+from 臺灣言語資料庫.資料模型 import 來源表
 
 
-class 新詞影音加失敗試驗(試驗基本資料):
+class 新詞影音加失敗試驗(TestCase):
 
     def setUp(self):
         super(新詞影音加失敗試驗, self).setUp()
+        self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
 
         self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
         self.登入使用者編號mock = self.登入使用者編號patcher.start()
@@ -22,14 +25,7 @@ class 新詞影音加失敗試驗(試驗基本資料):
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
-                '來源': json.dumps({'名': '阿媠', '職業': '學生'}),
-                '種類': '字詞',
-                '語言腔口': '閩南語',
-                        '著作所在地': '花蓮',
-                        '著作年': '2014',
-                        '屬性': json.dumps({'詞性': '形容詞', '字數': '2'}),
-                        '外語語言': '華語',
-                        '外語資料': '漂亮',
+                '外語資料': '漂亮',
             }
         )
         外語回應資料 = json.loads(外語回應.content.decode("utf-8"))

@@ -4,16 +4,20 @@ from unittest.mock import patch
 
 from django.contrib.auth.models import AnonymousUser
 from django.core.urlresolvers import resolve
+from django.test import TestCase
 
 
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語平臺.項目模型 import 平臺項目表
-from 臺灣言語平臺.試驗.加資料.試驗基本資料 import 試驗基本資料
 from 臺灣言語平臺.介面.加資料 import 加外語請教條
+from 臺灣言語資料庫.資料模型 import 來源表
 
 
 @patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-class 外語加成功試驗(試驗基本資料):
+class 外語加成功試驗(TestCase):
+
+    def setUp(self):
+        self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
 
     def test_有對應函式(self, 登入使用者編號mock):
         對應 = resolve('/平臺項目/加外語')
@@ -110,10 +114,10 @@ class 外語加成功試驗(試驗基本資料):
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.版權.版權, '會使公開')
         self.assertEqual(外語.種類.種類, '字詞')
-        self.assertEqual(外語.語言腔口, self.閩南語)
+        self.assertEqual(外語.語言腔口.語言腔口, '閩南語')
         self.assertEqual(外語.著作所在地.著作所在地, '臺灣')
         self.assertGreaterEqual(int(外語.著作年.著作年), 2015)
-        self.assertEqual(外語.外語語言, self.華語)
+        self.assertEqual(外語.外語語言.語言腔口, '華語')
         self.assertEqual(外語.外語資料, '漂亮')
 
     def test_來源預設是自己(self, 登入使用者編號mock):
