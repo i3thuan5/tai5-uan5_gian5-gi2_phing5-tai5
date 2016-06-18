@@ -14,6 +14,8 @@ class 新文本加入sheet試驗(TestCase):
 
     def setUp(self):
         self.阿媠 = 使用者表.加使用者('sui2@pigu.tw', {'名': '阿媠'})
+        self.client.force_login(self.阿媠)
+
         閩南語 = 語言腔口表.objects.create(語言腔口='閩南語')
         正規化sheet表.objects.create(
             client_email='sui2@ti1tiau5.tw',
@@ -23,15 +25,6 @@ class 新文本加入sheet試驗(TestCase):
         )
 
     def _加公家內容(self, 資料內容):
-        資料內容.update({
-            '收錄者': json.dumps({'名': '阿媠'}),
-            '來源': json.dumps({'名': '阿媠'}),
-            '版權': '會使公開',
-            '種類': '字詞',
-            '語言腔口': '閩南語',
-            '著作所在地': '花蓮',
-            '著作年': '2014',
-        })
         return 資料內容
 
     @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.文本加入sheet')
@@ -44,7 +37,7 @@ class 新文本加入sheet試驗(TestCase):
                 '外語資料': '漂亮',
             })
         )
-        外語回應資料 = json.loads(外語回應.content.decode("utf-8"))
+        外語回應資料 = 外語回應.json()
         外語項目編號 = int(外語回應資料['平臺項目編號'])
         回應 = self.client.post(
             '/平臺項目/加新詞文本', self._加公家內容({
@@ -101,6 +94,7 @@ class 新文本加入sheet試驗(TestCase):
         文本項目 = 平臺項目表.外語翻母語(
             外語項目.編號(),
             self._加公家內容({
+                '收錄者': self.阿媠.來源,
                 '屬性': json.dumps({'音標': 'sui2', '字數': '1'}),
                 '文本資料': '媠',
             })
@@ -139,6 +133,7 @@ class 新文本加入sheet試驗(TestCase):
         文本項目 = 平臺項目表.外語翻母語(
             外語項目.編號(),
             self._加公家內容({
+                '收錄者': self.阿媠.來源,
                 '屬性': json.dumps({'詞性': '形容詞', '字數': '1'}),
                 '文本資料': '媠',
             })
