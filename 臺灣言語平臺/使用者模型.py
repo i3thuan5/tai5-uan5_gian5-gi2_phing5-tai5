@@ -42,7 +42,6 @@ class 使用者表(AbstractBaseUser):
     def 加使用者(cls, email, 來源內容):
         來源 = 來源表.加來源(來源內容)
         使用者 = cls.objects.create(來源=來源, email=email)
-        使用者.set_unusable_password()
         return 使用者
 
     def 設定欄位內容(self, 資料內容={}):

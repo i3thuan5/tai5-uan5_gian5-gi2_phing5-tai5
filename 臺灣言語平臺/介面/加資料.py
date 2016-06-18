@@ -63,9 +63,9 @@ def 加外語請教條(request):
         '外語語言',
     ]
     內容 = {}
-    if request.user.is_authenticated():
-        內容['收錄者'] = request.user
-    else:
+    try:
+        內容['收錄者'] = request.user.來源
+    except:
         內容['收錄者'] = 來源表.objects.get(名='匿名')
 
     for 欄位 in 欄位表:
@@ -108,9 +108,9 @@ def 加新詞影音(request):
         '屬性',
     ]
     內容 = {}
-    if request.user.is_authenticated():
-        內容['收錄者'] = request.user
-    else:
+    try:
+        內容['收錄者'] = request.user.來源
+    except:
         內容['收錄者'] = 來源表.objects.get(名='匿名')
     for 欄位 in 欄位表:
         try:
@@ -156,9 +156,9 @@ def 外語加新詞文本(request):
         '屬性',
     ]
     內容 = {}
-    if request.user.is_authenticated():
-        內容['收錄者'] = request.user
-    else:
+    try:
+        內容['收錄者'] = request.user.來源
+    except:
         內容['收錄者'] = 來源表.objects.get(名='匿名')
 
     for 欄位 in 欄位表:

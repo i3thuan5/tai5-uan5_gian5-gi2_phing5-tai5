@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 import json
-from unittest.mock import patch
 
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
@@ -41,7 +40,7 @@ class 推薦用字試驗(TestCase):
         self.assertTrue(平臺項目.是推薦用字())
 
     def test_建議無登入(self):
-        self.登入使用者編號mock.return_value = None
+        self.client.logout()
         平臺項目 = 平臺項目表.加外語資料(self.外語內容)
 
         回應 = self.client.post(
@@ -156,7 +155,7 @@ class 推薦用字試驗(TestCase):
     def test_取消建議無登入(self):
         平臺項目 = 平臺項目表.加外語資料(self.外語內容)
         self.推薦用字(平臺項目)
-        self.登入使用者編號mock.return_value = None
+        self.client.logout()
 
         回應 = self.client.post(
             '/平臺項目/取消推薦用字', {

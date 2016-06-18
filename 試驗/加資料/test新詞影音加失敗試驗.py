@@ -4,19 +4,22 @@ import json
 import wave
 
 from django.test import TestCase
+
+
 from 臺灣言語資料庫.資料模型 import 影音表
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.關係模型 import 翻譯影音表
 from 臺灣言語平臺.項目模型 import 平臺項目表
-from 臺灣言語資料庫.資料模型 import 來源表
+from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 新詞影音加失敗試驗(TestCase):
 
     def setUp(self):
         super(新詞影音加失敗試驗, self).setUp()
-        self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
-
+        self.鄉民 = 使用者表.加使用者(
+            'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
+        )
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
                 '外語資料': '漂亮',
