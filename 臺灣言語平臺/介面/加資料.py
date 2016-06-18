@@ -29,7 +29,7 @@ class 失敗的json回應(Json失敗回應):
         super(失敗的json回應, self).__init__({
             '結果': '失敗',
             '原因': 失敗原因,
-        })
+        })  
 
 
 class 成功的json回應(JsonResponse):
@@ -109,14 +109,17 @@ def 加新詞影音(request):
         '屬性',
     ]
     內容 = {
-        '收錄者': 使用者表 .判斷編號(request.user),
-        '版權': '會使公開',
+        '收錄者': 使用者表.判斷編號(request.user),
     }
     if 內容['收錄者'] is None:
-        return 失敗的json回應('無登入')
-    try:
-        for 欄位 in 欄位表:
+        內容['收錄者'] = 來源表.objects.get(名='匿名').編號()
+
+    for 欄位 in 欄位表:
+        try:
             內容[欄位] = request.POST[欄位]
+        except:
+            pass
+    try:
         內容['原始影音資料'] = request.FILES['影音資料']
         外語項目編號 = int(request.POST['外語項目編號'])
     except MultiValueDictKeyError:
@@ -125,8 +128,6 @@ def 加新詞影音(request):
         return 失敗的json回應('編號欄位不是數字字串')
 
     try:
-        if 內容是自己的json字串(內容):
-            內容['來源'] = 內容['收錄者']
         平臺項目 = 平臺項目表.外語錄母語(外語項目編號, 內容)
     except ValueError as 錯誤:
         錯誤資訊 = 錯誤.args[0]
