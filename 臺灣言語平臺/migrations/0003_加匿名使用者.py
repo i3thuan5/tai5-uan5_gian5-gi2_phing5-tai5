@@ -3,10 +3,11 @@ from django.db import migrations
 
 
 def _加匿名者(apps, schema_editor):
-    # We can't import the Person model directly as it may be a newer
-    # version than this migration expects. We use the historical version.
     來源表 = apps.get_model("臺灣言語資料庫", "來源表")
-    來源表.objects.get_or_create(名='匿名')
+    來源 = 來源表.objects.get_or_create(名='匿名')[0]
+
+    使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
+    使用者表.objects.create(來源=來源, email='nobody@g0v.tw')
 
 
 class Migration(migrations.Migration):

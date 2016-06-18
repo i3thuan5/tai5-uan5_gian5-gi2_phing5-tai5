@@ -7,7 +7,6 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 
 from 臺灣言語資料庫.資料模型 import 種類表
-from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
@@ -29,7 +28,7 @@ class 失敗的json回應(Json失敗回應):
         super(失敗的json回應, self).__init__({
             '結果': '失敗',
             '原因': 失敗原因,
-        })  
+        })
 
 
 class 成功的json回應(JsonResponse):
@@ -63,11 +62,11 @@ def 加外語請教條(request):
         '屬性',
         '外語語言',
     ]
-    內容 = {
-        '收錄者': 使用者表.判斷編號(request.user),
-    }
-    if 內容['收錄者'] is None:
-        內容['收錄者'] = 來源表.objects.get(名='匿名').編號()
+    內容 = {}
+    if request.user.is_authenticated():
+        內容['收錄者'] = request.user
+    else:
+        內容['收錄者'] = 來源表.objects.get(名='匿名')
 
     for 欄位 in 欄位表:
         try:
@@ -108,12 +107,11 @@ def 加新詞影音(request):
         '著作年',
         '屬性',
     ]
-    內容 = {
-        '收錄者': 使用者表.判斷編號(request.user),
-    }
-    if 內容['收錄者'] is None:
-        內容['收錄者'] = 來源表.objects.get(名='匿名').編號()
-
+    內容 = {}
+    if request.user.is_authenticated():
+        內容['收錄者'] = request.user
+    else:
+        內容['收錄者'] = 來源表.objects.get(名='匿名')
     for 欄位 in 欄位表:
         try:
             內容[欄位] = request.POST[欄位]
@@ -157,11 +155,11 @@ def 外語加新詞文本(request):
         '著作年',
         '屬性',
     ]
-    內容 = {
-        '收錄者': 使用者表.判斷編號(request.user),
-    }
-    if 內容['收錄者'] is None:
-        內容['收錄者'] = 來源表.objects.get(名='匿名').編號()
+    內容 = {}
+    if request.user.is_authenticated():
+        內容['收錄者'] = request.user
+    else:
+        內容['收錄者'] = 來源表.objects.get(名='匿名')
 
     for 欄位 in 欄位表:
         try:

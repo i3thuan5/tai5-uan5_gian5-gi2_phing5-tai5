@@ -24,10 +24,7 @@ class 外語新詞文本加成功試驗(TestCase):
         self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
 
         self.有對應函式()
-
-        self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-        self.登入使用者編號mock = self.登入使用者編號patcher.start()
-        self.登入使用者編號mock.return_value = self.鄉民.編號()
+        self.client.force_login(self.鄉民)
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
@@ -48,7 +45,6 @@ class 外語新詞文本加成功試驗(TestCase):
         self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 
     def tearDown(self):
-        self.登入使用者編號patcher.stop()
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數)
@@ -123,7 +119,7 @@ class 外語新詞文本加成功試驗(TestCase):
         self.assertEqual(文本.來源.名, '自己')
 
     def test_無登入(self):
-        self.登入使用者編號mock.return_value = None
+        self.client.logout()
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
                 '外語項目編號': self.外語項目編號,

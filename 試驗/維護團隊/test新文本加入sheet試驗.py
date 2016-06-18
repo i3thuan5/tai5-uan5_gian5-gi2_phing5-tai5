@@ -4,16 +4,16 @@ from unittest.mock import patch
 from django.test.testcases import TestCase
 
 
-from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
+from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 新文本加入sheet試驗(TestCase):
 
     def setUp(self):
-        self.阿媠 = 來源表.objects.create(名='阿媠')
+        self.阿媠 = 使用者表.加使用者('sui2@pigu.tw', {'名': '阿媠'})
         閩南語 = 語言腔口表.objects.create(語言腔口='閩南語')
         正規化sheet表.objects.create(
             client_email='sui2@ti1tiau5.tw',
@@ -35,9 +35,8 @@ class 新文本加入sheet試驗(TestCase):
         return 資料內容
 
     @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.文本加入sheet')
-    @patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-    def test_加外語新詞有叫函式(self, 登入使用者編號mock, 文本加入sheetMocka):
-        登入使用者編號mock.return_value = self.阿媠.編號()
+    def test_加外語新詞有叫函式(self, 文本加入sheetMocka):
+        self.client.force_login(self.阿媠)
         外語回應 = self.client.post(
             '/平臺項目/加外語', self._加公家內容({
                 '屬性': json.dumps({'詞性': '形容詞', '字數': '2'}),

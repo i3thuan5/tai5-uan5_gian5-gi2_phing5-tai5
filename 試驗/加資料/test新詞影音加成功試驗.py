@@ -3,7 +3,6 @@ from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.資料模型 import 影音表
 import io
 import json
-from unittest.mock import patch
 import wave
 
 from django.core.urlresolvers import resolve
@@ -12,19 +11,17 @@ from django.test import TestCase
 
 from 臺灣言語資料庫.關係模型 import 翻譯影音表
 from 臺灣言語平臺.項目模型 import 平臺項目表
-from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語平臺.介面.加資料 import 加新詞影音
+from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 新詞影音加成功試驗(TestCase):
 
     def setUp(self):
         super(新詞影音加成功試驗, self).setUp()
-        self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
-
-        self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-        self.登入使用者編號mock = self.登入使用者編號patcher.start()
-        self.登入使用者編號mock.return_value = self.鄉民.編號()
+        self.鄉民 = 使用者表.加使用者(
+            'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
+        )
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
@@ -56,14 +53,12 @@ class 新詞影音加成功試驗(TestCase):
         self.翻譯影音表資料數 = 翻譯影音表.objects.all().count()
         self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 
-    def tearDown(self):
-        self.登入使用者編號patcher.stop()
-
     def test_有對應函式(self):
         對應 = resolve('/平臺項目/加新詞影音')
         self.assertEqual(對應.func, 加新詞影音)
 
     def test_來源自己(self):
+        self.client.force_login(self.鄉民)
         回應 = self.client.post(
             '/平臺項目/加新詞影音', {
                 '外語項目編號': self.外語項目編號,
@@ -84,10 +79,11 @@ class 新詞影音加成功試驗(TestCase):
 
         影音 = 平臺項目表.objects.get(pk=編號).影音
         self.外語.翻譯影音.get(影音=影音)
-        self.assertEqual(影音.收錄者, self.鄉民)
-        self.assertEqual(影音.來源, self.鄉民)
+        self.assertEqual(影音.收錄者.使用者, self.鄉民)
+        self.assertEqual(影音.來源.使用者, self.鄉民)
 
     def test_來源名自己(self):
+        self.client.force_login(self.鄉民)
         回應 = self.client.post(
             '/平臺項目/加新詞影音', {
                 '外語項目編號': self.外語項目編號,
@@ -108,12 +104,12 @@ class 新詞影音加成功試驗(TestCase):
 
         影音 = 平臺項目表.objects.get(pk=編號).影音
         self.外語.翻譯影音.get(影音=影音)
-        self.assertEqual(影音.收錄者, self.鄉民)
+        self.assertEqual(影音.收錄者.使用者, self.鄉民)
         self.assertEqual(影音.來源.名, '自己')
         self.assertEqual(影音.來源.屬性.count(), 0)
 
     def test_無登入(self):
-        self.登入使用者編號mock.return_value = None
+        self.client.logout()
         回應 = self.client.post(
             '/平臺項目/加新詞影音', {
                 '外語項目編號': self.外語項目編號,
@@ -187,8 +183,8 @@ class 新詞影音加成功試驗(TestCase):
 
         影音 = 平臺項目表.objects.get(pk=編號).影音
         self.外語.翻譯影音.get(影音=影音)  # 確定有建立關係
-        self.assertEqual(影音.收錄者, self.鄉民)
-        self.assertEqual(影音.來源, self.鄉民)
+        self.assertEqual(影音.收錄者.名, '匿名')
+        self.assertEqual(影音.來源.名, '匿名')
         self.assertEqual(影音.版權.版權, '會使公開')
         self.assertEqual(影音.種類.種類, '字詞')
         self.assertEqual(影音.語言腔口.語言腔口, '閩南語')

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import io
 import json
-from unittest.mock import patch
 import wave
 
 from django.test import TestCase
@@ -17,10 +16,6 @@ class 新詞影音加失敗試驗(TestCase):
     def setUp(self):
         super(新詞影音加失敗試驗, self).setUp()
         self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
-
-        self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-        self.登入使用者編號mock = self.登入使用者編號patcher.start()
-        self.登入使用者編號mock.return_value = self.鄉民.編號()
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
@@ -51,7 +46,6 @@ class 新詞影音加失敗試驗(TestCase):
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數)
         self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數)
-        self.登入使用者編號patcher.stop()
 
     def test_缺編號欄位(self):
         '編號欄位跟其他欄位一樣，缺了會失敗'

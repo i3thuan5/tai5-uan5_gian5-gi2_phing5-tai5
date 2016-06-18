@@ -20,10 +20,6 @@ class 外語新詞文本加失敗試驗(TestCase):
         super(外語新詞文本加失敗試驗, self).setUp()
         self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
 
-        self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-        self.登入使用者編號mock = self.登入使用者編號patcher.start()
-        self.登入使用者編號mock.return_value = self.鄉民.編號()
-
         外語回應資料 = self.client.post(
             '/平臺項目/加外語', {
                 '外語資料': '漂亮',
@@ -40,7 +36,6 @@ class 外語新詞文本加失敗試驗(TestCase):
         self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 
     def tearDown(self):
-        self.登入使用者編號patcher.stop()
 # 		後端資料庫檢查不增加資料
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
