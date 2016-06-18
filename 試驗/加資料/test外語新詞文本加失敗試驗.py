@@ -38,7 +38,7 @@ class 外語新詞文本加失敗試驗(TestCase):
         self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 
     def tearDown(self):
-# 		後端資料庫檢查不增加資料
+        # 		後端資料庫檢查不增加資料
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數)
