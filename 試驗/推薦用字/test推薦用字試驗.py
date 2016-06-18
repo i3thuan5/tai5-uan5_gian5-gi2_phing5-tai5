@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 import json
-from unittest.mock import patch
 
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
@@ -16,24 +15,9 @@ class 推薦用字試驗(TestCase):
         self.管理者 = 使用者表.加使用者(
             'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', },)
         self.外語內容 = {
-            '收錄者': self.管理者.編號(),
-            '來源': json.dumps({'名': '阿媠', '職業': '學生'}),
-            '版權': '會使公開',
-            '種類': '字詞',
-            '語言腔口': '閩南語',
-            '著作所在地': '花蓮',
-            '著作年': '2014',
-            '屬性': json.dumps({'詞性': '形容詞', '字數': '2'}),
-            '外語語言': '華語',
             '外語資料': '水母',
         }
-
-        self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-        self.登入使用者編號mock = self.登入使用者編號patcher.start()
-        self.登入使用者編號mock.return_value = self.管理者.編號()
-
-    def tearDown(self):
-        self.登入使用者編號patcher.stop()
+        self.client.force_login(self.管理者)
 
     def test_預設不是正規用字(self):
         平臺項目 = 平臺項目表.加外語資料(self.外語內容)
@@ -56,7 +40,7 @@ class 推薦用字試驗(TestCase):
         self.assertTrue(平臺項目.是推薦用字())
 
     def test_建議無登入(self):
-        self.登入使用者編號mock.return_value = None
+        self.client.logout()
         平臺項目 = 平臺項目表.加外語資料(self.外語內容)
 
         回應 = self.client.post(
@@ -171,7 +155,7 @@ class 推薦用字試驗(TestCase):
     def test_取消建議無登入(self):
         平臺項目 = 平臺項目表.加外語資料(self.外語內容)
         self.推薦用字(平臺項目)
-        self.登入使用者編號mock.return_value = None
+        self.client.logout()
 
         回應 = self.client.post(
             '/平臺項目/取消推薦用字', {

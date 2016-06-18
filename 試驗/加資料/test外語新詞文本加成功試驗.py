@@ -6,7 +6,6 @@ from 臺灣言語資料庫.關係模型 import 翻譯影音表
 from 臺灣言語資料庫.關係模型 import 影音文本表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 import json
-from unittest.mock import patch
 
 from django.core.urlresolvers import resolve
 from django.test import TestCase
@@ -14,20 +13,18 @@ from django.test import TestCase
 
 from 臺灣言語資料庫.關係模型 import 翻譯文本表
 from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
-from 臺灣言語資料庫.資料模型 import 來源表
+from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 外語新詞文本加成功試驗(TestCase):
 
     def setUp(self):
         super(外語新詞文本加成功試驗, self).setUp()
-        self.鄉民 = 來源表.加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
-
+        self.鄉民 = 使用者表.加使用者(
+            'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
+        )
         self.有對應函式()
-
-        self.登入使用者編號patcher = patch('臺灣言語平臺.使用者模型.使用者表.判斷編號')
-        self.登入使用者編號mock = self.登入使用者編號patcher.start()
-        self.登入使用者編號mock.return_value = self.鄉民.編號()
+        self.client.force_login(self.鄉民)
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
@@ -48,7 +45,6 @@ class 外語新詞文本加成功試驗(TestCase):
         self.平臺項目表資料數 = 平臺項目表.objects.all().count()
 
     def tearDown(self):
-        self.登入使用者編號patcher.stop()
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數)
@@ -98,8 +94,8 @@ class 外語新詞文本加成功試驗(TestCase):
 
         文本 = 平臺項目表.objects.get(pk=編號).文本
         self.外語.翻譯文本.get(文本=文本)
-        self.assertEqual(文本.收錄者, self.鄉民)
-        self.assertEqual(文本.來源, self.鄉民)
+        self.assertEqual(文本.收錄者.使用者, self.鄉民)
+        self.assertEqual(文本.來源.使用者, self.鄉民)
 
     def test_來源名自己(self):
         回應 = self.client.post(
@@ -119,11 +115,11 @@ class 外語新詞文本加成功試驗(TestCase):
 
         文本 = 平臺項目表.objects.get(pk=編號).文本
         self.外語.翻譯文本.get(文本=文本)
-        self.assertEqual(文本.收錄者, self.鄉民)
+        self.assertEqual(文本.收錄者.使用者, self.鄉民)
         self.assertEqual(文本.來源.名, '自己')
 
     def test_無登入(self):
-        self.登入使用者編號mock.return_value = None
+        self.client.logout()
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
                 '外語項目編號': self.外語項目編號,

@@ -40,16 +40,9 @@ class 使用者表(AbstractBaseUser):
 
     @classmethod
     def 加使用者(cls, email, 來源內容):
-        來源 = 來源表. 加來源(來源內容)
+        來源 = 來源表.加來源(來源內容)
         使用者 = cls.objects.create(來源=來源, email=email)
-        使用者.set_unusable_password()
         return 使用者
-
-    @classmethod
-    def 判斷編號(cls, 使用者物件):
-        if 使用者物件.is_authenticated():
-            return 使用者物件.編號()
-        return None
 
     def 設定欄位內容(self, 資料內容={}):
         "讓allauth的接口使用"
