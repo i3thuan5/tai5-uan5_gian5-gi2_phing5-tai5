@@ -12,15 +12,6 @@ from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
 from 臺灣言語資料庫.資料模型 import 來源表
 
-_自己 = '自己'
-_自己json字串 = [json.dumps(_自己), json.dumps(_自己, ensure_ascii=False)]
-
-
-def 內容是自己的json字串(內容):
-    if 內容['來源'] in _自己json字串:
-        return True
-    return False
-
 
 class 失敗的json回應(Json失敗回應):
 
