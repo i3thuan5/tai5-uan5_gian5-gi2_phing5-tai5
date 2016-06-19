@@ -57,6 +57,7 @@ class 平臺項目表(models.Model):
                 Q(翻譯文本__文本__平臺項目__推薦用字=True) |
                 Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
             )
+            .distinct()
             .order_by('-pk')
         )
 
@@ -68,6 +69,7 @@ class 平臺項目表(models.Model):
                 Q(翻譯文本__文本__平臺項目__推薦用字=True) |
                 Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
             )
+            .distinct()
             .order_by('-pk')
         )
 
