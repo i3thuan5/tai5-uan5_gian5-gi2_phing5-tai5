@@ -8,7 +8,6 @@ from django.db import models
 
 
 from 臺灣言語資料庫.資料模型 import 來源表
-from 臺灣言語資料庫.資料模型 import 來源屬性表
 
 
 class 使用者表管理(BaseUserManager):
@@ -69,11 +68,6 @@ class 使用者表(AbstractBaseUser):
         else:
             self.set_unusable_password()
         return
-
-    def save(self, *args, **kwargs):
-        super(使用者表, self).save(*args, **kwargs)
-        self.來源.屬性.add(來源屬性表.加屬性('使用者資料', '有'))
-        self.來源.save()
 
     def has_perm(self, perm, obj=None):
         return self.is_staff
