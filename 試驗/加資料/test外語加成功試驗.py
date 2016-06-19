@@ -104,7 +104,7 @@ class 外語加成功試驗(TestCase):
         外語 = 平臺項目表.objects.get(pk=編號).外語
         self.assertEqual(外語.版權.版權, '會使公開')
         self.assertEqual(外語.種類.種類, '字詞')
-        self.assertEqual(外語.語言腔口.語言腔口, '閩南語')
+        self.assertEqual(外語.語言腔口.語言腔口, '臺灣語言')
         self.assertEqual(外語.著作所在地.著作所在地, '臺灣')
         self.assertGreaterEqual(int(外語.著作年.著作年), 2015)
         self.assertEqual(外語.外語語言.語言腔口, '華語')

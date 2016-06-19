@@ -34,6 +34,8 @@ INSTALLED_APPS += (
     '臺灣言語資料庫',
     '臺灣言語平臺',
 )
+MOTHER_TONGUE = '臺灣語言'
+FOREIGN_LANGUAGE = '華語'
 
 # 使用者上傳檔案
 MEDIA_ROOT = os.path.join(BASE_DIR, "資料庫影音檔案")
@@ -109,15 +111,14 @@ INSTALLED_APPS += (
 
 `urls.py`要加`django-allauth`、`臺灣言語平臺`佮`影音檔案`的路徑，網頁管理介面`admin`可以需要更改 
 ```python3
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^', include('臺灣言語平臺.網址')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^影音檔案/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
     }),
     url(r'^admin/', include(admin.site.urls)),
-)
+]
 ```
 
 ### 跑服務
