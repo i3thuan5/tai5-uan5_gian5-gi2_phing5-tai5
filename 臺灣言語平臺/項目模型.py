@@ -17,15 +17,6 @@ from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語資料庫.欄位資訊 import 字詞
 
-_自己 = '自己'
-_自己json字串 = [json.dumps(_自己), json.dumps(_自己, ensure_ascii=False)]
-
-
-def 內容是自己的json字串(內容):
-    if 內容['來源'] in _自己json字串:
-        return True
-    return False
-
 
 class 平臺項目表(models.Model):
     項目名 = '平臺項目'
@@ -203,7 +194,7 @@ class 平臺項目表(models.Model):
     def _補預設欄位(cls, 內容):
         新內容 = {
             '收錄者': 來源表.objects.get(名='匿名').編號(),
-            '來源': _自己json字串[0],
+            '來源': cls._自己json字串[0],
             '版權': '會使公開',
             '種類': 字詞,
             '語言腔口': '閩南語',
@@ -214,6 +205,15 @@ class 平臺項目表(models.Model):
 
         }
         新內容.update(內容)
-        if 內容是自己的json字串(新內容):
+        if cls.內容是自己的json字串(新內容):
             新內容['來源'] = 新內容['收錄者']
         return 新內容
+
+    _自己 = '自己'
+    _自己json字串 = [json.dumps(_自己), json.dumps(_自己, ensure_ascii=False)]
+
+    @classmethod
+    def 內容是自己的json字串(cls, 內容):
+        if 內容['來源'] in cls._自己json字串:
+            return True
+        return False
