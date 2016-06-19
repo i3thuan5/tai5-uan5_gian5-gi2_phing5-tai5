@@ -18,14 +18,14 @@ class 使用者表試驗(TestCase):
 
     def test_有email佮來源(self):
         來源內容 = {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
-        來源 = 來源表. 加來源(來源內容)
+        來源 = 來源表.加來源(來源內容)
         使用者 = 使用者表(email='sui2@pigu.tw', 來源=來源)
         使用者.set_unusable_password()
         使用者.full_clean()
 
     def test_愛有email(self):
         來源內容 = {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
-        來源 = 來源表. 加來源(來源內容)
+        來源 = 來源表.加來源(來源內容)
         使用者 = 使用者表(來源=來源)
         使用者.set_unusable_password()
         self.assertRaises(ValidationError, 使用者.full_clean,)
@@ -55,5 +55,7 @@ class 使用者表試驗(TestCase):
 
     def test_來源有使用者資料記錄(self):
         使用者 = self.加鄉民使用者()
-        self.assertEqual(使用者.來源.屬性.get(分類='使用者資料').內容(),
-                         {'使用者資料': '有'})
+        self.assertEqual(
+            使用者.來源.屬性.get(分類='使用者資料').內容(),
+            {'使用者資料': '有'}
+        )
