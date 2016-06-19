@@ -2,6 +2,7 @@
 from datetime import date
 import json
 
+from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from django.db.models.query_utils import Q
@@ -199,11 +200,11 @@ class 平臺項目表(models.Model):
             '來源': cls._自己json字串[0],
             '版權': '會使公開',
             '種類': 字詞,
-            '語言腔口': '閩南語',
+            '語言腔口': settings.MOTHER_TONGUE,
             '著作所在地': '臺灣',
             '著作年': str(timezone.now().year),
             '屬性': {},
-            '外語語言': '華語',
+            '外語語言': settings.FOREIGN_LANGUAGE,
 
         }
         新內容.update(內容)
