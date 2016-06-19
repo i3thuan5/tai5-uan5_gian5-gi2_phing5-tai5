@@ -179,7 +179,7 @@ class 外語新詞文本加成功試驗(TestCase):
         文本 = 平臺項目表.objects.get(pk=編號).文本
         self.assertEqual(文本.版權.版權, '會使公開')
         self.assertEqual(文本.種類.種類, '字詞')
-        self.assertEqual(文本.語言腔口.語言腔口, '閩南語')
+        self.assertEqual(文本.語言腔口.語言腔口, '臺灣語言')
         self.assertEqual(文本.著作所在地.著作所在地, '臺灣')
         self.assertEqual(文本.屬性.count(), 0)
         self.assertEqual(文本.文本資料, '媠')

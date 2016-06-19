@@ -16,12 +16,12 @@ class 新文本加入sheet試驗(TestCase):
         self.阿媠 = 使用者表.加使用者('sui2@pigu.tw', {'名': '阿媠'})
         self.client.force_login(self.阿媠)
 
-        閩南語 = 語言腔口表.objects.create(語言腔口='閩南語')
+        臺灣語言 = 語言腔口表.objects.create(語言腔口='臺灣語言')
         正規化sheet表.objects.create(
             client_email='sui2@ti1tiau5.tw',
             private_key='(oo)',
             url='http://ti1tiau5.tw',
-            語言腔口=閩南語
+            語言腔口=臺灣語言
         )
 
     def _加公家內容(self, 資料內容):

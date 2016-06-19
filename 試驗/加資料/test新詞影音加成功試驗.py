@@ -25,14 +25,7 @@ class 新詞影音加成功試驗(TestCase):
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
-                '來源': json.dumps({'名': '阿媠', '職業': '學生'}),
-                '種類': '字詞',
-                '語言腔口': '閩南語',
-                        '著作所在地': '花蓮',
-                        '著作年': '2014',
-                        '屬性': json.dumps({'詞性': '形容詞', '字數': '2'}),
-                        '外語語言': '華語',
-                        '外語資料': '漂亮',
+                '外語資料': '漂亮',
             }
         )
         外語回應資料 = json.loads(外語回應.content.decode("utf-8"))
@@ -187,7 +180,7 @@ class 新詞影音加成功試驗(TestCase):
         self.assertEqual(影音.來源.名, '匿名')
         self.assertEqual(影音.版權.版權, '會使公開')
         self.assertEqual(影音.種類.種類, '字詞')
-        self.assertEqual(影音.語言腔口.語言腔口, '閩南語')
+        self.assertEqual(影音.語言腔口.語言腔口, '臺灣語言')
         self.assertEqual(影音.著作所在地.著作所在地, '臺灣')
         self.assertGreaterEqual(影音.著作年.著作年, '2016')
         self.assertEqual(影音.屬性.count(), 0)
