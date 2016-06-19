@@ -36,7 +36,6 @@ class 看資料詳細內容試驗(TestCase):
         對應 = resolve('/平臺項目/看詳細內容')
         self.assertEqual(對應.func, 看資料詳細內容)
 
-
     def test_資料外語(self):
         外語項目編號 = 平臺項目表.加外語資料(self.外語內容).編號()
 # 		前端輸入
