@@ -10,12 +10,6 @@ from 臺灣言語平臺.使用者模型 import 使用者表
 
 class 使用者表試驗(TestCase):
 
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     def test_有email佮來源(self):
         來源內容 = {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
         來源 = 來源表.加來源(來源內容)
@@ -56,6 +50,6 @@ class 使用者表試驗(TestCase):
     def test_來源有使用者資料記錄(self):
         使用者 = self.加鄉民使用者()
         self.assertEqual(
-            使用者.來源.屬性.get(分類='使用者資料').內容(),
-            {'使用者資料': '有'}
+            使用者.來源.使用者,
+            使用者
         )

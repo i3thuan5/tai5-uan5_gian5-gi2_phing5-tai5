@@ -9,12 +9,6 @@ from 臺灣言語平臺.使用者模型 import 使用者表
 
 class 看來源內容試驗(TestCase):
 
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     def test_一般來源(self):
         來源內容 = {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
         使用者 = 使用者表.加使用者('sui2@pigu.tw', 來源內容,)
@@ -25,9 +19,8 @@ class 看來源內容試驗(TestCase):
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
             '名': '鄉民',
-            '屬性內容': {'出世年': '1950', '出世地': '臺灣', '使用者資料': '有', },
+            '屬性內容': {'出世年': '1950', '出世地': '臺灣'},
             'email': 'sui2@pigu.tw',
-            '分數': 0,
         })
 # 		後端檢查
         self.assertEqual(使用者.來源.編號(), 使用者.編號())

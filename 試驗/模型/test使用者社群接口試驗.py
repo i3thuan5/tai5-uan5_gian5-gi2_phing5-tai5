@@ -35,8 +35,7 @@ class 使用者社群接口試驗(TestCase):
 
     def test_無表來源有使用者資料紀錄(self):
         self.無表設定()
-        self.assertEqual(self.使用者.來源.屬性.get(分類='使用者資料').內容(),
-                         {'使用者資料': '有'})
+        self.assertEqual(self.使用者.來源.使用者, self.使用者)
 
     def 有表設定(self):
         登入資料 = Mock()
@@ -63,8 +62,7 @@ class 使用者社群接口試驗(TestCase):
 
     def test_有表來源有使用者資料紀錄(self):
         self.有表設定()
-        self.assertEqual(self.使用者.來源.屬性.get(分類='使用者資料').內容(),
-                         {'使用者資料': '有'})
+        self.assertEqual(self.使用者.來源.使用者, self.使用者)
 
     def test_有表設定有name(self):
         登入資料 = Mock()

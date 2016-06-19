@@ -8,8 +8,6 @@ from django.db import models
 
 
 from 臺灣言語資料庫.資料模型 import 來源表
-from 臺灣言語資料庫.資料模型 import 來源屬性表
-from 臺灣言語資料庫.資料模型 import 語言腔口表
 
 
 class 使用者表管理(BaseUserManager):
@@ -28,9 +26,7 @@ class 使用者表(AbstractBaseUser):
         來源表, related_name='使用者', primary_key=True, null=False)
     email = models.EmailField(unique=True, null=False)
     註冊時間 = models.DateTimeField(auto_now_add=True)
-    分數 = models.IntegerField(default=0)
     is_staff = models.BooleanField(default=False)  # for admin
-    維護團隊 = models.ManyToManyField(語言腔口表)
     REQUIRED_FIELDS = ()  # for auth
     USERNAME_FIELD = 'email'  # for auth
 # 	階級 = models.IntegerField() 用函式算好矣
@@ -73,11 +69,6 @@ class 使用者表(AbstractBaseUser):
             self.set_unusable_password()
         return
 
-    def save(self, *args, **kwargs):
-        super(使用者表, self).save(*args, **kwargs)
-        self.來源.屬性.add(來源屬性表.加屬性('使用者資料', '有'))
-        self.來源.save()
-
     def has_perm(self, perm, obj=None):
         return self.is_staff
 
@@ -92,17 +83,6 @@ class 使用者表(AbstractBaseUser):
 
     def get_short_name(self):
         return self.來源.名
-
-    def 是維護團隊(self, 語言腔口):
-        return self.維護團隊.filter(語言腔口=語言腔口).count() > 0
-
-    def 設維護團隊(self, 語言腔口):
-        結果 = 語言腔口表.objects.get_or_create(語言腔口=語言腔口)
-        return self.維護團隊.add(結果[0])
-
-    def 取消維護團隊(self, 語言腔口):
-        結果 = 語言腔口表.objects.get_or_create(語言腔口=語言腔口)
-        return self.維護團隊.remove(結果[0])
 
 
 class 使用者一般接口(DefaultAccountAdapter):
