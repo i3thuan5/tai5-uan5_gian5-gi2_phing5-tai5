@@ -12,7 +12,7 @@ from 臺灣言語資料庫.資料模型 import 來源表
 
 class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
     def test_有編輯者的資料有匯入(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -36,7 +36,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     def test_匯入資料庫了新的設做推薦用字(self):
         文本項目 = self._加入新文本()
-        回傳項目 = 正規化sheet表.匯入資料({
+        回傳項目 = 正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -52,7 +52,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_匯入資料庫了舊的不是推薦用字(self):
         文本項目 = self._加入新文本()
         文本項目.設為推薦用字()
-        正規化sheet表.匯入資料({
+        正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -66,7 +66,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         文本項目.refresh_from_db()
         self.assertFalse(文本項目.是推薦用字())
 
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
     def test_濟筆資料有編輯的匯入去(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -103,7 +103,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             })
         ])
 
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
     def test_無編輯者的資料無匯入(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -115,7 +115,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         臺語sheet表.整理到資料庫()
         匯入資料mocka.assert_not_called()
 
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
     def test_資料攏無編輯免閣匯入(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -127,7 +127,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         臺語sheet表.整理到資料庫()
         匯入資料mocka.assert_not_called()
 
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
     def test_無流水號無編輯免閣匯入(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -162,7 +162,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     @patch('臺灣言語平臺.項目模型.平臺項目表.對正規化sheet校對母語文本')
     def test_資料漢字拼音攏有(self, 校對母語文本mocka):
-        正規化sheet表.匯入資料({
+        正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': '333',
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -177,7 +177,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     @patch('臺灣言語平臺.項目模型.平臺項目表.對正規化sheet校對母語文本')
     def test_資料干焦漢字(self, 校對母語文本mocka):
-        正規化sheet表.匯入資料({
+        正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': '333',
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -192,7 +192,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     @patch('臺灣言語平臺.項目模型.平臺項目表.對正規化sheet校對母語文本')
     def test_資料干焦拼音(self, 校對母語文本mocka):
-        正規化sheet表.匯入資料({
+        正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': '333',
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -207,7 +207,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     def test_資料仝款傳家己轉來(self):
         文本項目 = self._加入新文本()
-        回傳項目 = 正規化sheet表.匯入資料({
+        回傳項目 = 正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -223,7 +223,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_資料仝款設做推薦用字(self):
         文本項目 = self._加入新文本()
         self.assertFalse(文本項目.是推薦用字())
-        回傳項目 = 正規化sheet表.匯入資料({
+        回傳項目 = 正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -238,7 +238,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     def test_資料仝款就免加一筆正規化結果(self):
         文本項目 = self._加入新文本()
-        正規化sheet表.匯入資料({
+        正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -254,7 +254,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     def test_資料無改傳家己轉來(self):
         文本項目 = self._加入新文本()
-        回傳項目 = 正規化sheet表.匯入資料({
+        回傳項目 = 正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -270,7 +270,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_資料無改設做推薦用字(self):
         文本項目 = self._加入新文本()
         self.assertFalse(文本項目.是推薦用字())
-        回傳項目 = 正規化sheet表.匯入資料({
+        回傳項目 = 正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
             '貢獻者': '阿媠',
             '華語': '漂亮',
@@ -285,7 +285,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     def test_資料無改就免加一筆正規化結果(self):
         文本項目 = self._加入新文本()
-        正規化sheet表.匯入資料({
+        正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
             '貢獻者': '阿媠',
             '華語': '漂亮',

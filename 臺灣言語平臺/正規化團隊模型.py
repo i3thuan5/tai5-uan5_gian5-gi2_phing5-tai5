@@ -52,64 +52,51 @@ class 正規化sheet表(models.Model):
         except:
             return
         資料表 = 正規化sheet.提著資料表()
-        編號 = 平臺項目.編號()
-        if cls._編號有佇表內底無(編號, 資料表):
+        if cls._編號有佇表內底無(資料表, 平臺項目.編號()):
             return
+        正規化sheet表.新文本自資料庫加入sheet(資料表, 平臺項目)
+
+    @classmethod
+    def _編號有佇表內底無(cls, 資料表, 編號):
+        if str(編號) in 資料表.col_values(1)[1:]:
+            return True
+        return False
+
+    @staticmethod
+    def _揣外語資料(文本):
+        try:
+            return 文本.來源外語.外語.外語資料
+        except:
+            return 文本.來源影音.影音.來源外語.外語.外語資料
+
+    def 整理到資料庫(self):
+        資料表 = self.提著資料表()
+        全部資料 = 資料表.get_all_values()
+        標題 = 全部資料[0]
+        for 一筆 in 全部資料[1:]:
+            這筆資料 = dict(zip(標題, 一筆))
+            try:
+                正規化sheet表.正規化文本自sheet加轉資料庫(這筆資料)
+            except:
+                pass
+
+    @staticmethod
+    def 新文本自資料庫加入sheet(資料表, 平臺項目):
+        文本 = 平臺項目.資料()
         try:
             音標 = 文本.屬性.音標資料()
         except:
             音標 = ''
         資料表.append_row(
             [
-                str(平臺項目.編號()), 文本.來源.名, cls._揣外語資料(文本),
+                str(平臺項目.編號()), 文本.來源.名, 正規化sheet表._揣外語資料(文本),
                 文本.文本資料, 音標,
                 '', '', '', ''
             ]
         )
 
-    @classmethod
-    def _揣外語資料(cls, 文本):
-        try:
-            return 文本.來源外語.外語.外語資料
-        except:
-            return 文本.來源影音.影音.來源外語.外語.外語資料
-
-    @classmethod
-    def _編號有佇表內底無(cls, 編號, 資料表):
-        if str(編號) in 資料表.col_values(1)[1:]:
-            return True
-        return False
-
-    def 整理到資料庫(self):
-        資料表 = self.提著資料表()
-        全部資料 = 資料表.get_all_values()
-        標題 = 全部資料[0]
-        愛留 = []
-        有改 = False
-        無資料 = set([''])
-        for 一筆 in 全部資料[1:]:
-            這筆資料 = dict(zip(標題, 一筆))
-            if set(一筆) == 無資料:
-                有改 = True
-            elif 這筆資料['流水號'].strip() == '' or 這筆資料['編輯者'].strip() == '':
-                愛留.append(一筆)
-            else:
-                try:
-                    正規化sheet表.匯入資料(這筆資料)
-                    有改 = True
-                except:
-                    愛留.append(一筆)
-        self._資料清掉重匯入(有改, 資料表, 愛留)
-
     @staticmethod
-    def _資料清掉重匯入(有改, 資料表, 愛留):
-        if 有改:
-            資料表.resize(rows=1)
-            for 愛留的一筆 in 愛留:
-                資料表.append_row(愛留的一筆)
-
-    @staticmethod
-    def 匯入資料(這筆資料):
+    def 正規化文本自sheet加轉資料庫(這筆資料):
         平臺項目編號 = int(這筆資料['流水號'])
         原漢字 = 這筆資料['原漢字'].strip()
         原音標 = 這筆資料['原拼音'].strip()
