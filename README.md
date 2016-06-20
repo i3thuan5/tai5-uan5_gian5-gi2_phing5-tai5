@@ -152,9 +152,14 @@ key：db4f3fa26d26890e720d17a83ff5a6fe
 
 1. 申請服務
 2. 開啟Drive API
-3. 用Service Account得到一個`服務帳戶json`
+3. 用Service Account得到一個`服務帳戶json`檔案
 
-#### 看sheet設定
+#### sheet設定權限給後端
+
+1. google sheet右上角的share
+2. can edit輸入`服務帳戶json`檔案裡的client_email
+
+#### 輸入sheet meta data, 看sheet設定
 ```bash
 python manage.py 加sheet的json 語言腔口 服務帳戶json 網址
 python manage.py 顯示全部sheet狀態
