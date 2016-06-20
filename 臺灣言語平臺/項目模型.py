@@ -164,11 +164,6 @@ class 平臺項目表(models.Model):
     def 是推薦用字(self):
         return self.推薦用字
 
-    def 推薦用字結果(self):
-        if self.推薦用字:
-            return '是'
-        return '否'
-
     def 設為推薦用字(self):
         self.推薦用字 = True
         self.save()
