@@ -1,6 +1,7 @@
 import io
 import json
 from unittest.mock import patch
+from os.path import abspath, dirname, join
 
 from django.core.management import call_command
 from django.test.testcases import TestCase
@@ -12,6 +13,8 @@ from 臺灣言語資料庫.資料模型 import 來源表
 
 
 class 指令整理sheet到資料庫試驗(TestCase):
+
+    json檔名 = join(dirname(abspath(__file__)), '資料', 'itaigi-ae98ec2616c9.json')
 
     @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.全部整理到資料庫')
     def test_有叫著全部整理函式(self, 全部整理到資料庫mocka):
@@ -55,8 +58,7 @@ class 指令整理sheet到資料庫試驗(TestCase):
     def _加臺語sheet表(self):
         return 正規化sheet表.加sheet(
             語言腔口='臺語',
-            client_email='itaigi@developer.gserviceaccount.com',
-            private_key='taigi',
+            key_file_name=self.json檔名,
             url='https://itaigi.tw',
         )
 

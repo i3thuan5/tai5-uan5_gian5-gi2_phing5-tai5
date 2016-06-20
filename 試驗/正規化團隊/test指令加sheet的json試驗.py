@@ -23,8 +23,7 @@ class 指令加sheet的json試驗(TestCase):
             )
         加sheetMocka.assert_called_once_with(
             語言腔口='臺語',
-            client_email='itaigi@developer.gserviceaccount.com',
-            private_key='taigi',
+            key_file_name=self.json檔名,
             url='https://itaigi.tw',
         )
 
@@ -50,23 +49,20 @@ class 指令加sheet的json試驗(TestCase):
     def test_加sheet入去資料正確(self):
         正規化sheet表.加sheet(
             語言腔口='臺語',
-            client_email='itaigi@developer.gserviceaccount.com',
-            private_key='taigi',
+            key_file_name=self.json檔名,
             url='https://itaigi.tw',
         )
         臺語sheet = 正規化sheet表.objects.get()
         self.assertEqual(臺語sheet.語言腔口.語言腔口, '臺語')
         self.assertEqual(
-            臺語sheet.client_email, 'itaigi@developer.gserviceaccount.com')
-        self.assertEqual(臺語sheet.private_key, 'taigi')
+            臺語sheet.key_file_name, self.json檔名)
         self.assertEqual(臺語sheet.url, 'https://itaigi.tw')
 
     def test_加sheet有加語言腔口(self):
         語言腔口數量 = 語言腔口表.objects.all().count()
         正規化sheet表.加sheet(
             語言腔口='臺語',
-            client_email='itaigi@developer.gserviceaccount.com',
-            private_key='taigi',
+            key_file_name=self.json檔名,
             url='https://itaigi.tw',
         )
         self.assertEqual(語言腔口表.objects.all().count(), 語言腔口數量 + 1)
@@ -76,8 +72,7 @@ class 指令加sheet的json試驗(TestCase):
         語言腔口數量 = 語言腔口表.objects.all().count()
         正規化sheet表.加sheet(
             語言腔口='臺語',
-            client_email='itaigi@developer.gserviceaccount.com',
-            private_key='taigi',
+            key_file_name=self.json檔名,
             url='https://itaigi.tw',
         )
         self.assertEqual(語言腔口表.objects.all().count(), 語言腔口數量)

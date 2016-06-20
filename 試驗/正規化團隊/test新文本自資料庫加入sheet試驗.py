@@ -1,5 +1,6 @@
 import json
 from unittest.mock import patch
+from os.path import abspath, dirname, join
 
 from django.test.testcases import TestCase
 
@@ -12,14 +13,15 @@ from 臺灣言語平臺.使用者模型 import 使用者表
 
 class 新文本自資料庫加入sheet試驗(TestCase):
 
+    json檔名 = join(dirname(abspath(__file__)), '資料', 'itaigi-ae98ec2616c9.json')
+
     def setUp(self):
         self.阿媠 = 使用者表.加使用者('sui2@pigu.tw', {'名': '阿媠'})
         self.client.force_login(self.阿媠)
 
         臺灣語言 = 語言腔口表.objects.create(語言腔口='臺灣語言')
         正規化sheet表.objects.create(
-            client_email='sui2@ti1tiau5.tw',
-            private_key='(oo)',
+            key_file_name=self.json檔名,
             url='http://ti1tiau5.tw',
             語言腔口=臺灣語言
         )
