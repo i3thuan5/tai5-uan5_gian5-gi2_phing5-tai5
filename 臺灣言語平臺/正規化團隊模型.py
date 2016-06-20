@@ -98,6 +98,14 @@ class 正規化sheet表(models.Model):
     @staticmethod
     def 正規化文本自sheet加轉資料庫(這筆資料):
         平臺項目編號 = int(這筆資料['流水號'])
+        try:
+            平臺項目 = 平臺項目表.揣編號(平臺項目編號)
+            '有匯入過資料就離開'
+            平臺項目.校對後的文本()
+        except:
+            pass
+        else:
+            return
         原漢字 = 這筆資料['原漢字'].strip()
         原音標 = 這筆資料['原拼音'].strip()
         漢字 = 這筆資料['正規漢字'].strip()
