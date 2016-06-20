@@ -93,7 +93,7 @@ class 平臺項目表(models.Model):
     @classmethod
     def 加外語資料(cls, 內容):
         try:
-            原本外語 = cls.找外語資料(內容)
+            原本外語 = cls._找外語資料(內容)
             錯誤 = ValidationError('已經有相同的外語資料了')
             錯誤.平臺項目編號 = 原本外語.編號()
             raise 錯誤
@@ -103,7 +103,7 @@ class 平臺項目表(models.Model):
         return cls.objects.create(外語=外語)
 
     @classmethod
-    def 找外語資料(cls, 內容):
+    def _找外語資料(cls, 內容):
         要求 = 外語表.objects.filter(外語資料=內容['外語資料'])
         try:
             要求 = 要求.filter(種類=種類表.objects.get(種類=內容['種類']))
