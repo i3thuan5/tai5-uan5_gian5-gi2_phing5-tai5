@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import date
 import json
 
 from django.conf import settings
@@ -177,16 +176,13 @@ class 平臺項目表(models.Model):
         新文本內容 = {
             '收錄者': 來源表.objects.get_or_create(名='系統管理者')[0],
             '來源': json.dumps({'名': 編輯者}),
-            '版權': '會使公開',
             '種類': 文本.種類.種類,
             '語言腔口': 文本.語言腔口.語言腔口,
-            '著作所在地': '臺灣',
-            '著作年': str(date.today().year),
             '文本資料': 新文本,
         }
         if 新音標:
             新文本內容['屬性'] = json.dumps({'音標': 新音標})
-        return self.__class__.objects.create(文本=文本.校對做(新文本內容))
+        return self.校對母語文本(self.編號(), 新文本內容)
 
     @classmethod
     def _補預設欄位(cls, 內容):
