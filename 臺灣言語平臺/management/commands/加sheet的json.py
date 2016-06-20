@@ -31,8 +31,7 @@ class Command(BaseCommand):
             服務帳戶資料 = json.load(檔案)
         正規化sheet表.加sheet(
             語言腔口='臺語',
-            client_email=服務帳戶資料['client_email'],
-            private_key=服務帳戶資料['private_key'],
+            key_file_name=參數['服務帳戶json'],
             url=參數['網址'],
         )
         self.stdout.write(
