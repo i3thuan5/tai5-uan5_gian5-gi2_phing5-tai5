@@ -4,7 +4,7 @@ from gspread.exceptions import SpreadsheetNotFound
 from oauth2client.client import AccessTokenRefreshError
 
 
-from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
+from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 
 
 class Command(BaseCommand):

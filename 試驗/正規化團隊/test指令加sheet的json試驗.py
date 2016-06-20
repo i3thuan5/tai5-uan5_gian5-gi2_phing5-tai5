@@ -5,7 +5,7 @@ from django.core.management import call_command
 from django.test.testcases import TestCase
 
 
-from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
+from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 from 臺灣言語資料庫.資料模型 import 語言腔口表
 import io
 
@@ -14,7 +14,7 @@ class 指令加sheet的json試驗(TestCase):
 
     json檔名 = join(dirname(abspath(__file__)), '資料', 'itaigi-ae98ec2616c9.json')
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.加sheet')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.加sheet')
     def test_有加資料入去(self, 加sheetMocka):
         with io.StringIO() as 輸出:
             call_command(
@@ -28,7 +28,7 @@ class 指令加sheet的json試驗(TestCase):
             url='https://itaigi.tw',
         )
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.加sheet')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.加sheet')
     def test_提示email愛加入編輯者(self, 加sheetMocka):
         with io.StringIO() as 輸出:
             call_command(
