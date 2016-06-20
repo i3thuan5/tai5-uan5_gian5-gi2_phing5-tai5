@@ -12,7 +12,7 @@ from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
 
 
-class 顯示全部sheet狀態指令試驗(TestCase):
+class 指令顯示全部sheet狀態試驗(TestCase):
 
     def setUp(self):
         閩南語 = 語言腔口表.objects.create(語言腔口='閩南語')

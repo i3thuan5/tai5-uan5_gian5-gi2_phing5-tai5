@@ -12,7 +12,7 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 來源表
 
 
-class 整理sheet到資料庫指令試驗(TestCase):
+class 指令整理sheet到資料庫試驗(TestCase):
 
     @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.全部整理到資料庫')
     def test_有叫著全部整理函式(self, 全部整理到資料庫mocka):
