@@ -170,9 +170,8 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         })
         self.assertEqual(文本項目.校對後的文本().文本.文本資料, '媠媠')
 
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
-    def test_無編輯者的資料無匯入繼續走(self, authorizeMocka, 匯入資料mocka):
+    def test_無編輯者的資料無匯入繼續走(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
             ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
@@ -180,7 +179,6 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         ]
         臺語sheet表 = self._加臺語sheet表()
         臺語sheet表.整理到資料庫()
-        匯入資料mocka.assert_not_called()
 
     @patch('gspread.authorize')
     def test_資料攏無編輯免匯入繼續走(self, authorizeMocka):
