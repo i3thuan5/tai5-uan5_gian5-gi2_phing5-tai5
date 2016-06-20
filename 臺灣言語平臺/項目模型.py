@@ -144,12 +144,6 @@ class 平臺項目表(models.Model):
         return cls.objects.create(文本=文本)
 
     @classmethod
-    def 校對母語文本(cls, 文本項目編號, 內容):
-        舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
-        新文本 = 舊文本.校對做(cls._補預設欄位(內容))
-        return cls.objects.create(文本=新文本)
-
-    @classmethod
     def 對正規化sheet校對母語文本(cls, 文本項目編號, 編輯者, 新文本, 新音標):
         舊文本項目 = 平臺項目表.objects.get(pk=文本項目編號)
         舊文本項目.取消推薦用字()
@@ -163,9 +157,15 @@ class 平臺項目表(models.Model):
         }
         if 新音標:
             新文本內容['屬性'] = json.dumps({'音標': 新音標})
-        新文本項目 = cls.校對母語文本(文本項目編號, 新文本內容)
+        新文本項目 = cls._校對母語文本(文本項目編號, 新文本內容)
         新文本項目.設為推薦用字()
         return 新文本項目
+
+    @classmethod
+    def _校對母語文本(cls, 文本項目編號, 內容):
+        舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
+        新文本 = 舊文本.校對做(cls._補預設欄位(內容))
+        return cls.objects.create(文本=新文本)
 
     def 校對後的文本(self):
         return self.資料().文本校對.get().新文本.平臺項目

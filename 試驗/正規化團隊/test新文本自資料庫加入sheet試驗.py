@@ -105,14 +105,14 @@ class 新文本自資料庫加入sheet試驗(TestCase):
         )
 
     @patch('gspread.authorize')
-    def test_有校對資料就莫加入去(self, authorizeMocka):
+    def test_有校對資料就莫閣加入去(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         文本項目 = self.加入新文本()
         新資料 = self._加公家內容({
             '屬性': json.dumps({'詞性': '形容詞', '字數': '1'}),
             '文本資料': '媠媠',
         })
-        平臺項目表.校對母語文本(文本項目.編號(), 新資料)
+        平臺項目表._校對母語文本(文本項目.編號(), 新資料)
         正規化sheet表.文本加入sheet(文本項目.編號())
         資料表mocka.append_row.assert_not_called()
 
