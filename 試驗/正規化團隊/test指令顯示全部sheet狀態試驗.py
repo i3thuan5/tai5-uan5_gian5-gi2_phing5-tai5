@@ -9,7 +9,7 @@ from oauth2client.client import AccessTokenRefreshError
 
 
 from 臺灣言語資料庫.資料模型 import 語言腔口表
-from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
+from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 
 
 class 指令顯示全部sheet狀態試驗(TestCase):
@@ -23,7 +23,7 @@ class 指令顯示全部sheet狀態試驗(TestCase):
             語言腔口=閩南語
         )
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.全部資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.全部資料')
     def test_有顯示全部狀態(self, 全部資料mocka):
         with io.StringIO() as 輸出:
             call_command('顯示全部sheet狀態', stdout=輸出)

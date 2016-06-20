@@ -6,14 +6,14 @@ from django.core.management import call_command
 from django.test.testcases import TestCase
 
 
-from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
+from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 來源表
 
 
 class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.全部整理到資料庫')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.全部整理到資料庫')
     def test_有叫著全部整理函式(self, 全部整理到資料庫mocka):
         with io.StringIO() as 輸出:
             call_command(
@@ -21,12 +21,12 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             )
         全部整理到資料庫mocka.assert_called_once_with()
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.全部資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.全部資料')
     def test_有全部整理(self, 全部資料mocka):
         正規化sheet表.全部整理到資料庫()
         全部資料mocka.assert_called_once_with()
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.整理到資料庫')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.整理到資料庫')
     def test_有整理(self, 整理到資料庫mocka):
         self._加臺語sheet表()
         正規化sheet表.全部整理到資料庫()

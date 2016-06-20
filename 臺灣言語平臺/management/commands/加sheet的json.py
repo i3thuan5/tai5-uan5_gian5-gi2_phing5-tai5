@@ -3,7 +3,7 @@ import json
 from django.core.management.base import BaseCommand
 
 
-from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
+from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 
 
 class Command(BaseCommand):

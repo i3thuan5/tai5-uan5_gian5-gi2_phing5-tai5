@@ -5,14 +5,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test.testcases import TestCase
 
 
-from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
+from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 來源表
 
 
 class 指令整理sheet到資料庫試驗(TestCase):
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')
     def test_無編輯者的資料無匯入(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -90,7 +90,7 @@ class 指令整理sheet到資料庫試驗(TestCase):
         臺語sheet表.整理到資料庫()
         資料表mocka.append_row.assert_not_called()
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')
     def test_有編輯者的資料免留(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -102,7 +102,7 @@ class 指令整理sheet到資料庫試驗(TestCase):
         臺語sheet表.整理到資料庫()
         資料表mocka.append_row.assert_not_called()
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')
     def test_有編輯者的資料有匯入(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -124,7 +124,7 @@ class 指令整理sheet到資料庫試驗(TestCase):
             '編輯者': '丞宏'
         })
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')
     def test_有編輯資料表愛清掉(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -136,7 +136,7 @@ class 指令整理sheet到資料庫試驗(TestCase):
         臺語sheet表.整理到資料庫()
         資料表mocka.resize.assert_called_once_with(rows=1)
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')
     def test_濟筆資料無編輯的加轉去(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -154,7 +154,7 @@ class 指令整理sheet到資料庫試驗(TestCase):
             call(['33', '阿媠', '漂亮', '媠', '', '', '', '', '']),
         ])
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表._資料清掉重匯入')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表._資料清掉重匯入')
     @patch('gspread.authorize')
     def test_錯誤流水號程式愛繼續走(self, authorizeMocka, 清掉重匯入mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
@@ -172,7 +172,7 @@ class 指令整理sheet到資料庫試驗(TestCase):
             ]
         )
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.匯入資料')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.匯入資料')
     @patch('gspread.authorize')
     def test_濟筆資料有編輯的匯入去(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1

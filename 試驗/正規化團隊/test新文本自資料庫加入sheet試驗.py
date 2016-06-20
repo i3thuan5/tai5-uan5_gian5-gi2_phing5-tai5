@@ -6,7 +6,7 @@ from django.test.testcases import TestCase
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 語言腔口表
-from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
+from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 from 臺灣言語平臺.使用者模型 import 使用者表
 
 
@@ -27,7 +27,7 @@ class 新文本自資料庫加入sheet試驗(TestCase):
     def _加公家內容(self, 資料內容):
         return 資料內容
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表.文本加入sheet')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.文本加入sheet')
     def test_加外語新詞有叫函式(self, 文本加入sheetMocka):
         self.client.force_login(self.阿媠)
         外語回應 = self.client.post(
@@ -49,7 +49,7 @@ class 新文本自資料庫加入sheet試驗(TestCase):
         回應資料 = json.loads(回應.content.decode("utf-8"))
         文本加入sheetMocka.assert_called_once_with(回應資料['平臺項目編號'])
 
-    @patch('臺灣言語平臺.維護團隊模型.正規化sheet表._編號有佇表內底無')
+    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表._編號有佇表內底無')
     @patch('gspread.authorize')
     def test_有看全部的資料(self, authorizeMocka, 有佇表內底無mocka):
         文本項目 = self.加入新文本()
