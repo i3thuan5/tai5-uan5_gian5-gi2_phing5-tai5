@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import date
 import json
 
 from django.conf import settings
@@ -94,7 +93,7 @@ class 平臺項目表(models.Model):
     @classmethod
     def 加外語資料(cls, 內容):
         try:
-            原本外語 = cls.找外語資料(內容)
+            原本外語 = cls._找外語資料(內容)
             錯誤 = ValidationError('已經有相同的外語資料了')
             錯誤.平臺項目編號 = 原本外語.編號()
             raise 錯誤
@@ -104,7 +103,7 @@ class 平臺項目表(models.Model):
         return cls.objects.create(外語=外語)
 
     @classmethod
-    def 找外語資料(cls, 內容):
+    def _找外語資料(cls, 內容):
         要求 = 外語表.objects.filter(外語資料=內容['外語資料'])
         try:
             要求 = 要求.filter(種類=種類表.objects.get(種類=內容['種類']))
@@ -145,18 +144,28 @@ class 平臺項目表(models.Model):
         return cls.objects.create(文本=文本)
 
     @classmethod
-    def 校對母語文本(cls, 文本項目編號, 內容):
-        舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
-        新文本 = 舊文本.校對做(cls._補預設欄位(內容))
-        return cls.objects.create(文本=新文本)
-
-    @classmethod
     def 對正規化sheet校對母語文本(cls, 文本項目編號, 編輯者, 新文本, 新音標):
         舊文本項目 = 平臺項目表.objects.get(pk=文本項目編號)
         舊文本項目.取消推薦用字()
-        新文本項目 = 舊文本項目._校對做(編輯者, 新文本, 新音標)
+        舊文本物件 = 舊文本項目.資料()
+        新文本內容 = {
+            '收錄者': 來源表.objects.get_or_create(名='系統管理者')[0],
+            '來源': json.dumps({'名': 編輯者}),
+            '種類': 舊文本物件.種類.種類,
+            '語言腔口': 舊文本物件.語言腔口.語言腔口,
+            '文本資料': 新文本,
+        }
+        if 新音標:
+            新文本內容['屬性'] = json.dumps({'音標': 新音標})
+        新文本項目 = cls._校對母語文本(文本項目編號, 新文本內容)
         新文本項目.設為推薦用字()
         return 新文本項目
+
+    @classmethod
+    def _校對母語文本(cls, 文本項目編號, 內容):
+        舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
+        新文本 = 舊文本.校對做(cls._補預設欄位(內容))
+        return cls.objects.create(文本=新文本)
 
     def 校對後的文本(self):
         return self.資料().文本校對.get().新文本.平臺項目
@@ -171,22 +180,6 @@ class 平臺項目表(models.Model):
     def 取消推薦用字(self):
         self.推薦用字 = False
         self.save()
-
-    def _校對做(self, 編輯者, 新文本, 新音標):
-        文本 = self.資料()
-        新文本內容 = {
-            '收錄者': 來源表.objects.get_or_create(名='系統管理者')[0],
-            '來源': json.dumps({'名': 編輯者}),
-            '版權': '會使公開',
-            '種類': 文本.種類.種類,
-            '語言腔口': 文本.語言腔口.語言腔口,
-            '著作所在地': '臺灣',
-            '著作年': str(date.today().year),
-            '文本資料': 新文本,
-        }
-        if 新音標:
-            新文本內容['屬性'] = json.dumps({'音標': 新音標})
-        return self.__class__.objects.create(文本=文本.校對做(新文本內容))
 
     @classmethod
     def _補預設欄位(cls, 內容):

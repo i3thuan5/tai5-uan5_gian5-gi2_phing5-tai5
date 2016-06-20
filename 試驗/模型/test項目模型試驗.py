@@ -66,20 +66,20 @@ class 項目模型試驗(TestCase):
 
     def test_找外語資料揣有(self):
         外語項目 = 平臺項目表.加外語資料(self.外語內容)
-        找到的外語項目 = 平臺項目表.找外語資料(self.外語內容)
+        找到的外語項目 = 平臺項目表._找外語資料(self.外語內容)
         self.assertEqual(外語項目, 找到的外語項目)
 
     def test_找外語資料種類表揣無(self):
         平臺項目表.加外語資料(self.外語內容)
         self.外語內容['種類'] = '語句'
-        self.assertRaises(ObjectDoesNotExist, 平臺項目表.找外語資料, self.外語內容)
+        self.assertRaises(ObjectDoesNotExist, 平臺項目表._找外語資料, self.外語內容)
 
     def test_找外語資料語言腔口揣無(self):
         平臺項目表.加外語資料(self.外語內容)
         self.外語內容['語言腔口'] = '噶哈巫'
-        self.assertRaises(ObjectDoesNotExist, 平臺項目表.找外語資料, self.外語內容)
+        self.assertRaises(ObjectDoesNotExist, 平臺項目表._找外語資料, self.外語內容)
 
     def test_找外語資料外語語言揣無(self):
         平臺項目表.加外語資料(self.外語內容)
         self.外語內容['外語語言'] = '噶哈巫'
-        self.assertRaises(ObjectDoesNotExist, 平臺項目表.找外語資料, self.外語內容)
+        self.assertRaises(ObjectDoesNotExist, 平臺項目表._找外語資料, self.外語內容)
