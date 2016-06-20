@@ -10,7 +10,7 @@ from 臺灣言語平臺.維護團隊模型 import 正規化sheet表
 from 臺灣言語平臺.使用者模型 import 使用者表
 
 
-class 新文本加入sheet試驗(TestCase):
+class 新文本自資料庫加入sheet試驗(TestCase):
 
     def setUp(self):
         self.阿媠 = 使用者表.加使用者('sui2@pigu.tw', {'名': '阿媠'})
