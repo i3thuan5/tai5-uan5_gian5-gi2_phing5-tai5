@@ -172,7 +172,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
-    def test_無編輯者的資料無匯入(self, authorizeMocka, 匯入資料mocka):
+    def test_無編輯者的資料無匯入繼續走(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
             ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
@@ -182,9 +182,8 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         臺語sheet表.整理到資料庫()
         匯入資料mocka.assert_not_called()
 
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
-    def test_資料攏無編輯免閣匯入(self, authorizeMocka, 匯入資料mocka):
+    def test_資料攏無編輯免匯入繼續走(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
             ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
@@ -192,19 +191,6 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         ]
         臺語sheet表 = self._加臺語sheet表()
         臺語sheet表.整理到資料庫()
-        匯入資料mocka.assert_not_called()
-
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
-    @patch('gspread.authorize')
-    def test_無流水號無編輯免閣匯入(self, authorizeMocka, 匯入資料mocka):
-        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
-        資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
-            ['', '', '', '', '', '', '', '如何呈現?', '可自動連結嗎?']
-        ]
-        臺語sheet表 = self._加臺語sheet表()
-        臺語sheet表.整理到資料庫()
-        匯入資料mocka.assert_not_called()
 
     @patch('gspread.authorize')
     def test_錯誤流水號程式愛繼續走(self, authorizeMocka):
