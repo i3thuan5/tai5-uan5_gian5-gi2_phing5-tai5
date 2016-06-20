@@ -44,7 +44,7 @@ setup(
     long_description=_專案說明,
     author='薛丞宏',
     author_email='ihcaoe@gmail.com',
-    url='http://意傳.台灣/',
+    url='http://xn--v0qr21b.xn--kpry57d/',
     download_url=github網址,
     keywords=[
         '語料庫',
