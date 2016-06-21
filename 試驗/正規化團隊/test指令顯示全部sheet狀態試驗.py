@@ -1,5 +1,6 @@
 import io
 from unittest.mock import patch, PropertyMock
+from os.path import abspath, dirname, join
 
 import OpenSSL
 from django.core.management import call_command
@@ -14,11 +15,12 @@ from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 
 class 指令顯示全部sheet狀態試驗(TestCase):
 
+    json檔名 = join(dirname(abspath(__file__)), '資料', 'itaigi-ae98ec2616c9.json')
+
     def setUp(self):
         閩南語 = 語言腔口表.objects.create(語言腔口='閩南語')
         正規化sheet表.objects.create(
-            client_email='sui2@ti1tiau5.tw',
-            private_key='(oo)',
+            key_file_name=self.json檔名,
             url='http://ti1tiau5.tw',
             語言腔口=閩南語
         )
@@ -46,8 +48,7 @@ class 指令顯示全部sheet狀態試驗(TestCase):
     def test_兩筆資料(self, authorizeMocka):
         阿美語 = 語言腔口表.objects.create(語言腔口='阿美語')
         正規化sheet表.objects.create(
-            client_email='sui2@ti1tiau5.tw',
-            private_key='(oo)',
+            key_file_name=self.json檔名,
             url='http://ti1tiau5.tw/amis',
             語言腔口=阿美語
         )

@@ -1,5 +1,6 @@
 import json
 from unittest.mock import patch, call
+from os.path import abspath, dirname, join
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.test.testcases import TestCase
@@ -11,6 +12,8 @@ from 臺灣言語資料庫.資料模型 import 來源表
 
 
 class 正規化文本自sheet加轉資料庫試驗(TestCase):
+
+    json檔名 = join(dirname(abspath(__file__)), '資料', 'itaigi-ae98ec2616c9.json')
 
     @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.正規化文本自sheet加轉資料庫')
     @patch('gspread.authorize')
@@ -353,8 +356,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def _加臺語sheet表(self):
         return 正規化sheet表.加sheet(
             語言腔口='臺語',
-            client_email='itaigi@developer.gserviceaccount.com',
-            private_key='taigi',
+            key_file_name=self.json檔名,
             url='https://itaigi.tw',
         )
 
