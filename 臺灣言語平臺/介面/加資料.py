@@ -146,7 +146,7 @@ def 外語加新詞文本(request):
         '著作年',
         '屬性',
     ]
-    內容 = {}
+    內容 = {'屬性': {}}
     try:
         內容['收錄者'] = request.user.來源
     except:
@@ -157,6 +157,10 @@ def 外語加新詞文本(request):
             內容[欄位] = request.POST[欄位]
         except:
             pass
+    try:
+        內容['屬性']['音標'] = request.POST['音標資料']
+    except:
+        pass
     try:
         內容['文本資料'] = request.POST['文本資料']
         外語項目編號 = int(request.POST['外語項目編號'])
