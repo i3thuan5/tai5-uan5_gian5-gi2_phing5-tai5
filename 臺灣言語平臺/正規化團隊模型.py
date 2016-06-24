@@ -2,6 +2,7 @@ from django.db import models
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from 臺灣言語資料庫.資料模型 import 語言腔口表
+from 臺灣言語資料庫.關係模型 import 文本校對表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
