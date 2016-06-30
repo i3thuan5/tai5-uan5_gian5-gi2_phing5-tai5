@@ -2,6 +2,7 @@ from django.db import models
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from 臺灣言語資料庫.資料模型 import 語言腔口表
+from 臺灣言語資料庫.關係模型 import 文本校對表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
@@ -94,14 +95,17 @@ class 正規化sheet表(models.Model):
 
     @staticmethod
     def 正規化文本自sheet加轉資料庫(這筆資料):
-        平臺項目編號 = int(這筆資料['流水號'])
         try:
+            平臺項目編號 = int(這筆資料['流水號'])
             平臺項目 = 平臺項目表.揣編號(平臺項目編號)
-            '有匯入過資料就離開'
-            平臺項目.校對後的文本()
-        except:
+            # 有匯入過資料就離開
+            if 平臺項目.校對後的文本():
+                return
+        except 文本校對表.DoesNotExist:
             pass
-        else:
+        except 文本校對表.MultipleObjectsReturned:
+            return
+        except:
             return
         原漢字 = 這筆資料['原漢字'].strip()
         原音標 = 這筆資料['原拼音'].strip()
@@ -113,14 +117,14 @@ class 正規化sheet表(models.Model):
         elif 漢字 != '':
             平臺項目 = 平臺項目表.對正規化sheet校對母語文本(
                 平臺項目編號,
-                這筆資料['編輯者'],
+                這筆資料['編輯者(簽名)'],
                 漢字,
                 臺羅,
             )
         else:
             平臺項目 = 平臺項目表.對正規化sheet校對母語文本(
                 平臺項目編號,
-                這筆資料['編輯者'],
+                這筆資料['編輯者(簽名)'],
                 臺羅,
                 '',
             )

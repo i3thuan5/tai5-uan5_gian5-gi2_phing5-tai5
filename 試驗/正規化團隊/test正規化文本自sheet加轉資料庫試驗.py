@@ -20,7 +20,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_有編輯者的資料有匯入(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者(簽名)'],
             ['333', '阿媠', '漂亮', '媠', '', '媠媠', '', '', '丞宏']
         ]
         臺語sheet表 = self._加臺語sheet表()
@@ -34,7 +34,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠媠',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
 
     def test_檢查新資料(self):
@@ -48,7 +48,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠媠',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         self.assertEqual(回傳項目.文本.文本資料, '媠媠')
 
@@ -63,7 +63,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠媠',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         self.assertEqual(文本項目.校對後的文本(), 回傳項目)
 
@@ -78,7 +78,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠媠',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         self.assertTrue(回傳項目.是推薦用字())
 
@@ -94,7 +94,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠媠',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         文本項目.refresh_from_db()
         self.assertFalse(文本項目.是推薦用字())
@@ -104,7 +104,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_濟筆資料有編輯的匯入去(self, authorizeMocka, 匯入資料mocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者(簽名)'],
             ['3', '阿媠', '漂亮', '媠', '', '媠媠', '', '', '丞宏'],
             ['33', '阿媠', '漂亮', '媠', '', '', '', '', ''],
             ['333', '阿媠', '漂亮', '美', '', '媠', '', '', '丞宏'],
@@ -121,7 +121,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
                 '正規漢字': '媠媠',
                 '臺羅': '',
                 '音檔': '',
-                '編輯者': '丞宏'
+                '編輯者(簽名)': '丞宏'
             }),
             call({
                 '流水號': '33',
@@ -132,7 +132,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
                 '正規漢字': '',
                 '臺羅': '',
                 '音檔': '',
-                '編輯者': ''
+                '編輯者(簽名)': ''
             }),
             call({
                 '流水號': '333',
@@ -143,7 +143,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
                 '正規漢字': '媠',
                 '臺羅': '',
                 '音檔': '',
-                '編輯者': '丞宏'
+                '編輯者(簽名)': '丞宏'
             })
         ])
 
@@ -158,7 +158,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠媠',
             '臺羅': 'sui2-sui2',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         正規化sheet表.正規化文本自sheet加轉資料庫({
             '流水號': 文本項目.編號(),
@@ -169,7 +169,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠媠媠',
             '臺羅': 'sui2-sui2-sui2',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         self.assertEqual(文本項目.校對後的文本().文本.文本資料, '媠媠')
 
@@ -177,7 +177,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_無編輯者的資料無匯入繼續走(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者(簽名)'],
             ['333', '阿媠', '漂亮', '媠', '', '', '', '', '']
         ]
         臺語sheet表 = self._加臺語sheet表()
@@ -187,7 +187,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_資料攏無編輯免匯入繼續走(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者(簽名)'],
             ['333', '阿媠', '漂亮', '媠', '', '', '', '', '']
         ]
         臺語sheet表 = self._加臺語sheet表()
@@ -197,7 +197,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_錯誤流水號程式愛繼續走(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者(簽名)'],
             ['333', '阿媠', '漂亮', '媠', '', '媠媠', '', '', '丞宏']
         ]
         臺語sheet表 = self._加臺語sheet表()
@@ -207,7 +207,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
     def test_空的所在嘛莫清掉(self, authorizeMocka):
         資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
         資料表mocka.get_all_values.return_value = [
-            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者'],
+            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者(簽名)'],
             ['', '', '', '', '', '', '', '', ''],
         ]
         臺語sheet表 = self._加臺語sheet表()
@@ -216,8 +216,9 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
 
     @patch('臺灣言語平臺.項目模型.平臺項目表.對正規化sheet校對母語文本')
     def test_資料漢字拼音攏有(self, 校對母語文本mocka):
+        文本項目 = self._加入新文本()
         正規化sheet表.正規化文本自sheet加轉資料庫({
-            '流水號': '333',
+            '流水號': str(文本項目.編號()),
             '貢獻者': '阿媠',
             '華語': '漂亮',
             '原漢字': '美',
@@ -225,14 +226,15 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠',
             '臺羅': 'sui2',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
-        校對母語文本mocka.assert_called_once_with(333, '丞宏', '媠', 'sui2')
+        校對母語文本mocka.assert_called_once_with(文本項目.編號(), '丞宏', '媠', 'sui2')
 
     @patch('臺灣言語平臺.項目模型.平臺項目表.對正規化sheet校對母語文本')
     def test_資料干焦漢字(self, 校對母語文本mocka):
+        文本項目 = self._加入新文本()
         正規化sheet表.正規化文本自sheet加轉資料庫({
-            '流水號': '333',
+            '流水號': str(文本項目.編號()),
             '貢獻者': '阿媠',
             '華語': '漂亮',
             '原漢字': '美',
@@ -240,14 +242,15 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
-        校對母語文本mocka.assert_called_once_with(333, '丞宏', '媠', '')
+        校對母語文本mocka.assert_called_once_with(文本項目.編號(), '丞宏', '媠', '')
 
     @patch('臺灣言語平臺.項目模型.平臺項目表.對正規化sheet校對母語文本')
     def test_資料干焦拼音(self, 校對母語文本mocka):
+        文本項目 = self._加入新文本()
         正規化sheet表.正規化文本自sheet加轉資料庫({
-            '流水號': '333',
+            '流水號': str(文本項目.編號()),
             '貢獻者': '阿媠',
             '華語': '漂亮',
             '原漢字': '美',
@@ -255,9 +258,9 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '',
             '臺羅': 'sui2',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
-        校對母語文本mocka.assert_called_once_with(333, '丞宏', 'sui2', '')
+        校對母語文本mocka.assert_called_once_with(文本項目.編號(), '丞宏', 'sui2', '')
 
     def test_資料仝款傳家己轉來(self):
         文本項目 = self._加入新文本()
@@ -270,7 +273,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠',
             '臺羅': 'sui2',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         self.assertEqual(回傳項目, 文本項目)
 
@@ -286,7 +289,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠',
             '臺羅': 'sui2',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         self.assertTrue(回傳項目.是推薦用字())
 
@@ -301,7 +304,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '媠',
             '臺羅': 'sui2',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         with self.assertRaises(ObjectDoesNotExist):
             文本項目.校對後的文本()
@@ -317,7 +320,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         self.assertEqual(回傳項目, 文本項目)
 
@@ -333,7 +336,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         self.assertTrue(回傳項目.是推薦用字())
 
@@ -348,7 +351,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '正規漢字': '',
             '臺羅': '',
             '音檔': '',
-            '編輯者': '丞宏'
+            '編輯者(簽名)': '丞宏'
         })
         with self.assertRaises(ObjectDoesNotExist):
             文本項目.校對後的文本()
