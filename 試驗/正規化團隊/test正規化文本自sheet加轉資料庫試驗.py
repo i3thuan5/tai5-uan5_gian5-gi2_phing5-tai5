@@ -228,7 +228,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '音檔': '',
             '編輯者(簽名)': '丞宏'
         })
-        校對母語文本mocka.assert_called_once_with(文本項目.編號(), '丞宏', '媠', 'sui2')
+        校對母語文本mocka.assert_not_called()
 
     @patch('臺灣言語平臺.項目模型.平臺項目表.對正規化sheet校對母語文本')
     def test_資料干焦漢字(self, 校對母語文本mocka):
@@ -244,7 +244,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
             '音檔': '',
             '編輯者(簽名)': '丞宏'
         })
-        校對母語文本mocka.assert_called_once_with(文本項目.編號(), '丞宏', '媠', '')
+        校對母語文本mocka.assert_not_called()
 
     @patch('臺灣言語平臺.項目模型.平臺項目表.對正規化sheet校對母語文本')
     def test_資料干焦拼音(self, 校對母語文本mocka):
