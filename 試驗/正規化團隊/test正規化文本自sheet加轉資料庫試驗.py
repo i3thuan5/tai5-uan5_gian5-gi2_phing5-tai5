@@ -262,6 +262,40 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         })
         校對母語文本mocka.assert_not_called()
 
+    @patch('gspread.authorize')
+    def test_資料欠漢字抑是拼音就共簽名提掉(self, authorizeMocka):
+        文本項目 = self._加入新文本()
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        資料表mocka.get_all_values.return_value = [
+            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者(簽名)'],
+            [str(文本項目.編號()), '阿媠', '漂亮', '媠', '', '', '', '', '丞宏'],
+            [str(文本項目.編號()), '阿媠', '漂亮', '媠', '', '媠媠', '', '', '丞宏'],
+            [str(文本項目.編號()), '阿媠', '漂亮', '媠', '', '', 'sui2-sui2', '', '丞宏'],
+        ]
+
+        臺語sheet表 = self._加臺語sheet表()
+        臺語sheet表.整理到資料庫()
+
+        資料表mocka.update_cell.assert_has_calls([
+            call(2, 9, ''),
+            call(3, 9, ''),
+            call(4, 9, ''),
+        ])
+
+    @patch('gspread.authorize')
+    def test_資料有漢字佮拼音簽名愛留咧(self, authorizeMocka):
+        文本項目 = self._加入新文本()
+        資料表mocka = authorizeMocka.return_value.open_by_url.return_value.sheet1
+        資料表mocka.get_all_values.return_value = [
+            ['流水號', '貢獻者', '華語', '原漢字', '原拼音', '正規漢字', '臺羅', '音檔', '編輯者(簽名)'],
+            [str(文本項目.編號()), '阿媠', '漂亮', '媠', '', '媠媠', 'sui2-sui2', '', '丞宏'],
+        ]
+
+        臺語sheet表 = self._加臺語sheet表()
+        臺語sheet表.整理到資料庫()
+
+        資料表mocka.update_cell.assert_not_called()
+
     def test_資料仝款傳家己轉來(self):
         文本項目 = self._加入新文本()
         回傳項目 = 正規化sheet表.正規化文本自sheet加轉資料庫({
