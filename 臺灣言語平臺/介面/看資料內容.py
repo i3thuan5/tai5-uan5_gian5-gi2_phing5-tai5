@@ -59,6 +59,7 @@ def 看來源內容(request):
         pass
     return JsonResponse(來源內容)
 
+
 def 投票(request):
     try:
         平臺項目編號 = request.POST['平臺項目編號']
@@ -67,11 +68,13 @@ def 投票(request):
         return Json失敗回應({'錯誤': '沒有平臺項目的編號'})
     try:
         if decision == '按呢講好':
-            rows_affect = 平臺項目表.objects.filter(pk=平臺項目編號)\
-                                    .update(按呢講好=F('按呢講好') + 1)
+            rows_affect = 平臺項目表.objects\
+                                .filter(pk=平臺項目編號)\
+                                .update(按呢講好=F('按呢講好') + 1)
         elif decision == '按呢無好':
-            rows_affect = 平臺項目表.objects.filter(pk=平臺項目編號)\
-                                    .update(按呢無好=F('按呢無好') + 1)
+            rows_affect = 平臺項目表.objects\
+                                .filter(pk=平臺項目編號)\
+                                .update(按呢無好=F('按呢無好') + 1)
     except:
         return Json失敗回應({'錯誤': '這不是合法平臺項目的編號'})
     return JsonResponse({
