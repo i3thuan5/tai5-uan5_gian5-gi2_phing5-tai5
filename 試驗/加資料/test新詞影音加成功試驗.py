@@ -59,10 +59,8 @@ class 新詞影音加成功試驗(TestCase):
                 '影音資料': self.檔案,
             }
         )
-# 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 # 		後端資料庫檢查
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
@@ -84,10 +82,8 @@ class 新詞影音加成功試驗(TestCase):
                 '影音資料': self.檔案,
             }
         )
-# 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 # 		後端資料庫檢查
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
@@ -109,7 +105,6 @@ class 新詞影音加成功試驗(TestCase):
                 '影音資料': self.檔案,
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
 #         後端資料庫檢查
         回應資料 = 回應.json()
@@ -139,10 +134,8 @@ class 新詞影音加成功試驗(TestCase):
                 '影音資料': self.檔案,
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 #         後端資料庫檢查
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
@@ -162,10 +155,8 @@ class 新詞影音加成功試驗(TestCase):
                 '影音資料': self.檔案,  # 錄製的影音檔，檔案型態
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 #         後端資料庫檢查
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)

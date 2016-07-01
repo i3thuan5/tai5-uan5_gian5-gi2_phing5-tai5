@@ -82,7 +82,7 @@ class 新文本自資料庫加入sheet試驗(TestCase):
         文本項目 = self.加入新文本()
         正規化sheet表.文本加入sheet(文本項目.編號())
         資料表mocka.append_row.assert_called_once_with(
-            [str(文本項目.編號()), '阿媠', '漂亮', '媠', '', '', '', '', '']
+            [str(文本項目.編號()), '阿媠', '漂亮', '媠', '', '', '', '', '', '']
         )
 
     @patch('gspread.authorize')
@@ -103,7 +103,7 @@ class 新文本自資料庫加入sheet試驗(TestCase):
         )
         正規化sheet表.文本加入sheet(文本項目.編號())
         資料表mocka.append_row.assert_called_once_with(
-            [str(文本項目.編號()), '阿媠', '漂亮', '媠', 'sui2', '', '', '', '']
+            [str(文本項目.編號()), '阿媠', '漂亮', '媠', 'sui2', '', '', '', '', '']
         )
 
     @patch('gspread.authorize')

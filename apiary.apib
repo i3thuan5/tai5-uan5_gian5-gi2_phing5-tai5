@@ -11,34 +11,7 @@ HOST: http://polls.apiblueprint.org/
 每個`外語項目`都有以下五個欄位：
 
 + 列表.外語項目編號 (number)
-+ 列表.語言腔口 (string) - "閩南語"
-+ 列表.種類 (string) - "字詞"或"語句"
-+ 列表.外語語言 (string)
 + 列表.外語資料 (string)
-
-每次查詢，最多回傳15筆`外語項目`。
-
-## 顯示列表 [/平臺項目列表/看列表{?%E7%AC%AC%E5%B9%BE%E9%A0%81}]
-給定頁數，列出此頁的外語，每頁最多15筆。
-
-+ Parameters
-    + %E7%AC%AC%E5%B9%BE%E9%A0%81 (optional, number, `1`) ... 顯示「第幾頁」的列表
-    
-### GET
-
-+ Response 200 (application/json)
-
-        {
-          "列表": [
-            {
-              "外語項目編號": "47765",
-              "外語語言": "華語",
-              "種類": "字詞",
-              "語言腔口": "閩南語",
-              "外語資料": "鬱歲"
-            },
-          ]
-        }
 
 ## 找特定項目 [/平臺項目列表/揣列表{?%E9%97%9C%E9%8D%B5%E5%AD%97}]
 給定關鍵字，找出完全符合該詞的`外語項目`。
@@ -50,28 +23,89 @@ HOST: http://polls.apiblueprint.org/
 + Response 200 (application/json)
 
         {
+            "列表": [
+                {
+                  "外語項目編號": "37991",
+                  "外語資料": "漂亮",
+                  "新詞文本": [
+                        {
+                            "新詞文本項目編號": "3333",
+                            "文本資料": "媠",
+                            "音標資料": "sui2"
+                        }
+                    ]
+                }
+            ],
+          "其他建議": [
+                {
+                  "外語項目編號": "37998",
+                  "外語資料": "漂漂亮亮",
+                  "新詞文本": [
+                        {
+                            "新詞文本項目編號": "3333",
+                            "文本資料": "媠",
+                            "音標資料": "sui2"
+                        }
+                    ]
+                },
+                {
+                  "外語項目編號": "34267",
+                  "外語資料": "愛漂亮",
+                  "新詞文本": [
+                        {
+                            "新詞文本項目編號": "3333",
+                            "文本資料": "媠",
+                            "音標資料": "sui2"
+                        }
+                    ]
+                }
+          ]
+        }
+
+## 找無建議的外語 [/平臺項目列表/揣無建議的外語]
+找還沒有建議的外語，予`還不會`、`我很會`抑是`求講法用的`
+
+### GET
++ Response 200 (application/json)
+
+        {
           "列表": [
             {
               "外語項目編號": "37991",
-              "外語語言": "華語",
-              "種類": "字詞",
-              "語言腔口": "閩南語",
               "外語資料": "漂亮"
-            }
-          ],
-          "其他建議": [
+            },
             {
               "外語項目編號": "37998",
-              "外語語言": "華語",
-              "種類": "字詞",
-              "語言腔口": "閩南語",
               "外語資料": "漂漂亮亮"
             },
             {
               "外語項目編號": "34267",
-              "外語語言": "華語",
-              "種類": "字詞",
-              "語言腔口": "閩南語",
+              "外語資料": "愛漂亮"
+            }
+          ]
+        }
+
+## 揣按呢講外語請教條 [/平臺項目列表/揣按呢講列表{?%E9%97%9C%E9%8D%B5%E5%AD%97}]
+找母語說法是`關鍵字`的外語，給使用者參考
+
++ Parameters
+    + %E9%97%9C%E9%8D%B5%E5%AD%97 (string, `漂亮`) ... 要搜尋的「關鍵字」
+
+### GET
++ Response 200 (application/json)
+
+        {
+          "列表": [
+            {
+              "外語項目編號": "37991",
+              "外語資料": "漂亮"
+            },
+            {
+              "外語項目編號": "37998",
+              "外語資料": "漂漂亮亮"
+            },
+            {
+              "外語項目編號": "34267",
               "外語資料": "愛漂亮"
             }
           ]
@@ -80,29 +114,6 @@ HOST: http://polls.apiblueprint.org/
 # Group 看資料
 看資料的內容，其中資料詳細內容和來源內容有另外做api。
 
-## 看項目以及其相關項目內容 [/平臺項目/看對應內容{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
-給定一個`外語項目`的編號，回傳其以及對應的新詞影音、新詞文本項目。
-若要各別項目的詳細內容，請用下方的`看項目的詳細內容`。
-+ Parameters
-    + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`)
-        要查的「平臺項目編號」
-    
-### GET
-
-+ Response 200 (application/json)
-
-        {
-          "外語項目編號": "47765",
-          "外語語言": "華語",
-          "外語資料": "鬱歲",
-          "新詞影音": [],
-          "新詞文本": [
-            {
-              "文本資料": "鬱歲",
-              "新詞文本項目編號": "47766",
-            }
-          ],
-        }
 
 ## 看項目的詳細內容 [/平臺項目/看詳細內容{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
 給定`項目`編號，回傳其詳細內容。
@@ -110,13 +121,11 @@ HOST: http://polls.apiblueprint.org/
 + 收錄者 (number)
 + 來源 (number)
 + 收錄時間 (string)
-+ 語言腔口 (string)
 + 種類 (string) - "字詞"或"語句"
 + 版權 (string)
 + 著作所在地 (string)
 + 著作年 (string)
 + 屬性內容 (string)
-+ 推薦用字 (string)
 
 + Parameters
     + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`) 
@@ -130,19 +139,16 @@ HOST: http://polls.apiblueprint.org/
             "來源":"11",
             "收錄時間":"2015-05-07 13:47:47",
             "種類":"字詞",
-            "語言腔口":"閩南語",
             "版權":"會使公開",
             "著作所在地":"花蓮",
             "著作年":"2014",
-            "屬性內容":{"詞性":"形容詞", "字數":"2"},
-            "推薦用字":"否"
+            "屬性內容":{"詞性":"形容詞", "字數":"2"}
         }
         
 ## 看收錄者、來源的詳細內容 [/平臺項目來源/看內容{?%E4%BE%86%E6%BA%90%E7%B7%A8%E8%99%9F}]
 
 + 名 (string) - 使用者所用的名稱
 + email (string)
-+ 分數 (number) - 未來評分使畢
 + 屬性內容 (json) - 使用者其他資料
 + Parameters
     + %E4%BE%86%E6%BA%90%E7%B7%A8%E8%99%9F (number, `1`) 
@@ -154,10 +160,9 @@ HOST: http://polls.apiblueprint.org/
         {
             "名":"鄉民",
             "email":"sui2@pigu.tw",
-            "分數":0
-            "屬性內容":{"出世年":"1950", "出世地":"臺灣", "使用者資料": "有", },
+            "屬性內容":{"出世年":"1950", "出世地":"臺灣", "使用者資料": "有"}
         }
-        
+
 # Group POST操作
 POST的之前，必須先取得csrf的參數。
 使用方法：
@@ -183,12 +188,12 @@ $.ajaxSetup({
 ## Angular
 ```javascript
 $http({
-    method: 'POST',
-    url: 網址+'...',
-    'data': data,
+    method: "POST",
+    url: 網址+"...",
+    "data": data,
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRFToken':$scope.csrftoken,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken":$scope.csrftoken,
         },
     transformRequest: function(obj) {
         var str = [];
@@ -198,7 +203,7 @@ $http({
     },
     })
     .success(function(data){
-        console.log('success');
+        console.log("success");
         ...
     })
     .catch(function(data, status) {
@@ -206,18 +211,86 @@ $http({
 });
 ```
 
+## Superagent
+```javascript
+      superagent.post(網址)
+        .withCredentials()
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+        .set('X-CSRFToken', this.props.csrftoken)
+        .send(post參數)
+        .then((...)
+        .catch(...)
+```
+
 ## 取得主機csrf [/csrf/看]
 ### GET
 + Response 200 (application/json)
+    + Headers
+    
+            Access-Control-Allow-Credentials: true
+            
+    + Body
+    
+            {
+              "csrftoken": "YNojHNaWlKN40iV9O0iyNBfZFkRw3laW"
+            }
+
+
+# Group 加資料
+
+需要先登入，而且需要傳csrf的參數。
+
+## 加外語 [/平臺項目/加外語{?%E5%A4%96%E8%AA%9E%E8%B3%87%E6%96%99}]
+若有登入，來源會是登入帳號。否則為`匿名`
+
++ Parameters
+    + %E5%A4%96%E8%AA%9E%E8%B3%87%E6%96%99 (string, `漂亮`)
+        「外語資料」：不設限，隨意增加
+
+### POST
++ Response 200 (application/json)
 
         {
-          "csrftoken": "YNojHNaWlKN40iV9O0iyNBfZFkRw3laW"
+            "結果": "成功",
+            "平臺項目編號":"1"
+        }
+
+## 加新詞影音 [/平臺項目/加新詞影音{?%E5%A4%96%E8%AA%9E%E8%AB%8B%E6%95%99%E6%A2%9D%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F,%E5%BD%B1%E9%9F%B3%E8%B3%87%E6%96%99}]
+
++ Parameters
+    + %E5%A4%96%E8%AA%9E%E8%AB%8B%E6%95%99%E6%A2%9D%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`)
+        已存在的「外語項目編號」
+    + %E5%BD%B1%E9%9F%B3%E8%B3%87%E6%96%99 (file)
+        「影音資料」：不設限，隨意增加
+
+### POST
++ Response 200 (application/json)
+
+        {
+            "結果": "成功",
+            "平臺項目編號":"2"
+        }
+
+## 加外語的新詞文本 [/平臺項目/加新詞文本{?%E5%A4%96%E8%AA%9E%E8%AB%8B%E6%95%99%E6%A2%9D%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F,%E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99}]
+
++ Parameters
+    + %E5%A4%96%E8%AA%9E%E8%AB%8B%E6%95%99%E6%A2%9D%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`)
+        已存在的「外語項目編號」
+    + %E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99 (string, `媠`)
+        不設限，隨意增加
+
+### POST
++ Response 200 (application/json)
+
+        {
+            "結果": "成功",
+            "平臺項目編號":"4"
         }
 
 # Group 登入登出
 目前綁定FB
 
-## 登入 [/accounts/facebook/login/{?next}]
+## 登入 [/accounts/facebook/login{?next}]
 
 需要先登入，而且需要傳csrf的參數。
 
@@ -228,7 +301,7 @@ $http({
 ### GET
 + Response 302 (text/html)
 
-## 登出 [/accounts/logout/{?next}]
+## 登出 [/accounts/logout{?next}]
 
 + Parameters
     + next (string, `/`)
@@ -237,147 +310,38 @@ $http({
 ### POST
 + Response 302 (text/html)
 
-# Group 加資料
+## 看編號 [/使用者/看編號]
 
-需要先登入，而且需要傳csrf的參數。
+看有沒有登入
 
-## 加外語 [/平臺項目/加外語{?%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E5%A4%96%E8%AA%9E%E8%AA%9E%E8%A8%80,%E5%A4%96%E8%AA%9E%E8%B3%87%E6%96%99}]
+### GET
 
-+ Parameters
-    + %E4%BE%86%E6%BA%90 (string, `'{"名": "阿媠", "職業": "學生"}'`)
-        「來源」：要先轉成字串。一定要有「名」，其餘資訊視情況增加
-    + %E7%A8%AE%E9%A1%9E (string, `字詞`)
-        「種類」：資料的種類有「字詞」、「語句」、…
-    + %E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3 (string, `閩南語`)
-        「語言腔口」：不設限，隨意增加語言
-    + %E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0 (string, `花蓮`)
-        「著作所在地」：不設限，隨意增加
-    + %E8%91%97%E4%BD%9C%E5%B9%B4 (string, `2014`)
-        「著作年」：不設限，隨意增加
-    + %E5%B1%AC%E6%80%A7 (string, `'{"字數": "2", "詞性": "形容詞"}'`)
-        「屬性」：json要先轉成字串。內容不設限，隨意增減
-    + %E5%A4%96%E8%AA%9E%E8%AA%9E%E8%A8%80 (string, `華語`)
-        「外語語言」：不設限，隨意增加
-    + %E5%A4%96%E8%AA%9E%E8%B3%87%E6%96%99 (string, `漂亮`)
-        「外語資料」：不設限，隨意增加
++ Request 有登入
+        
+        有登入
 
-### POST
 + Response 200 (application/json)
+    + Headers
+    
+            Access-Control-Allow-Credentials: true
+            
+    + Body
+    
+            {
+                "使用者編號": "1"
+            }
 
-        {
-            '結果': '成功',
-            '平臺項目編號':'1',
-        }
++ Request 無登入
+        
+        無登入
 
-## 加新詞影音 [/平臺項目/加新詞影音{?%E5%A4%96%E8%AA%9E%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F,%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E5%BD%B1%E9%9F%B3%E8%B3%87%E6%96%99}]
-
-+ Parameters
-    + %E5%A4%96%E8%AA%9E%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`)
-        已存在的「外語項目編號」
-    + %E4%BE%86%E6%BA%90 (string, `'{"名": "阿媠", "職業": "學生"}'`)
-        「來源」：要先轉成字串。一定要有「名」，其餘資訊視情況增加
-    + %E7%A8%AE%E9%A1%9E (string, `字詞`)
-        「種類」：資料的種類有「字詞」、「語句」、…
-    + %E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3 (string, `閩南語`)
-        「語言腔口」：不設限，隨意增加語言
-    + %E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0 (string, `花蓮`)
-        「著作所在地」：不設限，隨意增加
-    + %E8%91%97%E4%BD%9C%E5%B9%B4 (string, `2014`)
-        「著作年」：不設限，隨意增加
-    + %E5%B1%AC%E6%80%A7 (string, `'{"字數": "2", "詞性": "形容詞"}'`)
-        「屬性」：json要先轉成字串。內容不設限，隨意增減
-    + %E5%BD%B1%E9%9F%B3%E8%B3%87%E6%96%99 (file)
-        「影音資料」：不設限，隨意增加
-
-### POST
 + Response 200 (application/json)
-
-        {
-            '結果': '成功',
-            '平臺項目編號':'2',
-        }
-
-## 加新詞文本 [/平臺項目/加新詞文本{?%E6%96%B0%E8%A9%9E%E5%BD%B1%E9%9F%B3%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F,%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99}]
-
-+ Parameters
-    + %E6%96%B0%E8%A9%9E%E5%BD%B1%E9%9F%B3%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`)
-        「新詞影音項目編號」：已存在的新詞影音編號
-    + %E4%BE%86%E6%BA%90 (string, `'{"名": "阿媠", "職業": "學生"}'`)
-        「來源」：要先轉成字串。一定要有「名」，其餘資訊視情況增加
-    + %E7%A8%AE%E9%A1%9E (string, `字詞`)
-        「種類」：資料的種類有「字詞」、「語句」、…
-    + %E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3 (string, `閩南語`)
-        「語言腔口」：不設限，隨意增加語言
-    + %E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0 (string, `花蓮`)
-        「著作所在地」：不設限，隨意增加
-    + %E8%91%97%E4%BD%9C%E5%B9%B4 (string, `2014`)
-        「著作年」：不設限，隨意增加
-    + %E5%B1%AC%E6%80%A7 (string, `'{"字數": "2", "詞性": "形容詞"}'`)
-        「屬性」：json要先轉成字串。內容不設限，隨意增減
-    + %E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99 (string, `媠`)
-        「文本資料」：不設限，隨意增加
-
-### POST
-+ Response 200 (application/json)
-
-        {
-            '結果': '成功',
-            '平臺項目編號':'3',
-        }
-
-## 加外語新詞文本 [/平臺項目/加外語新詞文本{?%E5%A4%96%E8%AA%9E%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F,%E4%BE%86%E6%BA%90,%E7%A8%AE%E9%A1%9E,%E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3,%E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0,%E8%91%97%E4%BD%9C%E5%B9%B4,%E5%B1%AC%E6%80%A7,%E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99}]
-
-+ Parameters
-    + %E5%A4%96%E8%AA%9E%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`)
-        已存在的「外語項目編號」
-    + %E4%BE%86%E6%BA%90 (string, `'{"名": "阿媠", "職業": "學生"}'`)
-        要先轉成字串。一定要有「名」，其餘資訊視情況增加
-    + %E7%A8%AE%E9%A1%9E (string, `字詞`)
-        資料的種類：「字詞」、「語句」、…
-    + %E8%AA%9E%E8%A8%80%E8%85%94%E5%8F%A3 (string, `閩南語`)
-        不設限，隨意增加語言
-    + %E8%91%97%E4%BD%9C%E6%89%80%E5%9C%A8%E5%9C%B0 (string, `花蓮`)
-        不設限，隨意增加
-    + %E8%91%97%E4%BD%9C%E5%B9%B4 (string, `2014`)
-        不設限，隨意增加
-    + %E5%B1%AC%E6%80%A7 (string, `'{"字數": "2", "詞性": "形容詞"}'`)
-        json要先轉成字串。內容不設限，隨意增減
-    + %E6%96%87%E6%9C%AC%E8%B3%87%E6%96%99 (string, `媠`)
-        不設限，隨意增加
-
-### POST
-+ Response 200 (application/json)
-
-        {
-            '結果': '成功',
-            '平臺項目編號':'4',
-        }
-
-
-# Group 互動操作
-需要先登入，而且需要傳csrf的參數。
-## 設定推薦用字 [/平臺項目/設定推薦用字{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
-
-+ Parameters
-    + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`) 
-         要設定的「平臺項目編號」
-
-### POST
-+ Response 200 (application/json)
-
-        {
-            '結果':'成功'
-        }
-
-## 取消推薦用字 [/平臺項目/取消推薦用字{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F}]
-
-+ Parameters
-    + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`) 
-         要取消的「平臺項目編號」
-
-### POST
-+ Response 200 (application/json)
-
-        {
-            '結果':'成功'
-        }
+    + Headers
+    
+            Access-Control-Allow-Credentials: true
+            
+    + Body
+    
+            {
+                "使用者編號": "無登入"
+            }

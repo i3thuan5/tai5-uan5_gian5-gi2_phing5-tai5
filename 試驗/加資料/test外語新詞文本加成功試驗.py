@@ -64,10 +64,8 @@ class 外語新詞文本加成功試驗(TestCase):
                 '文本資料': '媠',  # 錄製的文本檔，檔案型態
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
@@ -84,10 +82,8 @@ class 外語新詞文本加成功試驗(TestCase):
                 '音標資料': 'sui2',
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
@@ -104,10 +100,8 @@ class 外語新詞文本加成功試驗(TestCase):
                 '屬性': json.dumps({'音標': 'sui2'}),
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
@@ -124,10 +118,8 @@ class 外語新詞文本加成功試驗(TestCase):
                 '文本資料': '媠',
             }
         )
-# 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 # 		後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
@@ -145,10 +137,8 @@ class 外語新詞文本加成功試驗(TestCase):
                 '文本資料': '媠',
             }
         )
-# 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 # 		後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
@@ -166,10 +156,8 @@ class 外語新詞文本加成功試驗(TestCase):
                 '文本資料': '媠',
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 
     def test_仝款資料加兩擺(self):
@@ -189,10 +177,8 @@ class 外語新詞文本加成功試驗(TestCase):
                 '文本資料': '媠',  # 錄製的文本檔，檔案型態
             }
         )
-# 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 # 		後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
@@ -208,10 +194,8 @@ class 外語新詞文本加成功試驗(TestCase):
                 '文本資料': '媠',  # 錄製的文本檔，檔案型態
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['結果'], '成功', 回應資料)
         self.assertIn('平臺項目編號', 回應資料)
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
