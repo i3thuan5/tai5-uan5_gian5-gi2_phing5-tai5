@@ -25,6 +25,8 @@ class 平臺項目表(models.Model):
     文本 = models.OneToOneField(文本表, null=True, related_name=項目名)
     聽拍 = models.OneToOneField(聽拍表, null=True, related_name=項目名)
     推薦用字 = models.BooleanField(default=False)
+    按呢講好 = models.IntegerField(default=0)
+    按呢無好 = models.IntegerField(default=0)
 
     def 編號(self):
         return self.pk

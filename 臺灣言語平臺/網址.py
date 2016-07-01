@@ -9,6 +9,7 @@ from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
 from 臺灣言語平臺.介面.揣外語請教條 import 揣外語請教條
 from 臺灣言語平臺.介面.看資料內容 import 看資料詳細內容
 from 臺灣言語平臺.介面.看資料內容 import 看來源內容
+from 臺灣言語平臺.介面.看資料內容 import 投票
 from 臺灣言語平臺.介面.登出入 import 登入狀況
 from 臺灣言語平臺.介面.fb登入sdk import FB登入SDK
 from 臺灣言語平臺.介面.前端工具 import 重導向前端
@@ -22,6 +23,7 @@ urlpatterns = [
 
     url(r'^平臺項目/看詳細內容$', 看資料詳細內容,),
     url(r'^平臺項目來源/看內容$', 看來源內容),
+    url(r'^平臺項目/投票$', 投票,),
 
     url(r'^csrf/看$', 看csrf),
     url(r'^FB登入SDK$', FB登入SDK.as_view()),
