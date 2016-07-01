@@ -4,6 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from 臺灣言語資料庫.資料模型 import 語言腔口表
 from 臺灣言語資料庫.關係模型 import 文本校對表
 from 臺灣言語平臺.項目模型 import 平臺項目表
+from django.core.exceptions import ValidationError
 
 
 class 正規化sheet表(models.Model):
@@ -60,6 +61,22 @@ class 正規化sheet表(models.Model):
             return True
         return False
 
+    @classmethod
+    def _原本文本項目指去新的外語(cls, 原本平臺項目, 正確華語):
+        舊外語項目編號 = 原本平臺項目.文本.來源外語.外語.平臺項目.編號()
+        try:
+            新外語項目 = 平臺項目表.加外語資料({'外語資料': 正確華語})
+        except ValidationError as 錯誤:
+            新外語項目 = 平臺項目表.揣編號(錯誤.平臺項目編號)
+        來源外語 = 原本平臺項目.文本.來源外語
+        來源外語.外語 = 新外語項目.外語
+        來源外語.save()
+        舊外語項目 = 平臺項目表.揣編號(舊外語項目編號)
+        舊外語 = 舊外語項目.外語
+        if not 舊外語.翻譯文本.exists() and not 舊外語.翻譯影音.exists():
+            舊外語項目.delete()
+            舊外語.delete()
+
     @staticmethod
     def _揣外語資料(文本):
         try:
@@ -99,9 +116,9 @@ class 正規化sheet表(models.Model):
         '若是有問題，就return None。無就回傳`平臺項目`'
         try:
             平臺項目編號 = int(這筆資料['流水號'])
-            平臺項目 = 平臺項目表.揣編號(平臺項目編號)
+            原本平臺項目 = 平臺項目表.揣編號(平臺項目編號)
             # 有匯入過資料就離開
-            if 平臺項目.校對後的文本():
+            if 原本平臺項目.校對後的文本():
                 return
         except 文本校對表.DoesNotExist:
             pass
@@ -109,20 +126,28 @@ class 正規化sheet表(models.Model):
             return
         except:
             return
+        外語 = 原本平臺項目.文本.來源外語.外語
+        原華語 = 外語.外語資料
         原漢字 = 這筆資料['原漢字'].strip()
         原音標 = 這筆資料['原拼音'].strip()
+        正確華語 = 這筆資料['正確華語'].strip()
         漢字 = 這筆資料['正規漢字'].strip()
         臺羅 = 這筆資料['臺羅'].strip()
         編輯者 = 這筆資料['編輯者(簽名)'].strip()
         if (漢字, 臺羅) in [(原漢字, 原音標)]:
             平臺項目 = 平臺項目表.揣編號(平臺項目編號)
             平臺項目.設為推薦用字()
+            if 正確華語 != '' and 正確華語 != 原華語:
+                正規化sheet表._原本文本項目指去新的外語(原本平臺項目, 正確華語)
             return 平臺項目
         elif 漢字 != '' and 臺羅 != '' and 編輯者 != '':
-            return 平臺項目表.對正規化sheet校對母語文本(
+            平臺項目 = 平臺項目表.對正規化sheet校對母語文本(
                 平臺項目編號,
                 編輯者,
                 漢字,
                 臺羅,
             )
+            if 正確華語 != '' and 正確華語 != 原華語:
+                正規化sheet表._原本文本項目指去新的外語(原本平臺項目, 正確華語)
+            return 平臺項目
         return
