@@ -17,8 +17,7 @@ class 失敗的json回應(Json失敗回應):
 
     def __init__(self, 失敗原因):
         super(失敗的json回應, self).__init__({
-            '結果': '失敗',
-            '原因': 失敗原因,
+            '錯誤': 失敗原因,
         })
 
 
@@ -26,7 +25,6 @@ class 成功的json回應(JsonResponse):
 
     def __init__(self, 平臺項目編號):
         super(成功的json回應, self).__init__({
-            '結果': '成功',
             '平臺項目編號': str(平臺項目編號),
         })
 
@@ -79,7 +77,6 @@ def 加外語請教條(request):
         return 失敗的json回應('種類欄位不符規範')
     except ValidationError as 錯誤:
         return JsonResponse({
-            '結果': '成功',
             '其他': '這個外語已經有了',
             '平臺項目編號': str(錯誤.平臺項目編號),
         })

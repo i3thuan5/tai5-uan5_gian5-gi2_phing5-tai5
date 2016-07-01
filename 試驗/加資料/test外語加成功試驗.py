@@ -28,11 +28,9 @@ class 外語加成功試驗(TestCase):
                 '外語資料': '漂亮',
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
-            '結果': '成功',
             '平臺項目編號': 回應資料['平臺項目編號'],
         })
 #         後端資料庫檢查
@@ -51,11 +49,9 @@ class 外語加成功試驗(TestCase):
                 '外語資料': '漂亮',  # 不設限，隨意增加
             }
         )
-# 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
-            '結果': '成功',
             '平臺項目編號': 回應資料['平臺項目編號'],
         })
 # 		後端資料庫檢查
@@ -71,11 +67,9 @@ class 外語加成功試驗(TestCase):
                 '來源': json.dumps({'名': '阿媠', '職業': '學生'}),
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
-            '結果': '成功',
             '平臺項目編號': 回應資料['平臺項目編號'],
         })
         編號 = int(回應資料['平臺項目編號'])
@@ -91,11 +85,9 @@ class 外語加成功試驗(TestCase):
                 '外語資料': '漂亮',  # 不設限，隨意增加
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
-            '結果': '成功',
             '平臺項目編號': 回應資料['平臺項目編號'],
         })
 #         後端資料庫檢查
@@ -118,11 +110,9 @@ class 外語加成功試驗(TestCase):
                 '外語資料': '漂亮',
             }
         )
-# 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
-            '結果': '成功',
             '平臺項目編號': 回應資料['平臺項目編號'],
         })
 # 		後端資料庫檢查
@@ -140,11 +130,9 @@ class 外語加成功試驗(TestCase):
                 '外語資料': '漂亮',
             }
         )
-# 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
-            '結果': '成功',
             '平臺項目編號': 回應資料['平臺項目編號'],
         })
 # 		後端資料庫檢查
@@ -170,11 +158,9 @@ class 外語加成功試驗(TestCase):
                 '外語資料': '漂亮',
             }
         )
-#         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
         self.assertEqual(回應資料, {
-            '結果': '成功',
             '其他': '這個外語已經有了',
             '平臺項目編號': 第一擺回應資料['平臺項目編號'],
         })
