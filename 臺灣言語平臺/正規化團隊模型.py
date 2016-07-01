@@ -100,7 +100,7 @@ class 正規化sheet表(models.Model):
             平臺項目 = 平臺項目表.揣編號(平臺項目編號)
             # 有匯入過資料就離開
             if 平臺項目.校對後的文本():
-                return 
+                return
         except 文本校對表.DoesNotExist:
             pass
         except 文本校對表.MultipleObjectsReturned:
