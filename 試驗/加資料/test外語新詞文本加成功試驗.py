@@ -161,6 +161,7 @@ class 外語新詞文本加成功試驗(TestCase):
         self.assertIn('平臺項目編號', 回應資料)
 
     def test_仝款資料加兩擺(self):
+        '不同人校對的結果可能一樣，所以不檢查重覆文本'
         self.client.post(
             '/平臺項目/加新詞文本', {
                 '外語項目編號': self.外語項目編號,
