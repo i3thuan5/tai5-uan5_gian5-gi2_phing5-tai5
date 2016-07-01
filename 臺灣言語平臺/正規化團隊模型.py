@@ -71,12 +71,12 @@ class 正規化sheet表(models.Model):
         資料表 = self.提著資料表()
         全部資料 = 資料表.get_all_values()
         標題 = 全部資料[0]
-        for 一筆 in 全部資料[1:]:
+        編輯者的座標 = 標題.index('編輯者(簽名)') + 1
+        for 第幾筆, 一筆 in enumerate(全部資料[1:], start=2):
             這筆資料 = dict(zip(標題, 一筆))
-            try:
-                正規化sheet表.正規化文本自sheet加轉資料庫(這筆資料)
-            except:
-                pass
+            新文本項目 = 正規化sheet表.正規化文本自sheet加轉資料庫(這筆資料)
+            if 新文本項目 is None:
+                資料表.update_cell(第幾筆, 編輯者的座標, '')
 
     @staticmethod
     def 新文本自資料庫加入sheet(資料表, 平臺項目):
@@ -95,6 +95,7 @@ class 正規化sheet表(models.Model):
 
     @staticmethod
     def 正規化文本自sheet加轉資料庫(這筆資料):
+        '若是有問題，就return None。無就回傳`平臺項目`'
         try:
             平臺項目編號 = int(這筆資料['流水號'])
             平臺項目 = 平臺項目表.揣編號(平臺項目編號)
@@ -115,13 +116,12 @@ class 正規化sheet表(models.Model):
         if (漢字, 臺羅) in [(原漢字, 原音標)]:
             平臺項目 = 平臺項目表.揣編號(平臺項目編號)
             平臺項目.設為推薦用字()
+            return 平臺項目
         elif 漢字 != '' and 臺羅 != '' and 編輯者 != '':
-            平臺項目 = 平臺項目表.對正規化sheet校對母語文本(
+            return 平臺項目表.對正規化sheet校對母語文本(
                 平臺項目編號,
                 編輯者,
                 漢字,
                 臺羅,
             )
-        else:
-            平臺項目 = None
-        return 平臺項目
+        return
