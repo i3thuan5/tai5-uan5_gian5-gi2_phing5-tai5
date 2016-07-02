@@ -205,9 +205,20 @@ class 平臺項目表(models.Model):
 
     @classmethod
     def 這句講了按怎(cls, 平臺項目編號, decision):
-        return 平臺項目表.objects\
-            .filter(pk=平臺項目編號)\
-            .update(按呢講好=F(decision) + 1)
+        if decision == '按呢講好':
+            return (
+                平臺項目表.objects
+                .filter(pk=平臺項目編號)
+                .update(按呢講好=F('按呢講好') + 1)
+            )
+        elif decision == '按呢無好':
+            return (
+                平臺項目表.objects
+                .filter(pk=平臺項目編號)
+                .update(按呢無好=F('按呢無好') + 1)
+            )
+        else:
+            raise ValueError('decision傳毋著')
 
     @classmethod
     def _補預設欄位(cls, 內容):

@@ -36,3 +36,12 @@ class 投票試驗(TestCase):
         回應資料 = 回應.json()
         self.assertIn('suId', 回應資料)
         self.assertIn('success', 回應資料)
+
+    def test_烏白傳講了按怎(self):
+        外語項目 = 平臺項目表.加外語資料({'外語資料': '水母'})
+        文本項目 = 平臺項目表.外語翻母語(外語項目.編號(), {'文本資料': 'the7'})
+        回應 = self.client.post(
+            '/平臺項目/投票', {'平臺項目編號': 文本項目.編號(), 'decision': '按呢……'}
+        )
+
+        self.assertEqual(回應.status_code, 400)

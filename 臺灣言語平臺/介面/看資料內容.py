@@ -68,7 +68,7 @@ def 投票(request):
     try:
         rows_affect = 平臺項目表.這句講了按怎(平臺項目編號, decision)
     except:
-        return Json失敗回應({'錯誤': '這不是合法平臺項目的編號'})
+        return Json失敗回應({'錯誤': 'decision傳錯了'})
     return JsonResponse({
         'suId': 平臺項目編號,
         'success': True if rows_affect == 1 else False,
