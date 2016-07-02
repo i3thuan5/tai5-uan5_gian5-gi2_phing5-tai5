@@ -1,6 +1,5 @@
 from dateutil import tz
 from django.http.response import JsonResponse
-from django.db.models import F
 
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
@@ -67,14 +66,7 @@ def 投票(request):
     except:
         return Json失敗回應({'錯誤': '沒有平臺項目的編號'})
     try:
-        if decision == '按呢講好':
-            rows_affect = 平臺項目表.objects\
-                                .filter(pk=平臺項目編號)\
-                                .update(按呢講好=F('按呢講好') + 1)
-        elif decision == '按呢無好':
-            rows_affect = 平臺項目表.objects\
-                                .filter(pk=平臺項目編號)\
-                                .update(按呢無好=F('按呢無好') + 1)
+        rows_affect = 平臺項目表.這句講了按怎(平臺項目編號, decision)
     except:
         return Json失敗回應({'錯誤': '這不是合法平臺項目的編號'})
     return JsonResponse({
