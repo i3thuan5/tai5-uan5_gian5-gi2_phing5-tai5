@@ -6,7 +6,7 @@ python:
 env:
 - TEST_SUITE='coverage run --source=臺灣言語平臺 manage.py test'
 - TEST_SUITE='coverage run --source=臺灣言語平臺 manage.py behave'
-- TEST_SUITE='pip install .'
+- TEST_SUITE='bash 加正規化sheet試驗.sh'
 - TEST_SUITE='flake8 --exclude=venv,migrations .'
 addons:
   apt:
