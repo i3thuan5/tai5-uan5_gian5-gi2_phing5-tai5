@@ -34,11 +34,10 @@ class 指令加sheet的json試驗(TestCase):
                 '加sheet的json',  self.json檔名, 'https://itaigi.tw',
                 stdout=輸出
             )
+            self.assertIn('愛記得', 輸出.getvalue())
             self.assertIn(
-                '愛記得分享sheet的權限予{}'.format(
-                    'itaigi@developer.gserviceaccount.com'
-                ),
-                輸出.getvalue())
+                'itaigi@developer.gserviceaccount.com', 輸出.getvalue()
+            )
 
     def test_檔案無存在(self):
         with self.assertRaises(FileNotFoundError):
