@@ -31,5 +31,7 @@ class Command(BaseCommand):
             url=參數['網址'],
         )
         self.stdout.write(
-            '愛記得分享sheet的權限予{}'.format(服務帳戶資料['client_email'])
+            '愛記得到「Google Sheets右上角的Share」裡分享「Can edit」的權限予 {} 喲！！'.format(
+                服務帳戶資料['client_email']
+            )
         )
