@@ -161,7 +161,7 @@ key：db4f3fa26d26890e720d17a83ff5a6fe
 
 #### 輸入sheet meta data, 看sheet設定
 ```bash
-python manage.py 加sheet的json 語言腔口 服務帳戶json 網址
+python manage.py 加sheet的json 服務帳戶json 網址
 python manage.py 顯示全部sheet狀態
 ```
 
