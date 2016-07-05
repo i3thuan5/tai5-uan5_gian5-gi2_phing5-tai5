@@ -142,7 +142,9 @@ HOST: http://polls.apiblueprint.org/
             "版權":"會使公開",
             "著作所在地":"花蓮",
             "著作年":"2014",
-            "屬性內容":{"詞性":"形容詞", "字數":"2"}
+            "屬性內容":{"詞性":"形容詞", "字數":"2"},
+            "按呢講好": 318,
+            "按呢無好": 119
         }
         
 ## 看收錄者、來源的詳細內容 [/平臺項目來源/看內容{?%E4%BE%86%E6%BA%90%E7%B7%A8%E8%99%9F}]
@@ -251,7 +253,6 @@ $http({
 + Response 200 (application/json)
 
         {
-            "結果": "成功",
             "平臺項目編號":"1"
         }
 
@@ -267,7 +268,6 @@ $http({
 + Response 200 (application/json)
 
         {
-            "結果": "成功",
             "平臺項目編號":"2"
         }
 
@@ -283,8 +283,25 @@ $http({
 + Response 200 (application/json)
 
         {
-            "結果": "成功",
             "平臺項目編號":"4"
+        }
+
+# Group 平臺項目操作
+
+## 投票 [/平臺項目/投票{?%E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F,decision}]
+
++ Parameters
+    + %E5%B9%B3%E8%87%BA%E9%A0%85%E7%9B%AE%E7%B7%A8%E8%99%9F (number, `1`) 
+        要投票的「平臺項目編號」
+    + decision (string, `按呢講好`)
+        `按呢講好`抑是`按呢無好`
+
+### POST
++ Response 200 (application/json)
+
+        {
+            "平臺項目編號":"4",
+            "success": True
         }
 
 # Group 登入登出
