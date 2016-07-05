@@ -11,6 +11,7 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 from 臺灣言語資料庫.資料模型 import 來源表
+from 臺灣言語平臺.tasks import 新文本自資料庫加入sheet
 
 
 class 失敗的json回應(Json失敗回應):
@@ -34,7 +35,7 @@ def 加文本了愛加入sheet(介面函式):
         json回應 = 介面函式(參數)
         try:
             平臺項目編號 = json.loads(json回應.content.decode('utf-8'))['平臺項目編號']
-            正規化sheet表.文本加入sheet(平臺項目編號)
+            新文本自資料庫加入sheet.delay(平臺項目編號)
         except KeyError:
             pass
         return json回應
