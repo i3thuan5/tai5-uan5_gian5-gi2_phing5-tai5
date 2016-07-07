@@ -18,11 +18,11 @@ class 指令加sheet的json試驗(TestCase):
     def test_有加資料入去(self, 加sheetMocka):
         with io.StringIO() as 輸出:
             call_command(
-                '加sheet的json', '臺語', self.json檔名, 'https://itaigi.tw',
+                '加sheet的json',  self.json檔名, 'https://itaigi.tw',
                 stdout=輸出
             )
         加sheetMocka.assert_called_once_with(
-            語言腔口='臺語',
+            語言腔口='臺灣語言',
             key_file_name=self.json檔名,
             url='https://itaigi.tw',
         )
@@ -31,19 +31,18 @@ class 指令加sheet的json試驗(TestCase):
     def test_提示email愛加入編輯者(self, 加sheetMocka):
         with io.StringIO() as 輸出:
             call_command(
-                '加sheet的json', '臺語', self.json檔名, 'https://itaigi.tw',
+                '加sheet的json',  self.json檔名, 'https://itaigi.tw',
                 stdout=輸出
             )
+            self.assertIn('愛記得', 輸出.getvalue())
             self.assertIn(
-                '愛記得分享sheet的權限予{}'.format(
-                    'itaigi@developer.gserviceaccount.com'
-                ),
-                輸出.getvalue())
+                'itaigi@developer.gserviceaccount.com', 輸出.getvalue()
+            )
 
     def test_檔案無存在(self):
         with self.assertRaises(FileNotFoundError):
             call_command(
-                '加sheet的json', '臺語', 'json檔名.json', 'https://itaigi.tw'
+                '加sheet的json', 'json檔名.json', 'https://itaigi.tw'
             )
 
     def test_加sheet入去資料正確(self):
