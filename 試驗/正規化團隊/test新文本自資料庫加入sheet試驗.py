@@ -3,6 +3,7 @@ from unittest.mock import patch
 from os.path import abspath, dirname, join
 
 from django.test.testcases import TestCase
+from django.test.utils import override_settings
 
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
@@ -29,7 +30,12 @@ class 新文本自資料庫加入sheet試驗(TestCase):
     def _加公家內容(self, 資料內容):
         return 資料內容
 
-    @patch('臺灣言語平臺.正規化團隊模型.正規化sheet表.文本加入sheet')
+    @override_settings(
+        CELERY_EAGER_PROPAGATES_EXCEPTIONS=True,
+        CELERY_ALWAYS_EAGER=True,
+        BROKER_BACKEND='memory'
+    )
+    @patch('臺灣言語平臺.tasks.新文本自資料庫加入sheet.delay')
     def test_加外語新詞有叫函式(self, 文本加入sheetMocka):
         self.client.force_login(self.阿媠)
         外語回應 = self.client.post(
