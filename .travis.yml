@@ -26,7 +26,7 @@ addons:
       - libmp3lame0
       - libavcodec-extra-53
 install:
-- pip install django tai5-uan5-gian5-gi2-tsu1-liau7-khoo3 django-allauth python-dateutil django-cors-headers pyOpenSSL oauth2client gspread django-kronos
+- pip install django tai5-uan5-gian5-gi2-tsu1-liau7-khoo3 django-allauth python-dateutil django-cors-headers pyOpenSSL oauth2client gspread django-kronos celery
 - pip install behave-django
 - pip install flake8
 - pip install python-coveralls
