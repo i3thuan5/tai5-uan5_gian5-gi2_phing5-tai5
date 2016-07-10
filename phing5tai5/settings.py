@@ -161,6 +161,10 @@ INSTALLED_APPS += (
 INSTALLED_APPS += (
     'behave_django',
 )
+
+# celery
+if DEBUG:
+    BROKER_BACKEND = 'memory'
 # For better celery performance
 CELERY_IGNORE_RESULT = True
 CELERY_DISABLE_RATE_LIMITS = True
