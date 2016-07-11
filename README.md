@@ -104,11 +104,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# django-kronos，定時掠google sheet正規化資料
-INSTALLED_APPS += (
-    'kronos',
-)
-
 # celery
 # For better celery performance
 CELERY_IGNORE_RESULT = True
@@ -118,6 +113,15 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
+from celery.schedules import crontab
+CELERY_TIMEZONE = TIME_ZONE
+CELERYBEAT_SCHEDULE = {
+    '半瞑自sheets掠轉資料庫': {
+        'task': '臺灣言語平臺.tasks.半瞑自sheets掠轉資料庫',
+        'schedule': crontab(hour=3),
+        'args': ()
+    },
+}
 ```
 
 
@@ -134,13 +138,17 @@ urlpatterns = [
 ```
 
 ### 執行服務
-需同時開`django`跟`celery`兩個服務，可用[screen](https://blog.gtwang.org/linux/screen-command-examples-to-manage-linux-terminals/)
+需同時開`django`、`celery worker`跟`celery beat`三個服務，可用[screen](https://blog.gtwang.org/linux/screen-command-examples-to-manage-linux-terminals/)
 ```bash
 python manage.py runserver
 ```
-跟開啟`celery`
+開啟`celery worker`，負責加資料到Google Sheets
 ```bash
 celery -A itaigi worker -l info
+```
+開啟`celery beat`，負責半夜從Google Sheets把正規化的資料抓回來
+```bash
+celery -A itaigi beat -l info
 ```
 
 #### 正式服務
@@ -185,17 +193,6 @@ python manage.py 顯示全部sheet狀態
 1. `Google Sheets`右上角的`Share`
 2. `Can edit`處輸入`服務帳戶json`檔案裡的client_email
 
-#### 將資料對sheet匯入資料庫
-#### 設定crontab
-```bash
-echo "KRONOS_PREFIX = 'source `echo $VIRTUAL_ENV`/bin/activate && '" >> phing5thai5/settings.py # 設定django-kronos
-python manage.py installtasks
-crontab -l
-```
-##### 人工做一擺
-```bash
-python manage.py 整理全部sheet到資料庫
-```
 
 
 ## 開發
@@ -213,4 +210,9 @@ sudo apt-get install -y libffi-dev # 為了連google oauth2
 ```
 python manage.py behave
 python manage.py test
+```
+
+### 人工做將資料對sheet匯入資料庫
+```bash
+python manage.py 整理全部sheet到資料庫
 ```
