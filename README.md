@@ -176,12 +176,12 @@ python manage.py createsuperuser
 ```bash
 python manage.py 加sheet的json 服務帳戶json 網址
 python manage.py 顯示全部sheet狀態
+```
 
 #### sheet設定權限給後端
 
 1. `Google Sheets`右上角的`Share`
 2. `Can edit`處輸入`服務帳戶json`檔案裡的client_email
-```
 
 #### 將資料對sheet匯入資料庫
 #### 設定crontab
