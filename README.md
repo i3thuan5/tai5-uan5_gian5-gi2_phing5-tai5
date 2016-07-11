@@ -104,11 +104,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# django-kronos，定時掠google sheet正規化資料
-INSTALLED_APPS += (
-    'kronos',
-)
-
 # celery
 # For better celery performance
 CELERY_IGNORE_RESULT = True
