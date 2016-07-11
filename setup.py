@@ -67,5 +67,6 @@ setup(
         'oauth2client',
         'gspread',
         'django-kronos',
+        'celery',
     ],
 )
