@@ -207,10 +207,44 @@ sudo apt-get install -y libffi-dev # 為了連google oauth2
 [OSX安裝avconv](http://superuser.com/questions/568464/how-to-install-libav-avconv-on-osx)
 
 ### 試驗
-```
+#### 功能試驗
+```bash
 python manage.py behave
+```
+進`features/`資料夾新增、編寫feature檔案，規劃網站流程
+
+##### 文件格式
+可以先參考`features/求講法閣有人來講.feature`的範例
+可以先看這兩大關鍵字：
+
+- Feature
+  -  整個檔案的說明，說明整個檔案想要規劃的方向和內容
+- Scenario
+  - 使用網站的情境的說明，同一個檔案可以有許多Scenario
+
+  可以用Feature和Scenario先勾勒出整個網站的流程。如果行有餘力，可以規劃更詳細一點，像是滑鼠點圖片送post等等，這邊有四個語法：
+
+- Given
+  - 這個情境的初使條件
+- When
+  - 使用者做了哪些動作、點了哪些鍵，輸入了什麼資料
+- Then
+  - 使用者應該看到的內容
+- and
+  - 當Given, When, Then不只一行時，可以擴充第二行、第三行、…
+
+至於`#`開頭的那行表示解釋，讓大家更好閱讀
+
+註：`features/steps`裡面是工程師用的東西，不重要不需要看懂～～ XD
+
+
+#### 單元試驗
+```
 python manage.py test
 ```
+檔案攏佇`試驗/`
+
+
 
 ### 人工做將資料對sheet匯入資料庫
 ```bash
