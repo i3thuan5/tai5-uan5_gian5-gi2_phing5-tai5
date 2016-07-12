@@ -66,6 +66,6 @@ setup(
         'pyOpenSSL',
         'oauth2client',
         'gspread',
-        'django-kronos',
+        'celery',
     ],
 )

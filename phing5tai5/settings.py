@@ -10,6 +10,9 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+from celery.schedules import crontab
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -153,11 +156,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# django-kronos，定時掠google sheet正規化資料
-INSTALLED_APPS += (
-    'kronos',
-)
-
 INSTALLED_APPS += (
     'behave_django',
 )
@@ -172,3 +170,12 @@ CELERY_DISABLE_RATE_LIMITS = True
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERYBEAT_SCHEDULE = {
+    '半瞑自sheets掠轉資料庫': {
+        'task': '臺灣言語平臺.tasks.半瞑自sheets掠轉資料庫',
+        'schedule': crontab(hour=3),
+        'args': ()
+    },
+}

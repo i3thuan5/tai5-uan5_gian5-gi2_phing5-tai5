@@ -2,13 +2,15 @@
 [![Build Status](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5.svg?branch=master)](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
 [![Coverage Status](https://coveralls.io/repos/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5/badge.svg)](https://coveralls.io/r/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
 
-臺灣言語平臺是[臺灣言語資料庫](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_tsu1-liau7-khoo3)的編輯後端API介面，前端網頁藉由GET/POST，將資料傳來後端主機，主機並以json的格式回傳。
+臺灣言語平臺是母語問答系統的後端主機程式。前端網頁藉由GET/POST，將資料傳來後端主機，主機並以json的格式回傳。
 
 * API介面
   * [apiary](http://docs.tai5uan5gian5gi2phing5thai5.apiary.io/#)
 * 前端網頁
   * [itaigi](http://itaigi.tw/)
+    * [github](https://github.com/g0v/itaigi)
 * 相關專案
+  * [臺灣言語資料庫](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_tsu1-liau7-khoo3)
   * [臺灣言語工具](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_kang1-ku7)
   * [臺灣言語服務](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_hok8-bu7)
 
@@ -16,7 +18,7 @@
 ```python3
 virtualenv venv --python python3 # 設置環境檔
 sudo apt-get install -y python3 python-virtualenv g++ python3-dev zlib1g-dev libbz2-dev liblzma-dev libboost-all-dev libyaml-dev libxslt1-dev libav-tools libmp3lame0 libavcodec-extra-* # 安裝資料庫的套件 for Ubuntu
-sudo apt-get install -y libffi-dev # 為了連google oauth2
+sudo apt-get install -y libffi-dev rabbitmq-server # 為了連google oauth2, message queue
 . venv/bin/activate # 載入環境
 pip install tai5-uan5_gian5-gi2_phing5-tai5
 python manage.py migrate #建立資料庫欄位
@@ -102,10 +104,24 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# django-kronos，定時掠google sheet正規化資料
-INSTALLED_APPS += (
-    'kronos',
-)
+# celery
+# For better celery performance
+CELERY_IGNORE_RESULT = True
+CELERY_DISABLE_RATE_LIMITS = True
+# Only accept json for safety and upcoming celery version default setting
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+from celery.schedules import crontab
+CELERY_TIMEZONE = TIME_ZONE
+CELERYBEAT_SCHEDULE = {
+    '半瞑自sheets掠轉資料庫': {
+        'task': '臺灣言語平臺.tasks.半瞑自sheets掠轉資料庫',
+        'schedule': crontab(hour=3),
+        'args': ()
+    },
+}
 ```
 
 
@@ -121,10 +137,22 @@ urlpatterns = [
 ]
 ```
 
-### 跑服務
-```python3
+### 執行服務
+需同時開`django`、`celery worker`跟`celery beat`三個服務，可用[screen](https://blog.gtwang.org/linux/screen-command-examples-to-manage-linux-terminals/)
+```bash
 python manage.py runserver
 ```
+開啟`celery worker`，負責加資料到Google Sheets
+```bash
+celery -A itaigi worker -l info
+```
+開啟`celery beat`，負責半夜從Google Sheets把正規化的資料抓回來
+```bash
+celery -A itaigi beat -l info
+```
+
+#### 正式服務
+可以參考[gunicorn](http://gunicorn.org/)來啟動`django`，取代`runserver`
 
 ### 匯入資料
 請看各專案說定，或參考臺灣言語資料庫的[資料匯入](http://tai5-uan5-gian5-gi2-tsu1-liau7-khoo3.readthedocs.org/zh_TW/latest/資料匯入.html)。
@@ -134,17 +162,17 @@ python manage.py runserver
 ```bash
 python manage.py createsuperuser
 ```
-email和密碼隨意輸入
+`email`和`密碼`隨意輸入
 
 #### 登入管理員並且設定FB app
 1. 用瀏覽器進入 /admin
-2. 輸入剛剛的email和密碼
+2. 輸入剛剛的`email`和`密碼`
 3. social application
-provider：FB 
-id：590065061070994
-key：db4f3fa26d26890e720d17a83ff5a6fe
-最後左下角choose all site
-其他欄位隨便填
+  * provider：FB 
+  * id：590065061070994
+  * key：db4f3fa26d26890e720d17a83ff5a6fe
+  * 最後左下角choose all site
+  * 其他欄位隨便填
 
 ### 加google sheet編輯資料
 #### 設定google development
@@ -154,28 +182,17 @@ key：db4f3fa26d26890e720d17a83ff5a6fe
 2. 開啟Drive API
 3. 用Service Account得到一個`服務帳戶json`檔案
 
-#### sheet設定權限給後端
-
-1. google sheet右上角的share
-2. can edit輸入`服務帳戶json`檔案裡的client_email
-
 #### 輸入sheet meta data, 看sheet設定
 ```bash
 python manage.py 加sheet的json 服務帳戶json 網址
 python manage.py 顯示全部sheet狀態
 ```
 
-#### 將資料對sheet匯入資料庫
-#### 設定crontab
-```bash
-echo "KRONOS_PREFIX = 'source `echo $VIRTUAL_ENV`/bin/activate && '" >> phing5thai5/settings.py # 設定django-kronos
-python manage.py installtasks
-crontab -l
-```
-##### 人工做一擺
-```bash
-python manage.py 整理全部sheet到資料庫
-```
+#### sheet設定權限給後端
+
+1. `Google Sheets`右上角的`Share`
+2. `Can edit`處輸入`服務帳戶json`檔案裡的client_email
+
 
 
 ## 開發
@@ -191,5 +208,11 @@ sudo apt-get install -y libffi-dev # 為了連google oauth2
 
 ### 試驗
 ```
+python manage.py behave
 python manage.py test
+```
+
+### 人工做將資料對sheet匯入資料庫
+```bash
+python manage.py 整理全部sheet到資料庫
 ```

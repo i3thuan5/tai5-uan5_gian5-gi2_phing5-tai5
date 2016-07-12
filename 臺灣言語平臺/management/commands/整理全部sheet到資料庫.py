@@ -1,11 +1,9 @@
 from django.core.management.base import BaseCommand
-import kronos
 
 
 from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 
 
-@kronos.register('0 4 * * *')
 class Command(BaseCommand):
     help = '整理全部sheet到資料庫'
 
