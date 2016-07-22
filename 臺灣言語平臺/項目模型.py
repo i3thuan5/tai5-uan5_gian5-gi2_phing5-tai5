@@ -121,7 +121,7 @@ class 平臺項目表(models.Model):
             raise 錯誤
         except ObjectDoesNotExist:
             pass
-        外語 = 外語表.加資料(cls._補預設欄位(內容))
+        外語 = 外語表.加資料(cls._補預設欄位(內容, 字詞))
         return cls.objects.create(外語=外語)
 
     @classmethod
@@ -150,19 +150,19 @@ class 平臺項目表(models.Model):
     @classmethod
     def 外語錄母語(cls, 外語請教條項目編號, 內容):
         外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
-        影音 = 外語.錄母語(cls._補預設欄位(內容))
+        影音 = 外語.錄母語(cls._補預設欄位(內容, 外語.種類.種類))
         return cls.objects.create(影音=影音)
 
     @classmethod
     def 影音寫文本(cls, 新詞影音項目編號, 內容):
         影音 = 平臺項目表.objects.get(pk=新詞影音項目編號).影音
-        文本 = 影音.寫文本(cls._補預設欄位(內容))
+        文本 = 影音.寫文本(cls._補預設欄位(內容, 影音.種類.種類))
         return cls.objects.create(文本=文本)
 
     @classmethod
     def 外語翻母語(cls, 外語請教條項目編號, 內容):
         外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
-        文本 = 外語.翻母語(cls._補預設欄位(內容))
+        文本 = 外語.翻母語(cls._補預設欄位(內容, 外語.種類.種類))
         return cls.objects.create(文本=文本)
 
     @classmethod
@@ -186,7 +186,7 @@ class 平臺項目表(models.Model):
     @classmethod
     def _校對母語文本(cls, 文本項目編號, 內容):
         舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
-        新文本 = 舊文本.校對做(cls._補預設欄位(內容))
+        新文本 = 舊文本.校對做(cls._補預設欄位(內容,舊文本.種類.種類))
         return cls.objects.create(文本=新文本)
 
     def 校對後的文本(self):
@@ -221,12 +221,12 @@ class 平臺項目表(models.Model):
             raise ValueError('decision傳毋著')
 
     @classmethod
-    def _補預設欄位(cls, 內容):
+    def _補預設欄位(cls, 內容, 種類):
         新內容 = {
             '收錄者': 來源表.objects.get(名='匿名').編號(),
             '來源': cls._自己json字串[0],
             '版權': '會使公開',
-            '種類': 字詞,
+            '種類': 種類,
             '語言腔口': settings.MOTHER_TONGUE,
             '著作所在地': '臺灣',
             '著作年': str(timezone.now().year),
