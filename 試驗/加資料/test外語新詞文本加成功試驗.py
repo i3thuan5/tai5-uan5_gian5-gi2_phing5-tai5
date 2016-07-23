@@ -217,7 +217,7 @@ class 外語新詞文本加成功試驗(TestCase):
         )
         self.外語表資料數 = 外語表.objects.all().count()
         self.平臺項目表資料數 = 平臺項目表.objects.all().count()
-        
+
         外語項目編號 = int(外語回應.json()['平臺項目編號'])
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {  # 全部都必須字串形態

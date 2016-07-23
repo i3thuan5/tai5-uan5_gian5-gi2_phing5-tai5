@@ -186,7 +186,7 @@ class 平臺項目表(models.Model):
     @classmethod
     def _校對母語文本(cls, 文本項目編號, 內容):
         舊文本 = 平臺項目表.objects.get(pk=文本項目編號).文本
-        新文本 = 舊文本.校對做(cls._補預設欄位(內容,舊文本.種類.種類))
+        新文本 = 舊文本.校對做(cls._補預設欄位(內容, 舊文本.種類.種類))
         return cls.objects.create(文本=新文本)
 
     def 校對後的文本(self):
