@@ -93,7 +93,8 @@ class 正規化sheet表(models.Model):
             這筆資料 = dict(zip(標題, 一筆))
             新文本項目 = 正規化sheet表.正規化文本自sheet加轉資料庫(這筆資料)
             if 新文本項目 is None:
-                資料表.update_cell(第幾筆, 編輯者的座標, '')
+#                 資料表.update_cell(第幾筆, 編輯者的座標, '')
+                pass
 
     @staticmethod
     def 新文本自資料庫加入sheet(資料表, 平臺項目):
