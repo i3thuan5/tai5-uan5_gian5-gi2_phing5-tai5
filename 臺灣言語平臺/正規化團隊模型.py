@@ -88,10 +88,9 @@ class 正規化sheet表(models.Model):
         資料表 = self.提著資料表()
         全部資料 = 資料表.get_all_values()
         標題 = 全部資料[0]
-        _編輯者的座標 = 標題.index('編輯者(簽名)') + 1
         for 一筆 in 全部資料[1:]:
             這筆資料 = dict(zip(標題, 一筆))
-            _新文本項目 = 正規化sheet表.正規化文本自sheet加轉資料庫(這筆資料)
+            正規化sheet表.正規化文本自sheet加轉資料庫(這筆資料)
 
     @staticmethod
     def 新文本自資料庫加入sheet(資料表, 平臺項目):
