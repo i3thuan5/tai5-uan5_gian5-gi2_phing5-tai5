@@ -143,6 +143,23 @@ class 外語加成功試驗(TestCase):
         self.assertEqual(外語.來源.名, '自己')
         self.assertEqual(外語.來源.屬性.count(), 0)
 
+    def test_資料頭前後壁的空白愛提掉(self):
+        回應 = self.client.post(
+            '/平臺項目/加外語', {
+                '外語資料': ' 漂亮 ',
+            }
+        )
+        self.assertEqual(回應.status_code, 200)
+        回應資料 = json.loads(回應.content.decode("utf-8"))
+        self.assertEqual(回應資料, {
+            '平臺項目編號': 回應資料['平臺項目編號'],
+        })
+#         後端資料庫檢查
+        編號 = int(回應資料['平臺項目編號'])
+
+        外語 = 平臺項目表.objects.get(pk=編號).外語
+        self.assertEqual(外語.外語資料, '漂亮')
+
     def test_仝款資料加兩擺(self):
         # 種類、語言腔口、外語語言、外語資料，四个攏仝款就袂使閣加矣
         self.client.force_login(self.鄉民)

@@ -63,7 +63,7 @@ def 加外語請教條(request):
         except:
             pass
     try:
-        內容['外語資料'] = request.POST['外語資料']
+        內容['外語資料'] = request.POST['外語資料'].strip()
     except MultiValueDictKeyError:
         return 失敗的json回應('資料欄位有缺')
 
@@ -155,11 +155,11 @@ def 外語加新詞文本(request):
         except:
             pass
     try:
-        內容['屬性']['音標'] = request.POST['音標資料']
+        內容['屬性']['音標'] = request.POST['音標資料'].strip()
     except:
         pass
     try:
-        內容['文本資料'] = request.POST['文本資料']
+        內容['文本資料'] = request.POST['文本資料'].strip()
         外語項目編號 = int(request.POST['外語項目編號'])
     except MultiValueDictKeyError:
         return 失敗的json回應('資料欄位有缺')
