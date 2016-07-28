@@ -31,3 +31,4 @@ tai5-uan5-gian5-gi2-kang1-ku7==0.6.0
 tai5-uan5-gian5-gi2-tsu1-liau7-khoo3==3.1.9
 # message queue
 celery==3.1.23
+behave_django==1.2.5
