@@ -110,6 +110,25 @@ class 外語新詞文本加成功試驗(TestCase):
         self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
         self.assertEqual(文本.屬性.音標資料(), 'sui2')
 
+    def test_文本音標資料頭前後壁的空白愛提掉(self):
+        回應 = self.client.post(
+            '/平臺項目/加新詞文本', {
+                '外語項目編號': self.外語項目編號,  
+                '文本資料': ' 媠 ',
+                '音標資料': ' sui2 ',
+            }
+        )
+        self.assertEqual(回應.status_code, 200)
+        回應資料 = 回應.json()
+        self.assertIn('平臺項目編號', 回應資料)
+#         後端資料庫檢查
+        編號 = int(回應資料['平臺項目編號'])
+
+        文本 = 平臺項目表.objects.get(pk=編號).文本
+        self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
+        self.assertEqual(文本.文本資料, '媠')
+        self.assertEqual(文本.屬性.音標資料(), 'sui2')
+        
     def test_來源自己(self):
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
