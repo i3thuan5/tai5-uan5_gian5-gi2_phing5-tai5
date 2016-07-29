@@ -28,6 +28,8 @@ class 平臺項目表(models.Model):
     推薦用字 = models.BooleanField(default=False)
     按呢講好 = models.IntegerField(default=0)
     按呢無好 = models.IntegerField(default=0)
+    # When value is False, then data will be visible
+    愛藏起來 = models.BooleanField(default=False)
 
     def 編號(self):
         return self.pk
@@ -71,6 +73,9 @@ class 平臺項目表(models.Model):
             .exclude(
                 Q(翻譯文本__文本__平臺項目__推薦用字=True) |
                 Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
+            )
+            .filter(
+                Q(平臺項目__愛藏起來=False)
             )
             .distinct()
             .order_by('-pk')
@@ -153,6 +158,13 @@ class 平臺項目表(models.Model):
         except:
             pass
         return 要求.get().平臺項目
+
+    @classmethod
+    def 把無建議的外語資料藏起來(cls, 編號):
+        外語 = 外語表.objects.filter(
+            Q(平臺項目__id=編號)
+        )
+        return cls.objects.filter(外語=外語).update(愛藏起來=True)
 
     @classmethod
     def 外語錄母語(cls, 外語請教條項目編號, 內容):
