@@ -160,6 +160,13 @@ class 平臺項目表(models.Model):
         return 要求.get().平臺項目
 
     @classmethod
+    def 把無建議的外語資料藏起來(cls, 編號):
+        外語 = 外語表.objects.filter(
+            Q(平臺項目__id=編號)
+        )
+        return cls.objects.filter(外語=外語).update(愛藏起來=True)
+
+    @classmethod
     def 外語錄母語(cls, 外語請教條項目編號, 內容):
         外語 = 平臺項目表.objects.get(pk=外語請教條項目編號).外語
         影音 = 外語.錄母語(cls._補預設欄位(內容, 外語.種類.種類))
