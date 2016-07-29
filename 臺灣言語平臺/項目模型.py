@@ -28,6 +28,8 @@ class 平臺項目表(models.Model):
     推薦用字 = models.BooleanField(default=False)
     按呢講好 = models.IntegerField(default=0)
     按呢無好 = models.IntegerField(default=0)
+    # When value is False, then data will be visible
+    愛藏起來 = models.BooleanField(default=False)
 
     def 編號(self):
         return self.pk
@@ -66,11 +68,26 @@ class 平臺項目表(models.Model):
 
     @classmethod
     def 無建議講法的外語表(cls):
+        print(
+            外語表.objects
+            .exclude(
+                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
+                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
+            )
+            .filter(
+                Q(翻譯文本__文本__平臺項目__愛藏起來=True)
+            )
+            .distinct()
+            .order_by('-pk').query
+        )
         return (
             外語表.objects
             .exclude(
                 Q(翻譯文本__文本__平臺項目__推薦用字=True) |
                 Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
+            )
+            .filter(
+                Q(平臺項目__愛藏起來=False)
             )
             .distinct()
             .order_by('-pk')
