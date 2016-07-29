@@ -68,18 +68,6 @@ class 平臺項目表(models.Model):
 
     @classmethod
     def 無建議講法的外語表(cls):
-        print(
-            外語表.objects
-            .exclude(
-                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
-                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
-            )
-            .filter(
-                Q(翻譯文本__文本__平臺項目__愛藏起來=True)
-            )
-            .distinct()
-            .order_by('-pk').query
-        )
         return (
             外語表.objects
             .exclude(
