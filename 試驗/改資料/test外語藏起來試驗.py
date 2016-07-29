@@ -5,7 +5,6 @@ from django.core.urlresolvers import resolve
 from django.test import TestCase
 
 
-from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.加資料 import 加外語請教條
 from 臺灣言語平臺.介面.改資料 import 把測試資料藏起來
@@ -25,7 +24,6 @@ class 外語藏起來試驗(TestCase):
         對應 = resolve('/平臺項目/把測試資料藏起來')
         self.assertEqual(對應.func, 把測試資料藏起來)
 
-
     def test_有功能(self):
         self.client.force_login(self.鄉民)
         回應 = self.client.post(
@@ -38,7 +36,7 @@ class 外語藏起來試驗(TestCase):
         self.assertEqual(回應資料, {
             '平臺項目編號': 回應資料['平臺項目編號'],
         })
-        #後端資料庫檢查
+#       後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
 
         外語 = 平臺項目表.objects.get(pk=編號)
@@ -50,4 +48,3 @@ class 外語藏起來試驗(TestCase):
         )
         外語 = 平臺項目表.objects.get(pk=編號)
         self.assertEqual(外語.愛藏起來, True)
-

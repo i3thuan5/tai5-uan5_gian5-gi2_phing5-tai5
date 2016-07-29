@@ -1,10 +1,6 @@
 # -*- coding:utf-8 -*-
-import json
 
-from django.core.exceptions import ValidationError
 from django.http.response import JsonResponse
-from django.utils.datastructures import MultiValueDictKeyError
-
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
@@ -25,6 +21,7 @@ class 成功的json回應(JsonResponse):
             '平臺項目編號': str(平臺項目編號),
         })
 
+
 def 把測試資料藏起來(request):
     try:
         資料編號 = int(request.POST['資料編號'].strip())
@@ -32,4 +29,3 @@ def 把測試資料藏起來(request):
         return 失敗的json回應('資料編號只能是數字')
     平臺項目表.把無建議的外語資料藏起來(資料編號)
     return 成功的json回應(資料編號)
-
