@@ -55,6 +55,6 @@ class 外語藏起來試驗(TestCase):
                 '資料編號': 'abcd',
             }
         )
-        self.assertEqual(json.loads(回應.content.decode("utf-8")),{
+        self.assertEqual(json.loads(回應.content.decode("utf-8")), {
             "錯誤": "資料編號只能是數字",
         })
