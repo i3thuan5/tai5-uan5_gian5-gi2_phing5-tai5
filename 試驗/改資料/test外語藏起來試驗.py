@@ -48,3 +48,13 @@ class 外語藏起來試驗(TestCase):
         )
         外語 = 平臺項目表.objects.get(pk=編號)
         self.assertEqual(外語.愛藏起來, True)
+
+    def test_失敗的json回應(self):
+        回應 = self.client.post(
+            '/平臺項目/把測試資料藏起來', {
+                '資料編號': 'abcd',
+            }
+        )
+        self.assertEqual(json.loads(回應.content.decode("utf-8")), {
+            "錯誤": "資料編號只能是數字",
+        })
