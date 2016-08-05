@@ -82,6 +82,19 @@ class 平臺項目表(models.Model):
         )
 
     @classmethod
+    def 無建議講法的外語表_隱藏詞條(cls):
+        return (
+            外語表.objects
+            .exclude(
+                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
+                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
+            )
+            .distinct()
+            .order_by('平臺項目__愛藏起來', '-pk')
+        )
+        
+
+    @classmethod
     def 有按呢講法的外語表(cls, 講法):
         return (
             外語表.objects
