@@ -82,7 +82,7 @@ class 平臺項目表(models.Model):
         )
 
     @classmethod
-    def 無建議講法的外語表_隱藏詞條(cls):
+    def 無建議講法的外語表_管理頁面(cls):
         return (
             外語表.objects
             .exclude(
