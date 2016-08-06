@@ -296,11 +296,7 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         臺語sheet表 = self._加臺語sheet表()
         臺語sheet表.整理到資料庫()
 
-        資料表mocka.update_cell.assert_has_calls([
-            call(2, 10, ''),
-            call(3, 10, ''),
-            call(4, 10, ''),
-        ])
+        資料表mocka.update_cell.assert_not_called()
 
     @patch('gspread.authorize')
     def test_資料有漢字佮拼音簽名愛留咧(self, authorizeMocka):
