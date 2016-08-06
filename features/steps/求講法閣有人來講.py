@@ -51,7 +51,7 @@ def 有人校對講法(context, 講法):
 @when('有人共 {原本} 的講法正規化做 {正規化}')
 def 有人正規化做(context, 原本, 正規化):
     平臺項目表.對正規化sheet校對母語文本(
-        平臺項目表.objects.get(文本__isnull=False),
+        平臺項目表.objects.get(文本__isnull=False).編號(),
         '工程師', 正規化, ''
     )
 
@@ -60,3 +60,16 @@ def 有人正規化做(context, 原本, 正規化):
 def 會當揣著講法(context):
     講法 = context.test.client.get('/平臺項目列表/揣列表', {'關鍵字': '豬'}).json()['列表']
     context.test.assertEqual(講法[0]['新詞文本'][0]['文本資料'], '豬仔')
+
+
+@then(u'查 {關鍵字} 會當揣著其他建議 {講法}')
+def 會當揣著其他建議(context, 關鍵字, 講法):
+    其他建議 = context.test.client.get('/平臺項目列表/揣列表', {'關鍵字': 關鍵字}).json()['其他建議']
+    print('講法',其他建議)
+    context.test.assertEqual(其他建議[0]['外語資料'], 講法)
+
+
+@then(u'查 {關鍵字} 揣袂著其他建議 {講法}')
+def 揣袂著其他建議(context, 關鍵字, 講法):
+    其他建議 = context.test.client.get('/平臺項目列表/揣列表', {'關鍵字': 關鍵字}).json()['其他建議']
+    context.test.assertEqual(len(其他建議), 0)
