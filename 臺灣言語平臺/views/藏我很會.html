@@ -44,7 +44,6 @@
                 </tr>
             {% endfor %}
             </tbody>
-
     </table>
 
     </div>
@@ -61,7 +60,11 @@
                     type : 'POST',
                     dataType : 'HTML',
                     data: {
-                        項目編號: id
+                        資料編號: id, 
+                    },
+                    beforeSend: function (request)
+                    {
+                        request.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
                     },
                     success: function(res) {
                         location.reload();
