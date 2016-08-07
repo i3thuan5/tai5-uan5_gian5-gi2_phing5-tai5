@@ -177,7 +177,8 @@ class 平臺項目表(models.Model):
         外語 = 外語表.objects.filter(
             Q(平臺項目__id=編號)
         )
-        return cls.objects.filter(外語=外語).update(愛藏起來=True)
+        update = not cls.objects.filter(外語=外語)[0].愛藏起來
+        return cls.objects.filter(外語=外語).update(愛藏起來=update)
 
     @classmethod
     def 外語錄母語(cls, 外語請教條項目編號, 內容):
