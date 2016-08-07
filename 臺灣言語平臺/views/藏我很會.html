@@ -55,6 +55,19 @@
         $(function() {
             $('a.btn').on('click',function(e) {
                 var id = e.target.parentElement.parentElement.querySelectorAll('[name=id]')[0].innerText;
+                var td_stat = e.target.parentElement.parentElement.querySelectorAll('[name=status]')[0];
+                var stat = td_stat.getElementsByTagName('font')[0];
+                if (stat.style.color == 'red')
+                {
+                    stat.style.color = 'green';
+                    stat.innerText = '顯示';
+                }
+                else if (stat.style.color == 'green')
+                {
+                    stat.style.color = 'red';
+                    stat.innerText = '隱藏';
+                }
+
                 $.ajax({
                     url  : location.host + '/平臺項目/把測試資料藏起來',
                     type : 'POST',
@@ -67,7 +80,7 @@
                         request.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
                     },
                     success: function(res) {
-                        location.reload();
+                        //location.reload();
                     }
                 });
             })
