@@ -50,6 +50,7 @@ class 外語藏起來試驗(TestCase):
         self.assertEqual(外語.愛藏起來, True)
 
     def test_失敗的json回應(self):
+        self.client.force_login(self.鄉民)
         回應 = self.client.post(
             '/平臺項目/把測試資料藏起來', {
                 '資料編號': 'abcd',
