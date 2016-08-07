@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 
+from django.shortcuts import render
 from django.http.response import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
@@ -22,6 +24,25 @@ class 成功的json回應(JsonResponse):
         })
 
 
+@login_required
+def 把測試資料藏起來_管理目錄(request):
+    資料列表 = 平臺項目表.無建議講法的外語表_管理頁面()
+
+    資料 = []
+    for data in 資料列表:
+        編號 = data.平臺項目.編號()
+        名稱 = data.平臺項目.資料()
+        愛藏起來 = data.平臺項目.愛藏起來
+        資料.append({
+            '編號': 編號, '名稱': 名稱, '愛藏起來': 愛藏起來
+        })
+
+    return render(request, '藏我很會.html', {
+        '資料': 資料,
+    })
+
+
+@login_required
 def 把測試資料藏起來(request):
     try:
         資料編號 = int(request.POST['資料編號'].strip())

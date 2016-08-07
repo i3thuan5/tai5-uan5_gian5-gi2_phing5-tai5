@@ -82,6 +82,18 @@ class 平臺項目表(models.Model):
         )
 
     @classmethod
+    def 無建議講法的外語表_管理頁面(cls):
+        return (
+            外語表.objects
+            .exclude(
+                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
+                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
+            )
+            .distinct()
+            .order_by('平臺項目__愛藏起來', '-pk')
+        )
+
+    @classmethod
     def 有按呢講法的外語表(cls, 講法):
         return (
             外語表.objects
@@ -164,7 +176,8 @@ class 平臺項目表(models.Model):
         外語 = 外語表.objects.filter(
             Q(平臺項目__id=編號)
         )
-        return cls.objects.filter(外語=外語).update(愛藏起來=True)
+        update = not cls.objects.filter(外語=外語)[0].愛藏起來
+        return cls.objects.filter(外語=外語).update(愛藏起來=update)
 
     @classmethod
     def 外語錄母語(cls, 外語請教條項目編號, 內容):

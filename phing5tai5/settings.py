@@ -133,7 +133,7 @@ AUTHENTICATION_BACKENDS = (
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['臺灣言語平臺/views'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
