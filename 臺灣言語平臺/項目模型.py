@@ -92,7 +92,6 @@ class 平臺項目表(models.Model):
             .distinct()
             .order_by('平臺項目__愛藏起來', '-pk')
         )
-        
 
     @classmethod
     def 有按呢講法的外語表(cls, 講法):

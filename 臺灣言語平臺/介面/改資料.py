@@ -23,6 +23,7 @@ class 成功的json回應(JsonResponse):
             '平臺項目編號': str(平臺項目編號),
         })
 
+
 @login_required
 def 把測試資料藏起來_管理目錄(request):
     資料列表 = 平臺項目表.無建議講法的外語表_管理頁面()
@@ -40,6 +41,7 @@ def 把測試資料藏起來_管理目錄(request):
         '資料': 資料,
     })
 
+
 @login_required
 def 把測試資料藏起來(request):
     try:
@@ -48,4 +50,3 @@ def 把測試資料藏起來(request):
         return 失敗的json回應('資料編號只能是數字')
     平臺項目表.把無建議的外語資料藏起來(資料編號)
     return 成功的json回應(資料編號)
-
