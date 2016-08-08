@@ -39,6 +39,7 @@ github網址 = 'https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai
 setup(
     name='tai5-uan5_gian5-gi2_phing5-tai5',
     packages=揣工具包('臺灣言語平臺'),
+    package_data={'templates':['*.html'],},
     version=版本,
     description='臺灣語言資料庫網頁後端程式',
     long_description=_專案說明,
