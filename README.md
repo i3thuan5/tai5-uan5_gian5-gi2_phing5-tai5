@@ -4,6 +4,9 @@
 
 臺灣言語平臺是母語問答系統的後端主機程式。前端網頁藉由GET/POST，將資料傳來後端主機，主機並以json的格式回傳。
 
+* 討論
+  * [slack](https://g0v-tw.slack.com/messages/itaigi/)
+  * [萌典松](http://moe.kktix.cc/)
 * API介面
   * [apiary](http://docs.tai5uan5gian5gi2phing5thai5.apiary.io/#)
 * 前端網頁
