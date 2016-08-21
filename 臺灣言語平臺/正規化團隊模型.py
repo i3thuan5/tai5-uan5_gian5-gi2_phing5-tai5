@@ -97,7 +97,8 @@ class 正規化sheet表(models.Model):
         文本 = 平臺項目.資料()
         try:
             音標 = 文本.音標資料
-        except:
+        except Exception as e:
+            print('e',e)
             音標 = ''
         資料表.append_row(
             [
