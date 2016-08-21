@@ -90,7 +90,7 @@ class 外語新詞文本加成功試驗(TestCase):
 
         文本 = 平臺項目表.objects.get(pk=編號).文本
         self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
-        self.assertEqual(文本.屬性.音標資料(), 'sui2')
+        self.assertEqual(文本.音標資料, 'sui2')
 
     def test_屬性加音標(self):
         回應 = self.client.post(
@@ -108,7 +108,7 @@ class 外語新詞文本加成功試驗(TestCase):
 
         文本 = 平臺項目表.objects.get(pk=編號).文本
         self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
-        self.assertEqual(文本.屬性.音標資料(), 'sui2')
+        self.assertEqual(文本.音標資料, 'sui2')
 
     def test_文本音標資料頭前後壁的空白愛提掉(self):
         回應 = self.client.post(
@@ -127,7 +127,7 @@ class 外語新詞文本加成功試驗(TestCase):
         文本 = 平臺項目表.objects.get(pk=編號).文本
         self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
         self.assertEqual(文本.文本資料, '媠')
-        self.assertEqual(文本.屬性.音標資料(), 'sui2')
+        self.assertEqual(文本.音標資料, 'sui2')
 
     def test_來源自己(self):
         回應 = self.client.post(
