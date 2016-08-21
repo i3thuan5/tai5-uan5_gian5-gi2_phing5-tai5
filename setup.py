@@ -60,7 +60,7 @@ setup(
     ],
     install_requires=[
         'django>=1.9.7',
-        'tai5-uan5-gian5-gi2-tsu1-liau7-khoo3>=3.1.9',
+        'tai5-uan5-gian5-gi2-tsu1-liau7-khoo3>=3.1.11',
         'django-allauth>=0.25.2',
         'python-dateutil>=2.4.1',
         'django-cors-headers',

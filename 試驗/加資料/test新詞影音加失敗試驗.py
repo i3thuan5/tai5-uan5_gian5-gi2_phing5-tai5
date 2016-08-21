@@ -163,19 +163,3 @@ class 新詞影音加失敗試驗(TestCase):
         self.assertEqual(json.loads(回應.content.decode("utf-8")), {
             '錯誤': '影音資料不是檔案',
         })
-
-    def test_影音資料毋是影音檔案(self):
-        一般檔案 = io.BytesIO(b'sui2' * 20)
-        一般檔案.seek(0)
-        一般檔案.name = '試驗音檔'
-
-        回應 = self.client.post(
-            '/平臺項目/加新詞影音', {
-                '外語項目編號': self.外語項目編號,
-                '影音資料': 一般檔案,
-            }
-        )
-        self.assertEqual(回應.status_code, 400)
-        self.assertEqual(json.loads(回應.content.decode("utf-8")), {
-            '錯誤': '影音資料不是影音檔案',
-        })

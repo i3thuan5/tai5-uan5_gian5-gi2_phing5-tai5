@@ -146,7 +146,7 @@ class 新詞影音加成功試驗(TestCase):
 
         影音 = 平臺項目表.objects.get(pk=編號).影音
         self.外語.翻譯影音.get(影音=影音)  # 確定有建立關係
-        self.assertEqual(影音.原始影音資料.read(), self.檔案.getvalue())
+        self.assertEqual(影音.影音資料.read(), self.檔案.getvalue())
 
     def test_預設參數(self):
         回應 = self.client.post(

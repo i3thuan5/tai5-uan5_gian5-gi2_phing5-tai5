@@ -106,7 +106,7 @@ def 加新詞影音(request):
         except:
             pass
     try:
-        內容['原始影音資料'] = request.FILES['影音資料']
+        內容['影音資料'] = request.FILES['影音資料']
         外語項目編號 = int(request.POST['外語項目編號'])
     except MultiValueDictKeyError:
         return 失敗的json回應('資料欄位有缺')

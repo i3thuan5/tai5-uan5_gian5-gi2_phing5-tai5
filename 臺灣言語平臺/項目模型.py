@@ -121,7 +121,7 @@ class 平臺項目表(models.Model):
             .order_by('-好無')
         ):
             try:
-                音標資料 = 文本.屬性.音標資料()
+                音標資料 = 文本.音標資料
             except:
                 音標資料 = ''
             try:
