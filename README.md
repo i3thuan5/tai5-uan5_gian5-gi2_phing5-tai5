@@ -158,7 +158,7 @@ celery -A itaigi beat -l info
 可以參考[gunicorn](http://gunicorn.org/)來啟動`django`，取代`runserver`
 
 ### 匯入資料
-請看各專案說定，或參考臺灣言語資料庫的[資料匯入](http://tai5-uan5-gian5-gi2-tsu1-liau7-khoo3.readthedocs.org/zh_TW/latest/資料匯入.html)。
+請看各專案說定，或參考臺灣言語資料庫的[資料匯入](http://sih4sing5hong5.github.io/tai5-uan5_gian5-gi2_tsu1-liau7-khoo3/%E8%B3%87%E6%96%99%E5%8C%AF%E5%85%A5.html)。
 
 ### 設定FB登入
 #### 增加管理員帳號
