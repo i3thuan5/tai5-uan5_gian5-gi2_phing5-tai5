@@ -108,6 +108,18 @@ class 平臺項目表(models.Model):
         )
 
     @classmethod
+    def 揣講法回外語(cls, 講法):
+        return (
+            外語表.objects
+            .filter(
+                Q(翻譯文本__文本__文本資料=講法) |
+                Q(翻譯文本__文本__文本校對__新文本__文本資料=講法)
+            )
+            .distinct()
+            .order_by('-pk')
+        )
+
+    @classmethod
     def 揣新詞文本(cls, 外語):
         結果 = []
         for 文本 in (
