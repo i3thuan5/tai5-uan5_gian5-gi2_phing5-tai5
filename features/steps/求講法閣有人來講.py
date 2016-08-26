@@ -65,7 +65,7 @@ def 會當揣著講法(context):
 @then(u'查 {關鍵字} 會當揣著其他建議 {講法}')
 def 會當揣著其他建議(context, 關鍵字, 講法):
     其他建議 = context.test.client.get('/平臺項目列表/揣列表', {'關鍵字': 關鍵字}).json()['其他建議']
-    print('講法',其他建議)
+    print('講法', 其他建議)
     context.test.assertEqual(其他建議[0]['外語資料'], 講法)
 
 
