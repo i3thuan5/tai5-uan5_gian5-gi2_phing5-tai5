@@ -23,6 +23,14 @@ class 查貢獻者表試驗(TestCase):
     
     def setUp(self):
         super(查貢獻者表試驗, self).setUp()
+        # 多加一個使用者避免與測試與上線資料庫碰撞
+        # 上線資料庫的臺灣閩南語常用詞辭典 id = 2
+        # 但是由於 testing 會做新資料庫，所以貢獻者1號排第一位id會等於2
+        # 故新增一個辭典來源避免這個問題
+        self.貢獻者 = 使用者表.加使用者(
+            'dictionary@itaigi.tw',
+            {'名': '臺灣閩南語常用詞辭典', }
+        )
         self.貢獻者 = 使用者表.加使用者(
             'contributor@itaigi.tw',
             {'名': '貢獻者1號', '出世年': '1987', '出世地': '臺灣', }
@@ -73,5 +81,8 @@ class 查貢獻者表試驗(TestCase):
         )
 
         回應 = self.client.get('/貢獻者表')
-        print(回應.json())
-
+        回應Json = 回應.json()
+        self.assertEqual(len(回應Json['名人']), 1)
+        self.assertEqual(回應Json['名人'][0]['詞條'], ['漂亮'])
+        self.assertEqual(回應Json['名人'][0]['數量'], 1)
+        self.assertEqual(回應Json['名人'][0]['名'], '貢獻者1號')
