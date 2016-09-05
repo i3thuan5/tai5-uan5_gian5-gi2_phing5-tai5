@@ -16,9 +16,10 @@ def 貢獻者表(request):
         來源名稱 = 文本.舊文本.來源.名
         詞條名稱 = 文本.舊文本.來源外語.外語.外語資料
 
-        contributor_dict[來源_id] = dict()
-        contributor_dict[來源_id]['名'] = 來源名稱
-        contributor_dict[來源_id]['詞條'] = list()
+        if 來源_id not in contributor_dict:
+            contributor_dict[來源_id] = dict()
+            contributor_dict[來源_id]['名'] = 來源名稱
+            contributor_dict[來源_id]['詞條'] = list()
         contributor_dict[來源_id]['詞條'].append(詞條名稱)
 
     result = list()
