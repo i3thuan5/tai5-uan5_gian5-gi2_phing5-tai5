@@ -20,7 +20,7 @@ from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 查貢獻者表試驗(TestCase):
-    
+
     def setUp(self):
         super(查貢獻者表試驗, self).setUp()
         # 多加一個使用者避免與測試與上線資料庫碰撞
