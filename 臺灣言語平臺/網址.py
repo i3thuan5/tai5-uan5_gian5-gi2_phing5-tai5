@@ -18,6 +18,7 @@ from 臺灣言語平臺.介面.前端工具 import 重導向前端
 from 臺灣言語平臺.介面.揣外語請教條 import 揣無建議的外語
 from 臺灣言語平臺.介面.揣外語請教條 import 揣按呢講外語請教條
 from 臺灣言語平臺.介面.工作 import 正規化表馬上匯入資料庫
+from 臺灣言語平臺.介面.貢獻者 import 貢獻者表
 
 urlpatterns = [
     url(r'^平臺項目列表/揣列表$', 揣外語請教條),
@@ -31,6 +32,7 @@ urlpatterns = [
     url(r'^csrf/看$', 看csrf),
     url(r'^FB登入SDK$', FB登入SDK.as_view()),
     url(r'^導向$', 重導向前端),
+    url(r'^貢獻者表$', 貢獻者表),
 
     url(r'^使用者/看編號$', 登入狀況),
 
