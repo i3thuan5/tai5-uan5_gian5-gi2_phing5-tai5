@@ -67,10 +67,7 @@ class 查貢獻者表試驗(TestCase):
         self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
         self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
         self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數)
-        self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 2)
         self.assertEqual(影音文本表.objects.all().count(), self.影音文本表資料數)
-        self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 1)
-        self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 2)
 
     def 有對應函式(self):
         對應 = resolve('/貢獻者表')
@@ -100,3 +97,47 @@ class 查貢獻者表試驗(TestCase):
         self.assertEqual(回應Json['名人'][0]['詞條'], ['漂亮'])
         self.assertEqual(回應Json['名人'][0]['數量'], 1)
         self.assertEqual(回應Json['名人'][0]['名'], '貢獻者1號')
+
+        self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 2)
+        self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 1)
+        self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 2)
+
+    def test_確認貢獻重覆詞條不同發音會被處理(self):
+
+        貢獻文本資料 = ['水', '生著不醜']
+        貢獻音標資料 = ['suie', 'se-liao-bei-bai']
+
+        正規文本資料 = ['媠', '生做袂䆀']
+        正規音標資料 = ['sui2', 'senn-tsò-bē-bái']
+
+        self.client.force_login(self.貢獻者)
+
+        self.assertEqual(len(貢獻文本資料), len(貢獻音標資料))
+        self.assertEqual(len(正規文本資料), len(正規音標資料))
+
+        for i in range(len(貢獻文本資料)):
+            回應 = self.client.post(
+                '/平臺項目/加新詞文本', {
+                    '外語項目編號': self.外語項目編號,
+                    '文本資料': 貢獻文本資料[i],
+                    '音標資料': 貢獻音標資料[i],
+                }
+            )
+
+            平臺項目編號 = 回應.json()['平臺項目編號']
+            平臺項目 = 平臺項目表.揣編號(平臺項目編號)
+            平臺項目.對正規化sheet校對母語文本(
+                平臺項目編號, '正規化團隊一號團員',
+                正規文本資料[i], 正規音標資料[i]
+            )
+
+        回應 = self.client.get('/貢獻者表')
+        回應Json = 回應.json()
+        self.assertEqual(len(回應Json['名人']), 1)
+        self.assertEqual(回應Json['名人'][0]['詞條'], ['漂亮'])
+        self.assertEqual(回應Json['名人'][0]['數量'], 1)
+        self.assertEqual(回應Json['名人'][0]['名'], '貢獻者1號')
+
+        self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 4)
+        self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 2)
+        self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 4)
