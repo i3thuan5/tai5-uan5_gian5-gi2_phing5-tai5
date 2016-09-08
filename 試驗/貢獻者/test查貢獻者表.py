@@ -135,7 +135,7 @@ class 查貢獻者表試驗(TestCase):
         回應Json = 回應.json()
         self.assertEqual(len(回應Json['名人']), 1)
         self.assertEqual(回應Json['名人'][0]['詞條'], ['漂亮'])
-        self.assertEqual(回應Json['名人'][0]['數量'], 1)
+        self.assertEqual(回應Json['名人'][0]['數量'], 2)
         self.assertEqual(回應Json['名人'][0]['名'], '貢獻者1號')
 
         self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 4)
