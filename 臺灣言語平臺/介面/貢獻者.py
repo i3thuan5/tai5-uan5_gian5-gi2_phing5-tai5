@@ -24,10 +24,11 @@ def 貢獻者表(request):
 
     result = list()
 
-    for user in map(lambda x: x[1], sorted(contributor_dict.items(),
-                    key=lambda x: len(x[1]['詞條']), reverse=True)):
+    for user in sorted(contributor_dict.values(),
+                       key=lambda x: len(x['詞條']), reverse=True):
         user['數量'] = len(user['詞條'])
-        if user['數量'] > 10:
+        user['詞條'] = list(set(user['詞條']))
+        if len(user['詞條']) > 10:
             user['詞條'] = random.sample(user['詞條'], 10)
         result.append(user)
 
