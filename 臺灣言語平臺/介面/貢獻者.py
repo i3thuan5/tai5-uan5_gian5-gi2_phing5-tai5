@@ -27,9 +27,6 @@ def 貢獻者表(request):
     for user in sorted(contributor_dict.values(),
                        key=lambda x: len(x['詞條']), reverse=True):
         user['數量'] = len(user['詞條'])
-        user['詞條'] = list(set(user['詞條']))
-        if len(user['詞條']) > 10:
-            user['詞條'] = random.sample(user['詞條'], 10)
         result.append(user)
 
     return JsonResponse({"名人": result})
