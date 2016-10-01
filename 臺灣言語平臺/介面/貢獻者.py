@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import random
 from django.http.response import JsonResponse
 
 
