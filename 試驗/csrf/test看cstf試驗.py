@@ -23,4 +23,4 @@ class 看csrf試驗(TestCase):
 # 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
-        self.assertEqual(len(回應資料['csrftoken']), 32)
+        self.assertIn(len(回應資料['csrftoken']), [32, 64])
