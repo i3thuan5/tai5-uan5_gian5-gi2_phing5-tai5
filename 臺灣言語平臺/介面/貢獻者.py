@@ -5,7 +5,7 @@ from django.views.decorators.cache import cache_page
 from 臺灣言語資料庫.關係模型 import 文本校對表
 
 
-@cache_page(60 * 60 * 12) # 60 * 60 * 12 means 12 hours
+@cache_page(60 * 60 * 12)
 def 貢獻者表(request):
     # 2 = 臺灣閩南語常用詞辭典, 269 = 台文華文線頂辭典
     contributor_dict = {}
