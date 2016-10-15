@@ -4,7 +4,6 @@ tar無法度下傷長的檔案名，所以愛用zip
 python setup.py sdist --format=zip upload
 '''
 from distutils.core import setup
-#from setuptools import setup
 from os import walk
 import sys
 from 版本 import 版本
