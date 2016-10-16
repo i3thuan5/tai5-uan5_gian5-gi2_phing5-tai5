@@ -78,7 +78,7 @@ class 平臺項目表(models.Model):
                 Q(平臺項目__愛藏起來=False)
             )
             .distinct()
-            .order_by('-pk')
+            .order_by('-保存時間', '-pk')
         )
 
     @classmethod
@@ -166,6 +166,16 @@ class 平臺項目表(models.Model):
             原本外語 = cls._找外語資料(內容)
             刪除內容 = 外語表.objects.get(外語資料=原本外語.外語)
             刪除內容.delete()
+        except ObjectDoesNotExist:
+            pass
+
+    @classmethod
+    def 更新時間戳(cls, 內容):
+        try:
+            原本外語 = cls._找外語資料(內容)
+            更新資料 = 外語表.objects.get(外語資料=原本外語.外語)
+            更新資料.保存時間 = timezone.now()
+            更新資料.save()
         except ObjectDoesNotExist:
             pass
 
