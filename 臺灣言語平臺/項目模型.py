@@ -161,15 +161,6 @@ class 平臺項目表(models.Model):
         return cls.objects.create(外語=外語)
 
     @classmethod
-    def 刪外語資料(cls, 內容):
-        try:
-            原本外語 = cls._找外語資料(內容)
-            刪除內容 = 外語表.objects.get(外語資料=原本外語.外語)
-            刪除內容.delete()
-        except ObjectDoesNotExist:
-            pass
-
-    @classmethod
     def 更新時間戳(cls, 內容):
         try:
             原本外語 = cls._找外語資料(內容)
