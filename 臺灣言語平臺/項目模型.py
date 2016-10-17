@@ -30,6 +30,7 @@ class 平臺項目表(models.Model):
     按呢無好 = models.IntegerField(default=0)
     # When value is False, then data will be visible
     愛藏起來 = models.BooleanField(default=False)
+    保存時間 = models.DateTimeField(auto_now=True, editable=True)
 
     def 編號(self):
         return self.pk
@@ -78,7 +79,7 @@ class 平臺項目表(models.Model):
                 Q(平臺項目__愛藏起來=False)
             )
             .distinct()
-            .order_by('-pk')
+            .order_by('-平臺項目__保存時間', '-pk')
         )
 
     @classmethod
