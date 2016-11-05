@@ -15,7 +15,7 @@ parse==1.6.6
 parse-type==0.3.4
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
-pycparser==2.13
+pycparser==2.16
 pyOpenSSL==16.0.0
 pypi-bleualign==0.1.1.1
 pypi-kenlm==0.1.20160618
