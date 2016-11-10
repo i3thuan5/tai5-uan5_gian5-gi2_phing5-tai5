@@ -27,7 +27,7 @@ addons:
       - libavcodec-extra-53
 install:
 - pip install django==1.9.8
-- pip install tai5-uan5-gian5-gi2-tsu1-liau7-khoo3 django-allauth==0.25.2 python-dateutil django-cors-headers pyOpenSSL oauth2client gspread celery
+- pip install tai5-uan5-gian5-gi2-tsu1-liau7-khoo3 django-allauth==0.25.2 python-dateutil django-cors-headers pyOpenSSL oauth2client gspread celery==3.1.25
 - pip install behave-django
 - pip install flake8
 - pip install python-coveralls
