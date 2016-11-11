@@ -30,6 +30,7 @@ class 平臺項目表(models.Model):
     按呢無好 = models.IntegerField(default=0)
     # When value is False, then data will be visible
     愛藏起來 = models.BooleanField(default=False)
+    保存時間 = models.DateTimeField(auto_now=True)
 
     def 編號(self):
         return self.pk
@@ -53,100 +54,6 @@ class 平臺項目表(models.Model):
         if len(結果) == 0:
             raise RuntimeError('平臺項目無指向任何一个物件')
         raise RuntimeError('平臺項目指向兩个以上物件')
-
-    @classmethod
-    def 有建議講法的外語表(cls):
-        return (
-            外語表.objects
-            .filter(
-                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
-                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
-            )
-            .distinct()
-            .order_by('-pk')
-        )
-
-    @classmethod
-    def 無建議講法的外語表(cls):
-        return (
-            外語表.objects
-            .exclude(
-                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
-                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
-            )
-            .filter(
-                Q(平臺項目__愛藏起來=False)
-            )
-            .distinct()
-            .order_by('-pk')
-        )
-
-    @classmethod
-    def 無建議講法的外語表_管理頁面(cls):
-        return (
-            外語表.objects
-            .exclude(
-                Q(翻譯文本__文本__平臺項目__推薦用字=True) |
-                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
-            )
-            .distinct()
-            .order_by('平臺項目__愛藏起來', '-pk')
-        )
-
-    @classmethod
-    def 有按呢講法的外語表(cls, 講法):
-        return (
-            外語表.objects
-            .filter(
-                Q(翻譯文本__文本__平臺項目__推薦用字=True,
-                  翻譯文本__文本__文本資料=講法) |
-                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True,
-                  翻譯文本__文本__文本校對__新文本__文本資料=講法)
-            )
-            .distinct()
-            .order_by('-pk')
-        )
-
-    @classmethod
-    def 揣講法回外語(cls, 講法):
-        return (
-            外語表.objects
-            .filter(
-                Q(翻譯文本__文本__文本資料=講法) |
-                Q(翻譯文本__文本__文本校對__新文本__文本資料=講法)
-            )
-            .distinct()
-            .order_by('-pk')
-        )
-
-    @classmethod
-    def 揣新詞文本(cls, 外語):
-        結果 = []
-        for 文本 in (
-            文本表.objects
-            .filter(平臺項目__推薦用字=True)
-            .filter(
-                Q(來源外語__外語=外語) |
-                Q(來源校對資料__舊文本__來源外語__外語=外語)
-            )
-            .annotate(好無=F('平臺項目__按呢講好') - F('平臺項目__按呢無好'))
-            .order_by('-好無')
-        ):
-            try:
-                音標資料 = 文本.音標資料
-            except:
-                音標資料 = ''
-            try:
-                貢獻者 = 文本.來源校對資料.舊文本.來源.名
-            except:
-                貢獻者 = 文本.來源.名
-            結果.append({
-                '新詞文本項目編號': str(文本.平臺項目.編號()),
-                '文本資料': 文本.文本資料,
-                '音標資料': 音標資料,
-                '貢獻者': 貢獻者,
-            })
-        return 結果
 
     @classmethod
     def 加外語資料(cls, 內容):

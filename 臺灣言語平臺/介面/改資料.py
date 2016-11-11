@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
 
-from django.shortcuts import render
-from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.http.response import JsonResponse
+from django.shortcuts import render
+
 
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
+from 臺灣言語平臺.外語請教條 import 外語請教條
 
 
 class 失敗的json回應(Json失敗回應):
@@ -26,7 +28,7 @@ class 成功的json回應(JsonResponse):
 
 @login_required
 def 把測試資料藏起來_管理目錄(request):
-    資料列表 = 平臺項目表.無建議講法的外語表_管理頁面()
+    資料列表 = 外語請教條.無建議講法的外語表_管理頁面()
 
     資料 = []
     for data in 資料列表:
