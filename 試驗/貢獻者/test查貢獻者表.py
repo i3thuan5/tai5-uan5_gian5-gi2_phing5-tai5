@@ -12,7 +12,7 @@ import json
 
 from django.test import TestCase
 from django.core.urlresolvers import resolve
-
+from django.core.cache import cache
 
 from 臺灣言語資料庫.關係模型 import 翻譯文本表
 from 臺灣言語平臺.介面.貢獻者 import 貢獻者表
@@ -130,6 +130,7 @@ class 查貢獻者表試驗(TestCase):
                 正規文本資料[i], 正規音標資料[i]
             )
 
+        cache.clear()
         回應 = self.client.get('/貢獻者表')
         回應Json = 回應.json()
         self.assertEqual(len(回應Json['名人']), 1)
