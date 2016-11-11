@@ -5,7 +5,6 @@ from django.core.urlresolvers import resolve
 from django.test import TestCase
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 來源表
-from 臺灣言語平臺.介面.揣外語請教條 import 揣外語請教條
 
 
 class 揣外語試驗(TestCase):
@@ -14,12 +13,12 @@ class 揣外語試驗(TestCase):
         self.鄉民 = 來源表. 加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
 
     def test_有對應函式(self):
-        對應 = resolve('/平臺項目列表/揣列表')
-        self.assertEqual(對應.func, 揣外語請教條)
+        對應 = resolve('/平臺項目列表/揣外語其他建議')
+        self.assertEqual(對應.func, 揣外語其他建議)
 
     def test_揣無(self):
         # 		前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '水母'
         })
 # 		前端回傳結果
@@ -32,7 +31,7 @@ class 揣外語試驗(TestCase):
     def test_無文本當做揣無(self):
         self.資料庫加外語('水母')
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '水'
         })
 #         前端回傳結果
@@ -48,7 +47,7 @@ class 揣外語試驗(TestCase):
             '文本資料': '水母',
         })
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '水'
         })
 #         前端回傳結果
@@ -65,25 +64,20 @@ class 揣外語試驗(TestCase):
         })
         文本.設為推薦用字()
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '水'
         })
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['其他建議'], [{
-            '外語項目編號': str(水母編號),
-            '外語資料': '水母',
-            '新詞文本':
-            [
-                {
-                    '新詞文本項目編號': str(文本.編號()),
-                    '文本資料': '䖳',
-                    '音標資料': '',
-                    '貢獻者': '匿名',
-                }
-            ]
-        }])
+        self.assertEqual(回應資料['其他建議'], [
+            {
+                '新詞文本項目編號': str(文本.編號()),
+                '文本資料': '䖳',
+                '音標資料': '',
+                '貢獻者': '匿名',
+            }
+        ])
 
     def test_文本有閣校對過就揣會著(self):
         漂亮編號 = self.資料庫加外語('漂亮')
@@ -96,24 +90,17 @@ class 揣外語試驗(TestCase):
         })
         新文本.設為推薦用字()
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '漂'
         })
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
         self.assertEqual(回應資料['其他建議'], [{
-            '外語項目編號': str(漂亮編號),
-            '外語資料': '漂亮',
-            '新詞文本':
-            [
-                {
-                    '新詞文本項目編號': str(新文本.編號()),
-                    '文本資料': '媠',
+            '新詞文本項目編號': str(新文本.編號()),
+            '文本資料': '媠',
                     '音標資料': 'sui2',
                     '貢獻者': '匿名',
-                }
-            ]
         }])
 
     def test_文本有兩組建議用字(self):
@@ -127,7 +114,7 @@ class 揣外語試驗(TestCase):
         })
         文本.設為推薦用字()
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '水母'
         })
 #         前端回傳結果
@@ -143,7 +130,7 @@ class 揣外語試驗(TestCase):
         for 編號 in [水母編號, 水母腦編號, 水母國編號, 握手編號]:
             self.外語有建議的文本(編號)
 # 		前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '水母'
         })
 # 		前端回傳結果
@@ -164,13 +151,13 @@ class 揣外語試驗(TestCase):
         })
         新文本.設為推薦用字()
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '漂亮'
         })
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['其他建議'][0]['新詞文本'][0]['貢獻者'], 'pigu')
+        self.assertEqual(回應資料['其他建議'][0]['貢獻者'], 'pigu')
 
     def test_人講好就排頭前(self):
         水母編號 = self.資料庫加外語('水母')
@@ -191,19 +178,19 @@ class 揣外語試驗(TestCase):
         一九文本.按呢無好 += 1
         一九文本.設為推薦用字()
 #         前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             '關鍵字': '水母'
         })
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['其他建議'][0]['新詞文本'][0]['文本資料'], '䖳')
-        self.assertEqual(回應資料['其他建議'][0]['新詞文本'][1]['文本資料'], '一九')
-        self.assertEqual(回應資料['其他建議'][0]['新詞文本'][2]['文本資料'], '水母')
+        self.assertEqual(回應資料['其他建議'][0]['文本資料'], '䖳')
+        self.assertEqual(回應資料['其他建議'][1]['文本資料'], '一九')
+        self.assertEqual(回應資料['其他建議'][2]['文本資料'], '水母')
 
     def test_無傳關鍵字(self):
         # 		前端輸入
-        回應 = self.client.get('/平臺項目列表/揣列表', {
+        回應 = self.client.get('/平臺項目列表/揣外語其他建議', {
             # 				'關鍵字':'水母'
         })
 # 		前端回傳結果

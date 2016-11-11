@@ -136,7 +136,7 @@ class 揣外語試驗(TestCase):
         self.assertEqual(len(回應資料['列表']), 1)
         self.assertEqual(len(回應資料['列表'][0]['新詞文本']), 2)
 
-    def test_其他建議愛有相關(self):
+    def test_相像袂使出現(self):
         水母編號 = self.資料庫加外語('水母')
         水母腦編號 = self.資料庫加外語('水母腦')
         水母國編號 = self.資料庫加外語('水母國')
