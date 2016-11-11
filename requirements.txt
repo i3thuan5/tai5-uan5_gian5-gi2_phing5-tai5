@@ -15,7 +15,7 @@ parse==1.6.6
 parse-type==0.3.4
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
-pycparser==2.14
+pycparser==2.16
 pyOpenSSL==16.0.0
 pypi-bleualign==0.1.1.1
 pypi-kenlm==0.1.20160618
@@ -30,5 +30,6 @@ six==1.10.0
 tai5-uan5-gian5-gi2-kang1-ku7==0.6.0
 tai5-uan5-gian5-gi2-tsu1-liau7-khoo3==3.1.9
 # message queue
+kombu==3.0.35
 celery==3.1.23
 behave_django==1.2.5
