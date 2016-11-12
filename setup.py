@@ -52,7 +52,8 @@ setup(
         'Corpus',
     ],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: Unix',
         'Framework :: Django',
         'Programming Language :: Python :: 3.4',
