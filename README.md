@@ -1,9 +1,9 @@
 # 臺灣言語平臺
-[![PyPI](https://img.shields.io/pypi/pyversions/tai5-uan5_gian5-gi2_phing5-tai5.svg)]()
+[![PyPI](https://img.shields.io/pypi/pyversions/tai5-uan5_gian5-gi2_phing5-tai5.svg)](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5#臺灣言語平臺)
 [![PyPI version](https://badge.fury.io/py/tai5-uan5_gian5-gi2_phing5-tai5.svg)](https://badge.fury.io/py/tai5-uan5_gian5-gi2_phing5-tai5)
 [![Build Status](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5.svg?branch=master)](https://travis-ci.org/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
 [![Coverage Status](https://coveralls.io/repos/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5/badge.svg)](https://coveralls.io/r/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5)
-[![PyPI](https://img.shields.io/pypi/l/tai5-uan5_gian5-gi2_phing5-tai5.svg)]()
+[![PyPI](https://img.shields.io/pypi/l/tai5-uan5_gian5-gi2_phing5-tai5.svg)](https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_phing5-tai5/blob/master/LICENSE)
 
 臺灣言語平臺是母語問答系統的後端主機程式。前端網頁藉由GET/POST，將資料傳來後端主機，主機並以json的格式回傳。
 
