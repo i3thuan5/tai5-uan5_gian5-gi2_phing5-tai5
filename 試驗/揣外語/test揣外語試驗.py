@@ -25,9 +25,7 @@ class 揣外語試驗(TestCase):
 # 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料, {
-            '列表': [],
-        })
+        self.assertEqual(回應資料['列表'], [])
 
     def test_無文本當做揣無(self):
         self.資料庫加外語('水母')
@@ -38,9 +36,7 @@ class 揣外語試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料, {
-            '列表': [],
-        })
+        self.assertEqual(回應資料['列表'], [])
 
     def test_文本無建議用字當做揣無(self):
         水母編號 = self.資料庫加外語('水母')
@@ -54,9 +50,7 @@ class 揣外語試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料, {
-            '列表': [],
-        })
+        self.assertEqual(回應資料['列表'], [])
 
     def test_文本有建議用字就揣會著(self):
         水母編號 = self.資料庫加外語('水母')
