@@ -36,7 +36,8 @@ branches:
   - /\d+\.\d+\.\d+/
 script:
 - echo $TEST_SUITE
-- $TEST_SUITE
+- echo $TEST_SUITE > test.sh
+- bash test.sh
 after_success:
 - coverage report
 - coveralls
