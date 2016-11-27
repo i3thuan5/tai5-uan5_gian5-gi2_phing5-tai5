@@ -65,7 +65,6 @@ class 揣外語試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        print(回應資料)
         self.assertEqual(回應資料['列表'], [{
             '新詞文本項目編號': str(文本.編號()),
             '文本資料': '䖳',
