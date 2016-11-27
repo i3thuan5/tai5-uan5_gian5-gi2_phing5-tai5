@@ -148,6 +148,7 @@ class 揣外語的其他建議試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
+        print(回應資料)
         self.assertEqual(回應資料['其他建議'][0]['文本資料'], '䖳')
         self.assertEqual(回應資料['其他建議'][1]['文本資料'], '一九')
         self.assertEqual(回應資料['其他建議'][2]['文本資料'], '水母')
@@ -205,3 +206,10 @@ class 揣外語的其他建議試驗(TestCase):
                 '外語資料': 外語詞,
             }
         ).編號()
+
+    def 外語有建議的文本(self, 外語編號):
+        文本 = 平臺項目表.外語翻母語(外語編號, {
+            '文本資料': 'the7',
+        })
+        文本.推薦用字 = True
+        文本.save()
