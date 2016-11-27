@@ -148,7 +148,6 @@ class 揣外語的其他建議試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        print(回應資料)
         self.assertEqual(回應資料['其他建議'][0]['文本資料'], '䖳')
         self.assertEqual(回應資料['其他建議'][1]['文本資料'], '一九')
         self.assertEqual(回應資料['其他建議'][2]['文本資料'], '水母')
