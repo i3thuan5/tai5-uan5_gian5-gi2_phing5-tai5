@@ -143,7 +143,7 @@ class 揣外語的其他建議試驗(TestCase):
         小刀文本.設為推薦用字()
 #         前端輸入
         回應 = self.client.get('/平臺項目列表/揣列表', {
-            '關鍵字': '水母'
+            '關鍵字': '水'
         })
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
