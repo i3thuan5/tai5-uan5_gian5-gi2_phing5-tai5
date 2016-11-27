@@ -65,18 +65,12 @@ class 揣外語試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
+        print(回應資料)
         self.assertEqual(回應資料['列表'], [{
-            '外語項目編號': str(水母編號),
-            '外語資料': '水母',
-            '新詞文本':
-            [
-                {
-                    '新詞文本項目編號': str(文本.編號()),
-                    '文本資料': '䖳',
-                    '音標資料': '',
-                    '貢獻者': '匿名',
-                }
-            ]
+            '新詞文本項目編號': str(文本.編號()),
+            '文本資料': '䖳',
+            '音標資料': '',
+            '貢獻者': '匿名',
         }])
 
     def test_文本有閣校對過就揣會著(self):
@@ -97,17 +91,10 @@ class 揣外語試驗(TestCase):
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
         self.assertEqual(回應資料['列表'], [{
-            '外語項目編號': str(漂亮編號),
-            '外語資料': '漂亮',
-            '新詞文本':
-            [
-                {
-                    '新詞文本項目編號': str(新文本.編號()),
-                    '文本資料': '媠',
-                    '音標資料': 'sui2',
-                    '貢獻者': '匿名',
-                }
-            ]
+            '新詞文本項目編號': str(新文本.編號()),
+            '文本資料': '媠',
+            '音標資料': 'sui2',
+            '貢獻者': '匿名',
         }])
 
     def test_文本有兩組建議用字(self):
@@ -127,8 +114,7 @@ class 揣外語試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(len(回應資料['列表']), 1)
-        self.assertEqual(len(回應資料['列表'][0]['新詞文本']), 2)
+        self.assertEqual(len(回應資料['列表']), 2)
 
     def test_相像袂使出現(self):
         水母編號 = self.資料庫加外語('水母')
@@ -165,7 +151,7 @@ class 揣外語試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['列表'][0]['新詞文本'][0]['貢獻者'], 'pigu')
+        self.assertEqual(回應資料['列表'][0]['貢獻者'], 'pigu')
 
     def test_人講好就排頭前(self):
         水母編號 = self.資料庫加外語('水母')
@@ -192,9 +178,9 @@ class 揣外語試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['列表'][0]['新詞文本'][0]['文本資料'], '䖳')
-        self.assertEqual(回應資料['列表'][0]['新詞文本'][1]['文本資料'], '一九')
-        self.assertEqual(回應資料['列表'][0]['新詞文本'][2]['文本資料'], '水母')
+        self.assertEqual(回應資料['列表'][0]['文本資料'], '䖳')
+        self.assertEqual(回應資料['列表'][1]['文本資料'], '一九')
+        self.assertEqual(回應資料['列表'][2]['文本資料'], '水母')
 
     def test_無傳關鍵字(self):
         # 		前端輸入
