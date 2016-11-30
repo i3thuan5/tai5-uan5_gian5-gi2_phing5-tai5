@@ -149,8 +149,8 @@ class 揣外語的其他建議試驗(TestCase):
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
         self.assertEqual(回應資料['其他建議'][0]['文本資料'], '䖳')
-        self.assertEqual(回應資料['其他建議'][1]['文本資料'], '一九')
-        self.assertEqual(回應資料['其他建議'][2]['文本資料'], '水母')
+        self.assertEqual(回應資料['其他建議'][1]['文本資料'], '水母')
+        self.assertEqual(回應資料['其他建議'][2]['文本資料'], '小刀')
 
     def test_仝款傳一个就好(self):
         漂亮編號 = self.資料庫加外語('好漂亮')
