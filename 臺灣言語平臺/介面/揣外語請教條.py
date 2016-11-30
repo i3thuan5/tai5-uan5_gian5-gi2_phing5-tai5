@@ -26,12 +26,20 @@ def 揣外語請教條(request):
             .exclude(外語資料=外語資料)
             .filter(外語資料__contains=外語資料)
     ):
-        其他建議資料.extend(外語.揣新詞文本())
+        for 建議資料 in 外語.揣新詞文本():
+            # pop out useless data
+            建議資料.pop('貢獻者')
+            建議資料.pop('新詞文本項目編號')
+            if 建議資料 not in 其他建議資料:
+                其他建議資料.append(建議資料)
 
     for 外語 in 外語請教條.揣講法回外語(外語資料):
-        資料 = 外語.揣新詞文本()
-        if 資料 not in 符合資料:
-            其他建議資料.extend(資料)
+        for 建議資料 in 外語.揣新詞文本():
+            # pop out useless data
+            建議資料.pop('貢獻者')
+            建議資料.pop('新詞文本項目編號')
+            if 建議資料 not in 其他建議資料:
+                其他建議資料.append(建議資料)
 
     return JsonResponse({'列表': 符合資料, '其他建議': 其他建議資料})
 
