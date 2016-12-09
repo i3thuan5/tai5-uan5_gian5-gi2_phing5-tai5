@@ -26,18 +26,6 @@ class 外語請教條(外語表):
         )
 
     @classmethod
-    def 揣講法回外語(cls, 講法):
-        return (
-            cls.objects
-            .filter(
-                Q(翻譯文本__文本__文本資料=講法) |
-                Q(翻譯文本__文本__文本校對__新文本__文本資料=講法)
-            )
-            .distinct()
-            .order_by('-pk')
-        )
-
-    @classmethod
     def 無建議講法的外語表(cls):
         return (
             cls.objects
