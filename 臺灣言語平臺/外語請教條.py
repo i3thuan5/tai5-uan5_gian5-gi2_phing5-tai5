@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 from django.db.models import F
 from django.db.models.aggregates import Max
 from django.db.models.query_utils import Q
@@ -39,6 +41,7 @@ class 外語請教條(外語表):
 
     @classmethod
     def 無建議講法的外語表(cls):
+        date = datetime.date.today() - datetime.timedelta(days=30)
         return (
             cls.objects
             .exclude(
@@ -46,7 +49,8 @@ class 外語請教條(外語表):
                 Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True)
             )
             .filter(
-                Q(平臺項目__愛藏起來=False)
+                Q(平臺項目__愛藏起來=False) | 
+                Q(平臺項目__外語__收錄時間__gte=date)
             )
             .distinct()
             .order_by('-平臺項目__保存時間', '-pk')
