@@ -2,10 +2,11 @@
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
-from django.test import TestCase
 from django.core.urlresolvers import resolve
+from django.test import TestCase
 
-from 臺灣言語平臺.使用者模型 import 使用者表
+
+from 臺灣言語平臺.介面.貢獻者 import 正規化團隊表
 
 
 class 查貢獻者表試驗(TestCase):
