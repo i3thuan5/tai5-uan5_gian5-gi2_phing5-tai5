@@ -28,3 +28,16 @@ def 貢獻者表(request):
         result.append(user)
 
     return JsonResponse({"名人": result})
+
+
+def 正規化團隊表(request):
+    數量表 = {}
+    for 來源名稱 in 文本校對表.objects.values_list('新文本__來源__名', flat=True):
+        try:
+            數量表[來源名稱] += 1
+        except:
+            數量表[來源名稱] = 1
+    名人 = []
+    for 名, 量 in sorted(數量表.items(), key=lambda 數量: 數量[1], reverse=True):
+        名人.append({'名': 名, '數量': 量})
+    return JsonResponse({"名人": 名人})
