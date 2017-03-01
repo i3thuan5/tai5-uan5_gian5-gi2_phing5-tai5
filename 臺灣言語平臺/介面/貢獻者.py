@@ -34,8 +34,7 @@ def 貢獻者表(request):
 
 def 正規化團隊表(request):
     數量表 = {}
-    for 文本 in 文本校對表.objects.prefetch_related('新文本__來源'):
-        來源名稱 = 文本.新文本.來源.名
+    for 來源名稱 in 文本校對表.objects.values_list('新文本__來源__名', flat=True):
         try:
             數量表[來源名稱] += 1
         except:
