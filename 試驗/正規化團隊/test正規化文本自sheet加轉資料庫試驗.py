@@ -1,6 +1,6 @@
 import json
-from unittest.mock import patch, call
 from os.path import abspath, dirname, join
+from unittest.mock import patch, call
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.test.testcases import TestCase
@@ -9,6 +9,7 @@ from django.test.testcases import TestCase
 from 臺灣言語平臺.正規化團隊模型 import 正規化sheet表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語資料庫.資料模型 import 來源表
+from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 正規化文本自sheet加轉資料庫試驗(TestCase):
@@ -473,6 +474,59 @@ class 正規化文本自sheet加轉資料庫試驗(TestCase):
         檢查的媠媠文本項目 = 平臺項目表.揣編號(媠媠文本項目.編號())
         self.assertEqual(檢查的媠文本項目.文本.來源外語.外語.外語資料, '漂亮')
         self.assertEqual(檢查的媠媠文本項目.文本.來源外語.外語.外語資料, '標亮')
+
+    def test_來源家己會加(self):
+        文本項目 = self._加入新文本()
+        正規化sheet表.正規化文本自sheet加轉資料庫({
+            '流水號': str(文本項目.編號()),
+            '貢獻者': '阿媠',
+            '原華語': '漂亮',
+            '原漢字': '美',
+            '原拼音': '',
+            '正確華語': '',
+            '正規漢字': '媠',
+            '臺羅': 'sui2',
+            '音檔': '',
+            '編輯者(簽名)': '阿巧'
+        })
+        self.assertEqual(來源表.objects.filter(名='阿巧').count(), 1)
+
+    def test_來源莫重覆_以早的錯誤會當繼續用(self):
+        文本項目 = self._加入新文本()
+        來源表.加來源({'名': '阿巧'})
+        來源表.加來源({'名': '阿巧'})
+        self.assertEqual(來源表.objects.filter(名='阿巧').count(), 2)
+        正規化sheet表.正規化文本自sheet加轉資料庫({
+            '流水號': str(文本項目.編號()),
+            '貢獻者': '阿媠',
+            '原華語': '漂亮',
+            '原漢字': '美',
+            '原拼音': '',
+            '正確華語': '',
+            '正規漢字': '媠',
+            '臺羅': 'sui2',
+            '音檔': '',
+            '編輯者(簽名)': '阿巧'
+        })
+        self.assertEqual(來源表.objects.filter(名='阿巧').count(), 2)
+
+    def test_使用者的會分開(self):
+        文本項目 = self._加入新文本()
+        使用者表.加使用者('khiau2', {'名': '阿巧'})
+        self.assertEqual(來源表.objects.filter(名='阿巧').count(), 1)
+        正規化sheet表.正規化文本自sheet加轉資料庫({
+            '流水號': str(文本項目.編號()),
+            '貢獻者': '阿媠',
+            '原華語': '漂亮',
+            '原漢字': '美',
+            '原拼音': '',
+            '正確華語': '',
+            '正規漢字': '媠',
+            '臺羅': 'sui2',
+            '音檔': '',
+            '編輯者(簽名)': '阿巧'
+        })
+        self.assertEqual(來源表.objects.filter(名='阿巧').count(), 2)
 
     def _加臺語sheet表(self):
         return 正規化sheet表.加sheet(
