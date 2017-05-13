@@ -31,6 +31,7 @@ class 平臺項目表(models.Model):
     # When value is False, then data will be visible
     愛藏起來 = models.BooleanField(default=False)
     保存時間 = models.DateTimeField(auto_now=True)
+    查幾擺 = models.IntegerField(default=1)
 
     def 編號(self):
         return self.pk
@@ -158,6 +159,10 @@ class 平臺項目表(models.Model):
 
     def 取消推薦用字(self):
         self.推薦用字 = False
+        self.save()
+
+    def 有人查一擺(self):
+        self.查幾擺 += 1
         self.save()
 
     @classmethod
