@@ -77,7 +77,7 @@ def 加外語請教條(request):
         return 失敗的json回應('種類欄位不符規範')
     except ValidationError as 錯誤:
         更新時間戳 = 平臺項目表.揣編號(編號=錯誤.平臺項目編號)
-        更新時間戳.save()
+        更新時間戳.有人查一擺()
         return JsonResponse({
             '其他': '這個外語已經有了',
             '平臺項目編號': str(錯誤.平臺項目編號),
