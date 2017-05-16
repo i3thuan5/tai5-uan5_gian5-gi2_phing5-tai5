@@ -93,7 +93,7 @@ class 揣無建議的外語試驗(TestCase):
         self.client.post('/平臺項目/加外語', {'外語資料': '水母'})
         self.client.post('/平臺項目/加外語', {'外語資料': '水母'})
         self.client.post('/平臺項目/加外語', {'外語資料': '頭腦'})
-        
+
         self.assertEqual(
             self.client.get('/平臺項目列表/揣無建議的外語', {'排序': 'hot'}).json(),
             self.client.get('/平臺項目列表/揣無建議的外語').json()
