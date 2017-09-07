@@ -28,7 +28,7 @@ class 成功的json回應(JsonResponse):
 
 @login_required
 def 把測試資料藏起來_管理目錄(request):
-    資料列表 = 外語請教條.無建議講法的外語表_管理頁面()
+    資料列表 = 外語請教條.無建議講法的外語表_管理頁面()[:300]
 
     資料 = []
     for data in 資料列表:
