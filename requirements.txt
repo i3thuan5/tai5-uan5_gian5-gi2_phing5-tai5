@@ -32,4 +32,3 @@ tai5-uan5-gian5-gi2-tsu1-liau7-khoo3==3.1.9
 # message queue
 kombu==3.0.35
 celery==3.1.23
-behave_django==1.2.5
