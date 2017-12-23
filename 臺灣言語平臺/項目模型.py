@@ -33,6 +33,12 @@ class 平臺項目表(models.Model):
     保存時間 = models.DateTimeField(auto_now=True)
     查幾擺 = models.IntegerField(default=1)
 
+    def __str__(self):
+        try:
+            return '華語：' + self.外語.外語資料
+        except:
+            return '台語：' + self.文本.文本資料
+
     def 編號(self):
         return self.pk
 
