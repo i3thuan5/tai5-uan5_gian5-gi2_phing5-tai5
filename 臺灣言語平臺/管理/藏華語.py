@@ -20,9 +20,7 @@ class 藏華語管理(admin.ModelAdmin):
     list_editable = ['愛藏起來', ]
     ordering = ['-id', ]
     list_filter = ['愛藏起來']
-    search_fields = [
-        '外語__外語資料',
-    ]
+    search_fields = ['外語__外語資料', ]
 
     def has_add_permission(self, request):
         # 薛：只能由程式上傳音檔和語料
