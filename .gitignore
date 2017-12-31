@@ -8,3 +8,6 @@ __pycache__/
 .coverage
 db.sqlite3
 /資料庫影音檔案/
+/.tox/
+/.project
+/.pydevproject
