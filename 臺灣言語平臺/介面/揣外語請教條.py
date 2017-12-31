@@ -11,7 +11,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 def 揣外語請教條(request):
     try:
         外語資料 = request.GET['關鍵字']
-    except:
+    except KeyError:
         return Json失敗回應({'錯誤': '無傳關鍵字'})
 
     符合資料 = []
@@ -64,7 +64,7 @@ def 揣無建議的外語(request):
 def 揣按呢講外語請教條(request):
     try:
         關鍵字 = request.GET['關鍵字']
-    except:
+    except KeyError:
         return Json失敗回應({'錯誤': '無傳關鍵字'})
     符合資料 = []
     for 外語 in 外語請教條.有按呢講法的外語表(關鍵字):

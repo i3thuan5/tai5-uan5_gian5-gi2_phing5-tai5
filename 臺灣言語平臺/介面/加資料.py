@@ -54,13 +54,13 @@ def 加外語請教條(request):
     內容 = {}
     try:
         內容['收錄者'] = request.user.來源
-    except:
+    except Exception:
         內容['收錄者'] = 來源表.objects.get(名='匿名')
 
     for 欄位 in 欄位表:
         try:
             內容[欄位] = request.POST[欄位]
-        except:
+        except KeyError:
             pass
     try:
         內容['外語資料'] = request.POST['外語資料'].strip()
@@ -100,12 +100,12 @@ def 加新詞影音(request):
     內容 = {}
     try:
         內容['收錄者'] = request.user.來源
-    except:
+    except Exception:
         內容['收錄者'] = 來源表.objects.get(名='匿名')
     for 欄位 in 欄位表:
         try:
             內容[欄位] = request.POST[欄位]
-        except:
+        except KeyError:
             pass
     try:
         內容['影音資料'] = request.FILES['影音資料']
@@ -148,17 +148,17 @@ def 外語加新詞文本(request):
     內容 = {'屬性': {}}
     try:
         內容['收錄者'] = request.user.來源
-    except:
+    except Exception:
         內容['收錄者'] = 來源表.objects.get(名='匿名')
 
     for 欄位 in 欄位表:
         try:
             內容[欄位] = request.POST[欄位]
-        except:
+        except KeyError:
             pass
     try:
         內容['屬性']['音標'] = request.POST['音標資料'].strip()
-    except:
+    except KeyError:
         pass
     try:
         內容['文本資料'] = request.POST['文本資料'].strip()

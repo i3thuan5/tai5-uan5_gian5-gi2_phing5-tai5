@@ -62,7 +62,7 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     install_requires=[
-        'django>=1.9.7',
+        'django<2.0',
         'tai5-uan5-gian5-gi2-tsu1-liau7-khoo3>=3.1.12',
         'django-allauth==0.25.2',
         'python-dateutil>=2.4.1',

@@ -1,5 +1,6 @@
 from behave import when, then, step
 from 臺灣言語平臺.項目模型 import 平臺項目表
+from django.core.exceptions import ObjectDoesNotExist
 
 
 @then('無建議的詞內底無物件')
@@ -30,7 +31,7 @@ def 無建議的詞內底有物件(context):
 def 有人答的講法(context, 講法):
     try:
         平臺項目編號 = 平臺項目表.objects.get(外語__isnull=False).編號()
-    except:
+    except ObjectDoesNotExist:
         外語回應 = context.test.client.post('/平臺項目/加外語', {'外語資料': '豬'})
         平臺項目編號 = 外語回應.json()['平臺項目編號']
     回應 = context.test.client.post(

@@ -35,7 +35,7 @@ def 正規化團隊表(request):
     for 來源名稱 in 文本校對表.objects.values_list('新文本__來源__名', flat=True):
         try:
             數量表[來源名稱] += 1
-        except:
+        except KeyError:
             數量表[來源名稱] = 1
     名人 = []
     for 名, 量 in sorted(數量表.items(), key=lambda 數量: 數量[1], reverse=True):

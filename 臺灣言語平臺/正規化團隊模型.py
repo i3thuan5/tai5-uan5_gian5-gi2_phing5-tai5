@@ -48,7 +48,7 @@ class 正規化sheet表(models.Model):
             return
         try:
             正規化sheet = 文本.語言腔口.正規化sheet
-        except:
+        except Exception:
             return
         資料表 = 正規化sheet.提著資料表()
         if cls._編號有佇表內底無(資料表, 平臺項目.編號()):
@@ -81,7 +81,7 @@ class 正規化sheet表(models.Model):
     def _揣外語資料(文本):
         try:
             return 文本.來源外語.外語.外語資料
-        except:
+        except Exception:
             return 文本.來源影音.影音.來源外語.外語.外語資料
 
     def 整理到資料庫(self):
@@ -95,10 +95,7 @@ class 正規化sheet表(models.Model):
     @staticmethod
     def 新文本自資料庫加入sheet(資料表, 平臺項目):
         文本 = 平臺項目.資料()
-        try:
-            音標 = 文本.音標資料
-        except:
-            音標 = ''
+        音標 = 文本.音標資料
         資料表.append_row(
             [
                 str(平臺項目.編號()), 文本.來源.名,
@@ -121,15 +118,12 @@ class 正規化sheet表(models.Model):
             pass
         except 文本校對表.MultipleObjectsReturned:
             return
-        except:
+        except Exception:
             return
         外語 = 原本平臺項目.文本.來源外語.外語
         原華語 = 外語.外語資料
         原漢字 = 原本平臺項目.文本.文本資料
-        try:
-            原音標 = 原本平臺項目.文本.音標資料
-        except:
-            原音標 = ''
+        原音標 = 原本平臺項目.文本.音標資料
         正確華語 = 這筆資料['正確華語'].strip()
         漢字 = 這筆資料['正規漢字'].strip()
         臺羅 = 這筆資料['臺羅'].strip()
