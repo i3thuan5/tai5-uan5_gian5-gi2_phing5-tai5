@@ -36,7 +36,7 @@ class 平臺項目表(models.Model):
     def __str__(self):
         try:
             return '華語：' + self.外語.外語資料
-        except:
+        except Exception:
             return '台語：' + self.文本.文本資料
 
     def 編號(self):
@@ -81,19 +81,19 @@ class 平臺項目表(models.Model):
             要求 = 要求.filter(種類=種類表.objects.get(種類=內容['種類']))
         except ObjectDoesNotExist:
             要求 = 要求.none()
-        except:
+        except Exception:
             pass
         try:
             要求 = 要求.filter(語言腔口表.objects.get(語言腔口=內容['語言腔口']))
         except ObjectDoesNotExist:
             要求 = 要求.none()
-        except:
+        except Exception:
             pass
         try:
             要求 = 要求.filter(語言腔口表.objects.get(語言腔口=內容['外語語言']))
         except ObjectDoesNotExist:
             要求 = 要求.none()
-        except:
+        except Exception:
             pass
         return 要求.get().平臺項目
 

@@ -48,7 +48,7 @@ class 使用者表(AbstractBaseUser):
 
         try:
             self.來源
-        except:
+        except Exception:
             name = 資料內容.get('name')
             username = 資料內容.get('username')
             last_name = 資料內容.get('last_name')

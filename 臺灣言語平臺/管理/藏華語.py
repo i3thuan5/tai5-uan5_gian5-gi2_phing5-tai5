@@ -1,8 +1,5 @@
 from django.contrib import admin
-from django.db import models
 from django.db.models.query_utils import Q
-from django.forms.widgets import TextInput, CheckboxSelectMultiple
-from django.utils.timezone import now
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
@@ -20,7 +17,7 @@ class 藏華語(平臺項目表):
 class 藏華語管理(admin.ModelAdmin):
     # change list
     list_display = ['華語', '愛藏起來', ]
-    list_editable = [ '愛藏起來', ]
+    list_editable = ['愛藏起來', ]
     ordering = ['-id', ]
     list_filter = ['愛藏起來']
     search_fields = [
