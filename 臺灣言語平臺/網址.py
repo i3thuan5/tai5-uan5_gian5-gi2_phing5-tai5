@@ -21,6 +21,7 @@ from 臺灣言語平臺.介面.工作 import 正規化表馬上匯入資料庫
 from 臺灣言語平臺.介面.貢獻者 import 貢獻者表
 from 臺灣言語平臺.介面.揣外語請教條 import 揣上新貢獻的外語請教條
 from 臺灣言語平臺.介面.貢獻者 import 正規化團隊表
+from 臺灣言語平臺.admin import admin_site
 
 urlpatterns = [
     url(r'^平臺項目列表/揣列表$', 揣外語請教條),
@@ -49,4 +50,6 @@ urlpatterns = [
     url(r'^管理/隱藏項目$', 把測試資料藏起來_管理目錄),
 
     url(r'^工作/正規化表馬上匯入資料庫$', 正規化表馬上匯入資料庫),
+
+    url(r'^kuan2li2/', admin_site.urls),
 ]
