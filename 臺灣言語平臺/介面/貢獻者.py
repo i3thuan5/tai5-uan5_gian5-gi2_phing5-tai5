@@ -14,7 +14,8 @@ def 貢獻者表(request):
         # 取出第一層
         來源_id = 來源.id
         來源名稱 = 來源.名
-
+        if 來源名稱 in {'台文華文線頂辭典', '臺灣閩南語常用詞辭典'}:
+            continue
         if 來源_id not in contributor_dict:
             contributor_dict[來源_id] = dict()
             contributor_dict[來源_id]['名'] = 來源名稱
