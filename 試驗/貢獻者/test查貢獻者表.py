@@ -101,6 +101,27 @@ class 查貢獻者表試驗(TestCase):
         self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 1)
         self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 2)
 
+    def test_新增著的貢獻(self):
+
+        self.client.force_login(self.貢獻者)
+
+        回應 = self.client.post(
+            '/平臺項目/加新詞文本', {
+                '外語項目編號': self.外語項目編號,
+                '文本資料': '水',
+                '音標資料': 'suie',
+            }
+        )
+
+        平臺項目編號 = 回應.json()['平臺項目編號']
+        平臺項目表.揣編號(平臺項目編號).設為推薦用字()
+
+        回應 = self.client.get('/貢獻者表')
+        回應Json = 回應.json()
+        self.assertEqual(len(回應Json['名人']), 1)
+        self.assertEqual(回應Json['名人'][0]['數量'], 1)
+        self.assertEqual(回應Json['名人'][0]['名'], '貢獻者1號')
+
     def test_確認貢獻重覆詞條不同發音會被處理(self):
 
         貢獻文本資料 = ['水', '生著不醜']
@@ -140,3 +161,21 @@ class 查貢獻者表試驗(TestCase):
         self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 4)
         self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 2)
         self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 4)
+
+    def test_辭典的莫顯示(self):
+        self.client.force_login(self.辭典)
+
+        回應 = self.client.post(
+            '/平臺項目/加新詞文本', {
+                '外語項目編號': self.外語項目編號,
+                '文本資料': '水',
+                '音標資料': 'sui2',
+            }
+        )
+
+        平臺項目編號 = 回應.json()['平臺項目編號']
+        平臺項目表.揣編號(平臺項目編號).設為推薦用字()
+
+        回應 = self.client.get('/貢獻者表')
+        回應Json = 回應.json()
+        self.assertEqual(len(回應Json['名人']), 0)
