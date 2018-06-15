@@ -4,11 +4,12 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 
 import json
 
-
-from django.test import TestCase
 from django.core.urlresolvers import resolve
+from django.test import TestCase
+
 
 from 臺灣言語平臺.使用者模型 import 使用者表
+from 臺灣言語平臺.介面.匯出資料 import 匯出辭典資料
 
 
 class 匯出資料試驗(TestCase):
@@ -18,8 +19,6 @@ class 匯出資料試驗(TestCase):
             'contributor@itaigi.tw',
             {'名': '貢獻者1號', '出世年': '1987', '出世地': '臺灣', }
         )
-
-        self.有對應函式()
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
@@ -32,12 +31,11 @@ class 匯出資料試驗(TestCase):
 
         self.外語 = 平臺項目表.objects.get(pk=self.外語項目編號).外語
 
-    def 有對應函式(self):
+    def test_有對應函式(self):
         對應 = resolve('/匯出資料')
-        self.assertEqual(對應.func, 匯出資料)
+        self.assertEqual(對應.func, 匯出辭典資料)
 
     def test_新增貢獻確認結果(self):
-
         self.client.force_login(self.貢獻者)
 
         回應 = self.client.post(
