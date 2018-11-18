@@ -23,7 +23,9 @@ class 使用者表管理(BaseUserManager):
 class 使用者表(AbstractBaseUser):
     objects = 使用者表管理()
     來源 = models.OneToOneField(
-        來源表, related_name='使用者', primary_key=True, null=False)
+        來源表, related_name='使用者', primary_key=True, null=False,
+        on_delete=models.CASCADE
+    )
     email = models.EmailField(unique=True, null=False)
     註冊時間 = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)  # for admin

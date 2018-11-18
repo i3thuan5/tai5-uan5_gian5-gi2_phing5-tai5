@@ -21,10 +21,18 @@ from 臺灣言語資料庫.欄位資訊 import 字詞
 
 class 平臺項目表(models.Model):
     項目名 = '平臺項目'
-    外語 = models.OneToOneField(外語表, null=True, related_name=項目名)
-    影音 = models.OneToOneField(影音表, null=True, related_name=項目名)
-    文本 = models.OneToOneField(文本表, null=True, related_name=項目名)
-    聽拍 = models.OneToOneField(聽拍表, null=True, related_name=項目名)
+    外語 = models.OneToOneField(
+        外語表, null=True, related_name=項目名, on_delete=models.CASCADE
+    )
+    影音 = models.OneToOneField(
+        影音表, null=True, related_name=項目名, on_delete=models.CASCADE
+    )
+    文本 = models.OneToOneField(
+        文本表, null=True, related_name=項目名, on_delete=models.CASCADE
+    )
+    聽拍 = models.OneToOneField(
+        聽拍表, null=True, related_name=項目名, on_delete=models.CASCADE
+    )
     推薦用字 = models.BooleanField(default=False)
     按呢講好 = models.IntegerField(default=0)
     按呢無好 = models.IntegerField(default=0)
