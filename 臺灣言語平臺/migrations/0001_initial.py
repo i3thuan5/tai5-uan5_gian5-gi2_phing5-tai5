@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('來源', models.OneToOneField(primary_key=True, serialize=False, to='臺灣言語資料庫.來源表', related_name='使用者')),
+                ('來源', models.OneToOneField(primary_key=True, serialize=False, to='臺灣言語資料庫.來源表', related_name='使用者', on_delete=models.CASCADE)),
                 ('email', models.EmailField(max_length=254, unique=True)),
                 ('註冊時間', models.DateTimeField(auto_now_add=True)),
                 ('分數', models.IntegerField(default=0)),
@@ -33,10 +33,10 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('是資料源頭', models.BooleanField(default=False)),
                 ('推薦用字', models.BooleanField(default=False)),
-                ('外語', models.OneToOneField(null=True, to='臺灣言語資料庫.外語表', related_name='平臺項目')),
-                ('影音', models.OneToOneField(null=True, to='臺灣言語資料庫.影音表', related_name='平臺項目')),
-                ('文本', models.OneToOneField(null=True, to='臺灣言語資料庫.文本表', related_name='平臺項目')),
-                ('聽拍', models.OneToOneField(null=True, to='臺灣言語資料庫.聽拍表', related_name='平臺項目')),
+                ('外語', models.OneToOneField(null=True, to='臺灣言語資料庫.外語表', related_name='平臺項目', on_delete=models.CASCADE)),
+                ('影音', models.OneToOneField(null=True, to='臺灣言語資料庫.影音表', related_name='平臺項目', on_delete=models.CASCADE)),
+                ('文本', models.OneToOneField(null=True, to='臺灣言語資料庫.文本表', related_name='平臺項目', on_delete=models.CASCADE)),
+                ('聽拍', models.OneToOneField(null=True, to='臺灣言語資料庫.聽拍表', related_name='平臺項目', on_delete=models.CASCADE)),
             ],
         ),
     ]
