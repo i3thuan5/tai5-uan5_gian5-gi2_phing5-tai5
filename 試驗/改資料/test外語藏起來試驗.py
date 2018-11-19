@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.test import TestCase
 
 

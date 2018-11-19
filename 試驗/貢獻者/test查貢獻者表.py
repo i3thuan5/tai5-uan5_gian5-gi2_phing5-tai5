@@ -11,7 +11,7 @@ import json
 
 
 from django.test import TestCase
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.core.cache import cache
 
 from 臺灣言語資料庫.關係模型 import 翻譯文本表

@@ -2,7 +2,7 @@
 from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.test import TestCase
 
 

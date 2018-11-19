@@ -3,7 +3,7 @@ import io
 import json
 import wave
 
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.test import TestCase
 
 

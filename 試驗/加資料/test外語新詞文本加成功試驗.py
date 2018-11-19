@@ -7,7 +7,7 @@ from 臺灣言語資料庫.關係模型 import 影音文本表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 import json
 
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.test import TestCase
 
 
