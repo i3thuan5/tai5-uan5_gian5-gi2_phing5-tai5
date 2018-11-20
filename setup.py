@@ -62,9 +62,9 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     install_requires=[
-        'django',
+        'django>=2.0',
         'tai5-uan5-gian5-gi2-tsu1-liau7-khoo3>=3.1.21',
-        'django-allauth==0.25.2',
+        'django-allauth>=0.38',
         'python-dateutil>=2.4.1',
         'django-cors-headers',
         'pyOpenSSL',
