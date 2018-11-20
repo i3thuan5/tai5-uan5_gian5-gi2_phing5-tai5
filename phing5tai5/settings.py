@@ -153,9 +153,15 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-INSTALLED_APPS += (
-    'behave_django',
-)
+try:
+    import behave_django
+except ImportError:
+    pass
+else:
+    behave_django
+    INSTALLED_APPS += (
+        'behave_django',
+    )
 
 # celery
 if DEBUG:
