@@ -1,3 +1,0 @@
-gspread==0.3.0
-celery==3.1.23
-behave-django==1.0.0
