@@ -31,10 +31,14 @@ class 查貢獻者表試驗(TestCase):
             'dictionary@itaigi.tw',
             {'名': '臺灣閩南語常用詞辭典', }
         )
+        self.辭典.set_password('Kau-tian')
+        self.辭典.save()
         self.貢獻者 = 使用者表.加使用者(
             'contributor@itaigi.tw',
             {'名': '貢獻者1號', '出世年': '1987', '出世地': '臺灣', }
         )
+        self.貢獻者.set_password('Phoo-bun')
+        self.貢獻者.save()
         """
         self.正規化團隊 = 使用者表.加使用者(
             'normal_form_team@itaigi.tw',

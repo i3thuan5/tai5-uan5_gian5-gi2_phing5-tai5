@@ -22,6 +22,8 @@ class 新詞影音加成功試驗(TestCase):
         self.鄉民 = 使用者表.加使用者(
             'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
         )
+        self.鄉民.set_password('Phoo-bun')
+        self.鄉民.save()
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {

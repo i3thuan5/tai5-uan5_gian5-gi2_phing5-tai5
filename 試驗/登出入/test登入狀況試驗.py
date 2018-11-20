@@ -25,6 +25,8 @@ class 登入狀況試驗(TestCase):
         阿媠 = 使用者表.加使用者(
             'sui2@pigu.tw', {"名": '阿媠', '出世年': '1950', '出世地': '臺灣', },
         )
+        阿媠.set_password('sui2')
+        阿媠.save()
         self.client.force_login(阿媠)
 
         回應 = self.client.get('/使用者/看編號')
