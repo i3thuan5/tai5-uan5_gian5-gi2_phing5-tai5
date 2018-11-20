@@ -5,7 +5,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from django.db.models import F
-from django.db.models.query_utils import Q
 from django.utils import timezone
 
 
@@ -107,11 +106,10 @@ class 平臺項目表(models.Model):
 
     @classmethod
     def 把無建議的外語資料藏起來(cls, 編號):
-        外語 = 外語表.objects.filter(
-            Q(平臺項目__id=編號)
-        )
-        update = not cls.objects.filter(外語=外語)[0].愛藏起來
-        return cls.objects.filter(外語=外語).update(愛藏起來=update)
+        hangbok = cls.objects.get(pk=編號)
+        hangbok.愛藏起來 = not hangbok.愛藏起來
+        hangbok.save()
+        return hangbok
 
     @classmethod
     def 外語錄母語(cls, 外語請教條項目編號, 內容):
