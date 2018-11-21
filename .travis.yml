@@ -1,7 +1,6 @@
 sudo: false
 language: python
 python:
-- '3.4'
 - '3.5'
 env:
 - TOX_ENV=TDD
@@ -25,7 +24,6 @@ addons:
       - libav-tools
       - libmp3lame0
 install:
-- pip install -r requirements.txt
 - pip install python-coveralls
 - pip install tox
 branches:

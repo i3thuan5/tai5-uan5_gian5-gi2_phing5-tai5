@@ -201,7 +201,7 @@ python manage.py 顯示全部sheet狀態
 
 
 
-## 開發
+## 開發(舊的，無法度閣用--ah)
 ### 環境設定
 ```python3
 virtualenv venv --python python3 # 設置環境檔

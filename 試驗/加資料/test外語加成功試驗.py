@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.test import TestCase
 
 
@@ -17,6 +17,8 @@ class 外語加成功試驗(TestCase):
         self.鄉民 = 使用者表.加使用者(
             'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
         )
+        self.鄉民.set_password('Phoo-bun')
+        self.鄉民.save()
 
     def test_有對應函式(self):
         對應 = resolve('/平臺項目/加外語')

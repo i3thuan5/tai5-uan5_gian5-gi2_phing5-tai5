@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.test import TestCase
 from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.揣外語請教條 import 揣按呢講外語請教條

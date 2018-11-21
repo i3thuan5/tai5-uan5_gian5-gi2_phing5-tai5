@@ -1,15 +1,15 @@
 from django.conf import settings
-from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.static import serve
+from django.urls import include, path
 
 
 urlpatterns = [
-    url(r'^accounts/', include('allauth.urls')),
-    url(r'^', include('臺灣言語平臺.網址')),
-    url(r'^影音檔案/(?P<path>.*)$', serve, {
+    path(r'accounts/', include('allauth.urls')),
+    path(r'', include('臺灣言語平臺.網址')),
+    path(r'影音檔案/(<str:path>.*)', serve, {
         'document_root': settings.MEDIA_ROOT,
     }),
 
-    url(r'^he7thong2/', include(admin.site.urls)),
+    path('he7thong2/', admin.site.urls),
 ]

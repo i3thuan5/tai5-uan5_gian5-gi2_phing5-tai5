@@ -4,7 +4,7 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 
 import json
 
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.test import TestCase
 
 
@@ -19,6 +19,8 @@ class 匯出資料試驗(TestCase):
             'contributor@itaigi.tw',
             {'名': '貢獻者1號', '出世年': '1987', '出世地': '臺灣', }
         )
+        self.貢獻者.set_password('Phoo-bun')
+        self.貢獻者.save()
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
