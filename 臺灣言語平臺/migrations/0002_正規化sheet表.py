@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('client_email', models.CharField(max_length=200)),
                 ('private_key', models.CharField(max_length=4000)),
                 ('url', models.CharField(max_length=200, unique=True)),
-                ('語言腔口', models.OneToOneField(to='臺灣言語資料庫.語言腔口表', related_name='正規化sheet')),
+                ('語言腔口', models.OneToOneField(to='臺灣言語資料庫.語言腔口表', related_name='正規化sheet', on_delete=models.CASCADE)),
             ],
         ),
     ]

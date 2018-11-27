@@ -22,6 +22,8 @@ class 外語新詞文本加失敗試驗(TestCase):
         self.鄉民 = 使用者表.加使用者(
             'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
         )
+        self.鄉民.set_password('Phoo-bun')
+        self.鄉民.save()
         外語回應資料 = self.client.post(
             '/平臺項目/加外語', {
                 '外語資料': '漂亮',

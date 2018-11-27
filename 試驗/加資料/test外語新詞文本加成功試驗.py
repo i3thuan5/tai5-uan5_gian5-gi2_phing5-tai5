@@ -7,7 +7,7 @@ from 臺灣言語資料庫.關係模型 import 影音文本表
 from 臺灣言語平臺.項目模型 import 平臺項目表
 import json
 
-from django.core.urlresolvers import resolve
+from django.urls.base import resolve
 from django.test import TestCase
 
 
@@ -23,6 +23,8 @@ class 外語新詞文本加成功試驗(TestCase):
         self.鄉民 = 使用者表.加使用者(
             'sui2@pigu.tw', {"名": '鄉民', '出世年': '1950', '出世地': '臺灣', }
         )
+        self.鄉民.set_password('Phoo-bun')
+        self.鄉民.save()
         self.有對應函式()
         self.client.force_login(self.鄉民)
 

@@ -10,7 +10,9 @@ from django.core.exceptions import ValidationError
 class 正規化sheet表(models.Model):
     google_sheet_scope = ['https://spreadsheets.google.com/feeds']
 
-    語言腔口 = models.OneToOneField(語言腔口表, null=False, related_name='正規化sheet')
+    語言腔口 = models.OneToOneField(
+        語言腔口表, null=False, related_name='正規化sheet', on_delete=models.CASCADE
+    )
     key_file_name = models.CharField(blank=False, max_length=200)
     url = models.CharField(unique=True, max_length=200)
 

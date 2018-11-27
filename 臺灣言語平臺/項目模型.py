@@ -5,7 +5,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from django.db.models import F
-from django.db.models.query_utils import Q
 from django.utils import timezone
 
 
@@ -21,10 +20,18 @@ from 臺灣言語資料庫.欄位資訊 import 字詞
 
 class 平臺項目表(models.Model):
     項目名 = '平臺項目'
-    外語 = models.OneToOneField(外語表, null=True, related_name=項目名)
-    影音 = models.OneToOneField(影音表, null=True, related_name=項目名)
-    文本 = models.OneToOneField(文本表, null=True, related_name=項目名)
-    聽拍 = models.OneToOneField(聽拍表, null=True, related_name=項目名)
+    外語 = models.OneToOneField(
+        外語表, null=True, related_name=項目名, on_delete=models.CASCADE
+    )
+    影音 = models.OneToOneField(
+        影音表, null=True, related_name=項目名, on_delete=models.CASCADE
+    )
+    文本 = models.OneToOneField(
+        文本表, null=True, related_name=項目名, on_delete=models.CASCADE
+    )
+    聽拍 = models.OneToOneField(
+        聽拍表, null=True, related_name=項目名, on_delete=models.CASCADE
+    )
     推薦用字 = models.BooleanField(default=False)
     按呢講好 = models.IntegerField(default=0)
     按呢無好 = models.IntegerField(default=0)
@@ -99,11 +106,10 @@ class 平臺項目表(models.Model):
 
     @classmethod
     def 把無建議的外語資料藏起來(cls, 編號):
-        外語 = 外語表.objects.filter(
-            Q(平臺項目__id=編號)
-        )
-        update = not cls.objects.filter(外語=外語)[0].愛藏起來
-        return cls.objects.filter(外語=外語).update(愛藏起來=update)
+        hangbok = cls.objects.get(pk=編號)
+        hangbok.愛藏起來 = not hangbok.愛藏起來
+        hangbok.save()
+        return hangbok
 
     @classmethod
     def 外語錄母語(cls, 外語請教條項目編號, 內容):
