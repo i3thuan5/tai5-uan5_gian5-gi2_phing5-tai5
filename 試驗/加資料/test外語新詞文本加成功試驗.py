@@ -14,6 +14,8 @@ from django.test import TestCase
 from 臺灣言語資料庫.關係模型 import 翻譯文本表
 from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
 from 臺灣言語平臺.使用者模型 import 使用者表
+from 臺灣言語平臺.辭典模型 import 華台對應表
+from unittest.case import skip
 
 
 class 外語新詞文本加成功試驗(TestCase):
@@ -53,7 +55,6 @@ class 外語新詞文本加成功試驗(TestCase):
         self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 1)
         self.assertEqual(影音文本表.objects.all().count(), self.影音文本表資料數)
         self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 1)
-        self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 1)
 
     def 有對應函式(self):
         對應 = resolve('/平臺項目/加新詞文本')
@@ -72,9 +73,8 @@ class 外語新詞文本加成功試驗(TestCase):
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
 
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
-        self.assertEqual(文本.文本資料, '媠')
+        文本 = 華台對應表.揣編號(編號)
+        self.assertEqual(文本.使用者漢字, '媠')
 
     def test_直接加音標(self):
         回應 = self.client.post(
@@ -90,27 +90,9 @@ class 外語新詞文本加成功試驗(TestCase):
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
 
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
-        self.assertEqual(文本.音標資料, 'sui2')
-
-    def test_屬性加音標(self):
-        回應 = self.client.post(
-            '/平臺項目/加新詞文本', {  # 全部都必須字串形態
-                '外語項目編號': self.外語項目編號,  # 針對哪一個外語的母語文本
-                '文本資料': '媠',  # 錄製的文本檔，檔案型態
-                '屬性': json.dumps({'音標': 'sui2'}),
-            }
-        )
-        self.assertEqual(回應.status_code, 200)
-        回應資料 = 回應.json()
-        self.assertIn('平臺項目編號', 回應資料)
-#         後端資料庫檢查
-        編號 = int(回應資料['平臺項目編號'])
-
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
-        self.assertEqual(文本.音標資料, 'sui2')
+        文本 = 華台對應表.揣編號(編號)
+        self.assertEqual(文本.使用者漢字, '媠')
+        self.assertEqual(文本.使用者羅馬字, 'sui2')
 
     def test_文本音標資料頭前後壁的空白愛提掉(self):
         回應 = self.client.post(
@@ -126,11 +108,11 @@ class 外語新詞文本加成功試驗(TestCase):
 #         後端資料庫檢查
         編號 = int(回應資料['平臺項目編號'])
 
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.外語.翻譯文本.get(文本=文本)  # 確定有建立關係
-        self.assertEqual(文本.文本資料, '媠')
-        self.assertEqual(文本.音標資料, 'sui2')
+        文本 = 華台對應表.揣編號(編號)
+        self.assertEqual(文本.使用者漢字, '媠')
+        self.assertEqual(文本.使用者羅馬字, 'sui2')
 
+    @skip('á未整理')
     def test_來源自己(self):
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
@@ -150,6 +132,7 @@ class 外語新詞文本加成功試驗(TestCase):
         self.assertEqual(文本.收錄者.使用者, self.鄉民)
         self.assertEqual(文本.來源.使用者, self.鄉民)
 
+    @skip('á未整理')
     def test_來源名自己(self):
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
@@ -169,7 +152,7 @@ class 外語新詞文本加成功試驗(TestCase):
         self.assertEqual(文本.收錄者.使用者, self.鄉民)
         self.assertEqual(文本.來源.名, '自己')
 
-    def test_無登入(self):
+    def test_無登入嘛ēsái(self):
         self.client.logout()
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
@@ -189,68 +172,11 @@ class 外語新詞文本加成功試驗(TestCase):
                 '文本資料': '媠',
             }
         )
-        self.文本表資料數 = 文本表.objects.all().count()
-        self.翻譯文本表資料數 = 翻譯文本表.objects.all().count()
-        self.平臺項目表資料數 = 平臺項目表.objects.all().count()
-        回應 = self.client.post(
+        文本表資料數 = 華台對應表().objects.count()
+        self.client.post(
             '/平臺項目/加新詞文本', {  # 全部都必須字串形態
                 '外語項目編號': self.外語項目編號,  # 針對哪一個外語的母語文本
                 '文本資料': '媠',  # 錄製的文本檔，檔案型態
             }
         )
-        self.assertEqual(回應.status_code, 200)
-        回應資料 = 回應.json()
-        self.assertIn('平臺項目編號', 回應資料)
-# 		後端資料庫檢查
-        編號 = int(回應資料['平臺項目編號'])
-
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.外語.翻譯文本.get(文本=文本)
-        self.assertEqual(文本.文本資料, '媠')
-
-    def test_預設欄位(self):
-        回應 = self.client.post(
-            '/平臺項目/加新詞文本', {  # 全部都必須字串形態
-                '外語項目編號': self.外語項目編號,  # 針對哪一個外語的母語文本
-                '文本資料': '媠',  # 錄製的文本檔，檔案型態
-            }
-        )
-        self.assertEqual(回應.status_code, 200)
-        回應資料 = 回應.json()
-        self.assertIn('平臺項目編號', 回應資料)
-#         後端資料庫檢查
-        編號 = int(回應資料['平臺項目編號'])
-
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.assertEqual(文本.版權.版權, '會使公開')
-        self.assertEqual(文本.種類.種類, '字詞')
-        self.assertEqual(文本.語言腔口.語言腔口, '臺灣語言')
-        self.assertEqual(文本.著作所在地.著作所在地, '臺灣')
-        self.assertEqual(文本.屬性.count(), 0)
-        self.assertEqual(文本.文本資料, '媠')
-
-    def test_外語是語句(self):
-        外語回應 = self.client.post(
-            '/平臺項目/加外語', {
-                '種類': '語句',
-                '外語資料': '漂漂亮亮',
-            }
-        )
-        self.外語表資料數 = 外語表.objects.all().count()
-        self.平臺項目表資料數 = 平臺項目表.objects.all().count()
-
-        外語項目編號 = int(外語回應.json()['平臺項目編號'])
-        回應 = self.client.post(
-            '/平臺項目/加新詞文本', {  # 全部都必須字串形態
-                '外語項目編號': 外語項目編號,  # 針對哪一個外語的母語文本
-                '文本資料': '媠媠',  # 錄製的文本檔，檔案型態
-            }
-        )
-        self.assertEqual(回應.status_code, 200)
-        回應資料 = 回應.json()
-        self.assertIn('平臺項目編號', 回應資料)
-#         後端資料庫檢查
-        編號 = int(回應資料['平臺項目編號'])
-
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.assertEqual(文本.種類.種類, '語句')
+        self.assertEqual(華台對應表().objects.count(), 文本表資料數 + 1)
