@@ -40,22 +40,6 @@ class 外語新詞文本加成功試驗(TestCase):
 
         self.外語 = 平臺項目表.objects.get(pk=self.外語項目編號).外語
 
-        self.外語表資料數 = 外語表.objects.all().count()
-        self.影音表資料數 = 影音表.objects.all().count()
-        self.文本表資料數 = 文本表.objects.all().count()
-        self.翻譯影音表資料數 = 翻譯影音表.objects.all().count()
-        self.影音文本表資料數 = 影音文本表.objects.all().count()
-        self.翻譯文本表資料數 = 翻譯文本表.objects.all().count()
-        self.平臺項目表資料數 = 平臺項目表.objects.all().count()
-
-    def tearDown(self):
-        self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
-        self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
-        self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數)
-        self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 1)
-        self.assertEqual(影音文本表.objects.all().count(), self.影音文本表資料數)
-        self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 1)
-
     def 有對應函式(self):
         對應 = resolve('/平臺項目/加新詞文本')
         self.assertEqual(對應.func, 外語加新詞文本)
