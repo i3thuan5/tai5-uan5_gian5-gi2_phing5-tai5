@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
-from 臺灣言語資料庫.資料模型 import 外語表
-from 臺灣言語資料庫.資料模型 import 影音表
-from 臺灣言語資料庫.資料模型 import 文本表
-from 臺灣言語資料庫.關係模型 import 翻譯影音表
-from 臺灣言語資料庫.關係模型 import 影音文本表
-from 臺灣言語平臺.項目模型 import 平臺項目表
 import json
 
 from django.urls.base import resolve
 from django.test import TestCase
 
-
-from 臺灣言語資料庫.關係模型 import 翻譯文本表
 from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.辭典模型 import 華台對應表
@@ -38,8 +30,6 @@ class 外語新詞文本加成功試驗(TestCase):
         外語回應資料 = json.loads(外語回應.content.decode("utf-8"))
         self.外語項目編號 = int(外語回應資料['平臺項目編號'])
 
-        self.外語 = 平臺項目表.objects.get(pk=self.外語項目編號).外語
-
     def 有對應函式(self):
         對應 = resolve('/平臺項目/加新詞文本')
         self.assertEqual(對應.func, 外語加新詞文本)
@@ -47,24 +37,8 @@ class 外語新詞文本加成功試驗(TestCase):
     def test_一般參數(self):
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {  # 全部都必須字串形態
-                '外語項目編號': self.外語項目編號,  # 針對哪一個外語的母語文本
-                '文本資料': '媠',  # 錄製的文本檔，檔案型態
-            }
-        )
-        self.assertEqual(回應.status_code, 200)
-        回應資料 = 回應.json()
-        self.assertIn('平臺項目編號', 回應資料)
-#         後端資料庫檢查
-        編號 = int(回應資料['平臺項目編號'])
-
-        文本 = 華台對應表.揣編號(編號)
-        self.assertEqual(文本.使用者漢字, '媠')
-
-    def test_直接加音標(self):
-        回應 = self.client.post(
-            '/平臺項目/加新詞文本', {  # 全部都必須字串形態
-                '外語項目編號': self.外語項目編號,  # 針對哪一個外語的母語文本
-                '文本資料': '媠',  # 錄製的文本檔，檔案型態
+                '外語項目編號': self.外語項目編號,
+                '文本資料': '媠',
                 '音標資料': 'sui2',
             }
         )
@@ -103,6 +77,7 @@ class 外語新詞文本加成功試驗(TestCase):
                 '外語項目編號': self.外語項目編號,  # 針對哪一個外語的母語文本
                 '來源': json.dumps('自己'),  # 可用「自己」，會把來源指向自己
                 '文本資料': '媠',
+                '音標資料': 'sui2',
             }
         )
         self.assertEqual(回應.status_code, 200)
@@ -123,6 +98,7 @@ class 外語新詞文本加成功試驗(TestCase):
                 '外語項目編號': self.外語項目編號,
                 '來源': json.dumps({'名': '自己'}),  # 當作一个人叫做「自己」
                 '文本資料': '媠',
+                '音標資料': 'sui2',
             }
         )
         self.assertEqual(回應.status_code, 200)
@@ -142,6 +118,7 @@ class 外語新詞文本加成功試驗(TestCase):
             '/平臺項目/加新詞文本', {
                 '外語項目編號': self.外語項目編號,
                 '文本資料': '媠',
+                '音標資料': 'sui2',
             }
         )
         self.assertEqual(回應.status_code, 200)
@@ -154,13 +131,15 @@ class 外語新詞文本加成功試驗(TestCase):
             '/平臺項目/加新詞文本', {
                 '外語項目編號': self.外語項目編號,
                 '文本資料': '媠',
+                '音標資料': 'sui2',
             }
         )
-        文本表資料數 = 華台對應表().objects.count()
+        文本表資料數 = 華台對應表.objects.count()
         self.client.post(
             '/平臺項目/加新詞文本', {  # 全部都必須字串形態
                 '外語項目編號': self.外語項目編號,  # 針對哪一個外語的母語文本
                 '文本資料': '媠',  # 錄製的文本檔，檔案型態
+                '音標資料': 'sui2',
             }
         )
-        self.assertEqual(華台對應表().objects.count(), 文本表資料數 + 1)
+        self.assertEqual(華台對應表.objects.count(), 文本表資料數 + 1)

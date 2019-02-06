@@ -4,7 +4,6 @@ from django.conf.urls import url
 
 from 臺灣言語平臺.介面.csrf import 看csrf
 from 臺灣言語平臺.介面.加資料 import 加外語請教條
-from 臺灣言語平臺.介面.加資料 import 加新詞影音
 from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
 from 臺灣言語平臺.介面.改資料 import 把測試資料藏起來
 from 臺灣言語平臺.介面.改資料 import 把測試資料藏起來_管理目錄
@@ -43,7 +42,6 @@ urlpatterns = [
     url(r'^使用者/看編號$', 登入狀況),
 
     url(r'^平臺項目/加外語$', 加外語請教條),
-    url(r'^平臺項目/加新詞影音$', 加新詞影音),
     url(r'^平臺項目/加新詞文本$', 外語加新詞文本),
 
     url(r'^平臺項目/把測試資料藏起來$', 把測試資料藏起來),

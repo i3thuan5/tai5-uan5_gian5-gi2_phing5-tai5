@@ -19,6 +19,9 @@ class 華語表(models.Model):
     def 編號(self):
         return self.pk
 
+    @classmethod
+    def 揣編號(cls, 編號):
+        return cls.objects.get(pk=編號)
 
 class 華台對應表(models.Model):
     上傳ê人 = models.ForeignKey(使用者表, related_name='+', on_delete=models.PROTECT)
