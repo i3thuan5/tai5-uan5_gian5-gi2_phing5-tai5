@@ -11,6 +11,7 @@ from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語平臺.tasks import 新文本自資料庫加入sheet
+from 臺灣言語平臺.辭典模型 import 華語表
 
 
 class 失敗的json回應(Json失敗回應):
@@ -42,48 +43,20 @@ def 加文本了愛加入sheet(介面函式):
 
 
 def 加外語請教條(request):
-    欄位表 = [
-        '來源',
-        '種類',
-        '語言腔口',
-        '著作所在地',
-        '著作年',
-        '屬性',
-        '外語語言',
-    ]
     內容 = {}
     try:
         內容['收錄者'] = request.user.來源
     except Exception:
         內容['收錄者'] = 來源表.objects.get(名='匿名')
 
-    for 欄位 in 欄位表:
-        try:
-            內容[欄位] = request.POST[欄位]
-        except KeyError:
-            pass
     try:
-        內容['外語資料'] = request.POST['外語資料'].strip()
+        使用者華語 = request.POST['外語資料'].strip()
     except MultiValueDictKeyError:
         return 失敗的json回應('資料欄位有缺')
-
-    try:
-        平臺項目 = 平臺項目表.加外語資料(內容)
-    except ValueError:
-        return 失敗的json回應('來源抑是屬性無轉json字串')
-    except KeyError:
-        return 失敗的json回應('來源沒有「名」的欄位')
-    except 種類表.DoesNotExist:
-        return 失敗的json回應('種類欄位不符規範')
-    except ValidationError as 錯誤:
-        更新時間戳 = 平臺項目表.揣編號(編號=錯誤.平臺項目編號)
-        更新時間戳.有人查一擺()
-        return JsonResponse({
-            '其他': '這個外語已經有了',
-            '平臺項目編號': str(錯誤.平臺項目編號),
-        })
-    else:
-        return 成功的json回應(平臺項目.編號())
+    華語 = 華語表.objects.filter(使用者華語=使用者華語).first()
+    if 華語 is None:
+        華語 = 華語表.objects.create(使用者華語=使用者華語)
+    return 成功的json回應(華語.編號())
 
 
 def 加新詞影音(request):

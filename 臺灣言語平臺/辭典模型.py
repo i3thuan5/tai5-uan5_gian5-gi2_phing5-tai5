@@ -9,14 +9,15 @@ from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 華語表(models.Model):
-    上傳ê人 = models.ForeignKey(使用者表, related_name='+', on_delete=models.PROTECT)
-
     使用者華語 = models.CharField(max_length=50)
-    推薦華語 = models.CharField(max_length=50)
+#     推薦華語 = models.CharField(max_length=50)
 
     上傳時間 = models.DateTimeField(default=timezone.now)
     修改時間 = models.DateTimeField(auto_now=True)
     新舊 = models.FloatField(default=0.0)
+
+    def 編號(self):
+        return self.pk
 
 
 class 華台對應表(models.Model):
