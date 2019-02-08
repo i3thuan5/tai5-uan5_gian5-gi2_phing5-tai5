@@ -1,11 +1,26 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-# from django.db.models import F
+from django.db.models.expressions import F
 from django.utils import timezone
 
 
+# from django.db.models import F
 from 臺灣言語平臺.使用者模型 import 使用者表
+
+
+class 華語表資料(models.QuerySet):
+    #         .95 ** 60 == 0.046
+    偌新才顯示 = .05
+
+    def 過一工(self):
+        self.update(新舊=F('新舊') * 0.95)
+
+    def 有人查(self):
+        self.update(新舊=F('新舊') + 1)
+
+    def 藏起來(self):
+        self.update(新舊=.0)
 
 
 class 華語表(models.Model):
@@ -14,7 +29,7 @@ class 華語表(models.Model):
 
     上傳時間 = models.DateTimeField(default=timezone.now)
     修改時間 = models.DateTimeField(auto_now=True)
-    新舊 = models.FloatField(default=0.0)
+    新舊 = models.FloatField(default=.0)
 
     def 編號(self):
         return self.pk
@@ -22,6 +37,11 @@ class 華語表(models.Model):
     @classmethod
     def 揣編號(cls, 編號):
         return cls.objects.get(pk=編號)
+
+    @classmethod
+    def 有人查(cls):
+        cls.objects.update(新舊=F('新舊') + 1)
+
 
 class 華台對應表(models.Model):
     上傳ê人 = models.ForeignKey(使用者表, related_name='+', on_delete=models.PROTECT)

@@ -2,10 +2,12 @@
 from django.http.response import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
 
+
 from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.辭典模型 import 華語表
 from 臺灣言語平臺.辭典模型 import 華台對應表
+from 臺灣言語平臺.管理.藏華語 import 華語管理表
 
 
 class 失敗的json回應(Json失敗回應):
@@ -37,6 +39,7 @@ def 加外語請教條(request):
     華語 = 華語表.objects.filter(使用者華語=使用者華語).first()
     if 華語 is None:
         華語 = 華語表.objects.create(使用者華語=使用者華語)
+    華語.有人查()
     return 成功的json回應(華語.編號())
 
 
