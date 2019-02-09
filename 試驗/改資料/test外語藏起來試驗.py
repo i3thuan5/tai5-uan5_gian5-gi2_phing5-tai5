@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from unittest.case import skip
 
 from django.test import TestCase
 from django.urls.base import reverse
@@ -77,7 +76,3 @@ class 外語藏起來試驗(TestCase):
         )
 
         self.assertEqual(華語管理表.objects.filter(pk=編號).count(), 1)
-
-    @skip('時間到家己就會藏起來')
-    def test_有台語嘛愛藏起來(self):
-        self.fail()

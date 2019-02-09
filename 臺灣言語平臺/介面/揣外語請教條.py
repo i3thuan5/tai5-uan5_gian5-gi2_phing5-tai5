@@ -6,6 +6,7 @@ from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.外語請教條 import 外語請教條
 from 臺灣言語資料庫.資料模型 import 文本表
 from django.utils.datastructures import MultiValueDictKeyError
+from 臺灣言語平臺.管理.藏華語 import 華語管理表
 
 
 def 揣外語請教條(request):
@@ -45,18 +46,11 @@ def 揣外語請教條(request):
 
 
 def 揣無建議的外語(request):
-    try:
-        if request.GET['排序'] == 'new':
-            照排 = ['-平臺項目__保存時間', '-pk']
-        else:
-            照排 = ['-平臺項目__查幾擺', '-pk']
-    except MultiValueDictKeyError:
-        照排 = ['-平臺項目__查幾擺', '-pk']
     符合資料 = []
-    for 外語值 in 外語請教條.無建議講法的外語表(照排).values('平臺項目__pk', '外語資料'):
+    for 外語值 in 華語管理表.objects.values('pk', '使用者華語'):
         符合資料.append({
-            '外語項目編號': str(外語值['平臺項目__pk']),
-            '外語資料': 外語值['外語資料'],
+            '外語項目編號': str(外語值['pk']),
+            '外語資料': 外語值['使用者華語'],
         })
     return JsonResponse({'列表': 符合資料})
 

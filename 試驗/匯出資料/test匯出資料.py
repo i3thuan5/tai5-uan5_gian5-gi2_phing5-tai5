@@ -29,9 +29,7 @@ class 匯出資料試驗(TestCase):
         )
 
         外語回應資料 = json.loads(外語回應.content.decode("utf-8"))
-        self.外語項目編號 = int(外語回應資料['平臺項目編號'])
-
-        self.外語 = 平臺項目表.objects.get(pk=self.外語項目編號).外語
+        self.華語編號 = int(外語回應資料['平臺項目編號'])
 
     def test_有對應函式(self):
         對應 = resolve('/匯出資料')
@@ -42,7 +40,7 @@ class 匯出資料試驗(TestCase):
 
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
-                '外語項目編號': self.外語項目編號,
+                '外語項目編號': self.華語編號,
                 '文本資料': '水',
                 '音標資料': 'suie',
             }
@@ -67,7 +65,7 @@ class 匯出資料試驗(TestCase):
 
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
-                '外語項目編號': self.外語項目編號,
+                '外語項目編號': self.華語編號,
                 '文本資料': '媠',
                 '音標資料': 'sui2',
             }
