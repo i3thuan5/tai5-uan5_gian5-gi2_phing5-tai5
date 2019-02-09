@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.db.models.aggregates import Count
+from django.db.models.expressions import F
 from django.http.response import JsonResponse
 
 
@@ -6,6 +8,8 @@ from 臺灣言語資料庫.關係模型 import 文本校對表
 
 from 臺灣言語資料庫.資料模型 import 文本表
 from 臺灣言語平臺.辭典模型 import 華台對應表
+from 臺灣言語平臺.使用者模型 import 使用者表
+from 臺灣言語平臺.辭典模型 import 正規化表
 
 
 def 貢獻者表(request):
@@ -36,15 +40,12 @@ def 貢獻者表(request):
 
 
 def 正規化團隊表(request):
-    數量表 = {}
-    for 來源名稱 in 文本校對表.objects.values_list('新文本__來源__名', flat=True):
-        try:
-            數量表[來源名稱] += 1
-        except KeyError:
-            數量表[來源名稱] = 1
-    名人 = []
-    for 名, 量 in sorted(數量表.items(), key=lambda 數量: 數量[1], reverse=True):
-        名人.append({'名': 名, '數量': 量})
+    名人 = sorted(
+        正規化表.objects
+        .values(名=F('正規化ê人__名'))
+        .annotate(數量=Count('正規化ê人__名')),
+        key=lambda x: x['數量'], reverse=True
+    )
     return JsonResponse({"名人": 名人})
 
 
