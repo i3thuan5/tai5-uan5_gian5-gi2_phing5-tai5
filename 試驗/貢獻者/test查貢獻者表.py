@@ -40,6 +40,10 @@ class 查貢獻者表試驗(TestCase):
         )
         self.貢獻者.set_password('Phoo-bun')
         self.貢獻者.save()
+        self.正規化的人 = 使用者表.加使用者(
+            'tsingkuihua@itaigi.tw',
+            {'名': '正規化團隊一號團員', '出世年': '1987', '出世地': '臺灣', }
+        )
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
@@ -66,7 +70,7 @@ class 查貢獻者表試驗(TestCase):
 
         平臺項目編號 = 回應.json()['平臺項目編號']
         華台 = 華台對應表.揣編號(平臺項目編號)
-        華台.正規化('漂亮', '媠', 'sui2')
+        華台.提供正規化(self.正規化的人,'漂亮', '媠', 'sui2')
 
         回應 = self.client.get('/貢獻者表')
         回應Json = 回應.json()
@@ -90,7 +94,7 @@ class 查貢獻者表試驗(TestCase):
         for i in range(len(貢獻文本資料)):
             回應 = self.client.post(
                 '/平臺項目/加新詞文本', {
-                    '外語項目編號': self.外語項目編號,
+                    '外語項目編號': self.華語編號,
                     '文本資料': 貢獻文本資料[i],
                     '音標資料': 貢獻音標資料[i],
                 }
@@ -98,9 +102,8 @@ class 查貢獻者表試驗(TestCase):
 
             平臺項目編號 = 回應.json()['平臺項目編號']
             華台 = 華台對應表.揣編號(平臺項目編號)
-            華台.正規化(
-                '漂亮', '媠', 'sui2'
-                '正規化團隊一號團員',
+            華台.提供正規化(
+                self.正規化的人,'漂亮',
                 正規文本資料[i], 正規音標資料[i]
             )
 
@@ -110,16 +113,12 @@ class 查貢獻者表試驗(TestCase):
         self.assertEqual(回應Json['名人'][0]['數量'], 2)
         self.assertEqual(回應Json['名人'][0]['名'], '貢獻者1號')
 
-        self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 4)
-        self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 2)
-        self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 4)
-
     def test_辭典的莫顯示(self):
         self.client.force_login(self.辭典)
 
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
-                '外語項目編號': self.外語項目編號,
+                '外語項目編號': self.華語編號,
                 '文本資料': '媠',
                 '音標資料': 'sui2',
             }
@@ -127,7 +126,7 @@ class 查貢獻者表試驗(TestCase):
 
         平臺項目編號 = 回應.json()['平臺項目編號']
         華台 = 華台對應表.揣編號(平臺項目編號)
-        華台.正規化('漂亮', '媠', 'sui2')
+        華台.提供正規化(self.正規化的人,'漂亮', '媠', 'sui2')
 
         回應 = self.client.get('/貢獻者表')
         回應Json = 回應.json()

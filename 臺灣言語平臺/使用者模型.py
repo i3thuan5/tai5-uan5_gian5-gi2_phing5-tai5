@@ -26,6 +26,7 @@ class 使用者表(AbstractBaseUser):
         來源表, related_name='使用者', primary_key=True, null=False,
         on_delete=models.CASCADE
     )
+    名 = models.CharField(max_length=50)
     email = models.EmailField(unique=True, null=False)
     註冊時間 = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)  # for admin
@@ -39,7 +40,7 @@ class 使用者表(AbstractBaseUser):
     @classmethod
     def 加使用者(cls, email, 來源內容):
         來源 = 來源表.加來源(來源內容)
-        使用者 = cls.objects.create(來源=來源, email=email)
+        使用者 = cls.objects.create(email=email, 名=來源內容['名'], 來源=來源)
         使用者.set_unusable_password()
         return 使用者
 

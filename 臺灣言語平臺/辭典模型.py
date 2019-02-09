@@ -49,15 +49,15 @@ class 華台對應表(models.Model):
     使用者華語 = models.CharField(max_length=50)
     使用者漢字 = models.CharField(max_length=100)
     使用者羅馬字 = models.CharField(max_length=200)
-    推薦華語 = models.CharField(max_length=50)
-    推薦漢字 = models.BooleanField(default=False)
-    推薦羅馬字 = models.BooleanField(default=False)
+    推薦華語 = models.CharField(max_length=50, blank=True)
+    推薦漢字 = models.CharField(max_length=100, blank=True)
+    推薦羅馬字 = models.CharField(max_length=200, blank=True)
 
-    上傳時間 = models.DateTimeField(default=timezone.now)
+    上傳時間 = models.DateTimeField(auto_now_add=True)
+    default = timezone.now
     修改時間 = models.DateTimeField(auto_now=True)
     按呢講好 = models.IntegerField(default=0)
     按呢無好 = models.IntegerField(default=0)
-    查幾擺 = models.IntegerField(default=1)
 
     def __str__(self):
         return '{} => {}/{}'.format(self.華語, self.使用者漢字, self.使用者羅馬字)
@@ -68,6 +68,22 @@ class 華台對應表(models.Model):
     @classmethod
     def 揣編號(cls, 編號):
         return cls.objects.get(pk=編號)
+
+    def 提供正規化(self, 正規化ê人, 華語, 漢字, 羅馬字):
+        self.推薦華語 = 華語
+        self.漢字 = 漢字
+        self.羅馬字 = 羅馬字
+        self.save()
+        return self.正規化.create(
+            正規化ê人=正規化ê人,
+            華語=華語,
+            漢字=漢字,
+            羅馬字=羅馬字,
+        )
+
+    @classmethod
+    def 有正規化的(cls):
+        return cls.objects.exclude(推薦華語='')
 #
 #     def 是推薦用字(self):
 #         return self.推薦用字
@@ -80,9 +96,19 @@ class 華台對應表(models.Model):
 #         self.推薦用字 = False
 #         self.save()
 #
-#     def 有人查一擺(self):
-#         self.查幾擺 += 1
-#         self.save()
+
+
+class 正規化表(models.Model):
+    華台對應 = models.ForeignKey(
+        華台對應表, related_name='正規化', on_delete=models.PROTECT
+    )
+    正規化ê人 = models.ForeignKey(
+        使用者表, related_name='+', on_delete=models.PROTECT
+    )
+    華語 = models.CharField(max_length=50)
+    漢字 = models.CharField(max_length=100)
+    羅馬字 = models.CharField(max_length=200)
+
 
 #     @classmethod
 #     def 這句講了按怎(cls, 平臺項目編號, decision):
