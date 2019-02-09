@@ -13,29 +13,27 @@ from 臺灣言語平臺.辭典模型 import 正規化表
 
 
 def 貢獻者表(request):
-    # 2 = 臺灣閩南語常用詞辭典, 269 = 台文華文線頂辭典
-    contributor_dict = {}
-
-    for 華台對應 in 華台對應表.有正規化的().prefetch_related('上傳ê人'):
-        來源名稱 = 華台對應.上傳ê人.名
-        if 來源名稱 in {'台文華文線頂辭典', '臺灣閩南語常用詞辭典'}:
-            continue
-        if 來源名稱 == '匿名':
-            來源名稱 = '沒有人'
-        try:
-            contributor_dict[來源名稱] += 1
-        except KeyError:
-            contributor_dict[來源名稱] = 1
-
+    #     tsuliau.pop('台文華文線頂辭典')
+    #     tsuliau.pop('臺灣閩南語常用詞辭典')
+    #     tsuliau['沒有人'] = tsuliau.pop('匿名')
     result = []
-    for mia, liong in sorted(
-        contributor_dict.items(),
-        key=lambda x: x[1], reverse=True
+    for pit in sorted(
+        (
+            華台對應表.有正規化的()
+            .values(名=F('上傳ê人__名'))
+            .annotate(數量=Count('上傳ê人__名'))
+        ),
+        key=lambda x: (-x['數量'], x['名']),
     ):
-        result.append({
-            '名': mia,
-            '數量': liong,
-        })
+        if pit['名'] in {'台文華文線頂辭典', '臺灣閩南語常用詞辭典'}:
+            continue
+        if pit['名'] == '匿名':
+            result.append({
+                '名': '沒有人',
+                '數量': pit['數量'],
+            })
+        else:
+            result.append(pit)
     return JsonResponse({"名人": result})
 
 
@@ -44,7 +42,7 @@ def 正規化團隊表(request):
         正規化表.objects
         .values(名=F('正規化ê人__名'))
         .annotate(數量=Count('正規化ê人__名')),
-        key=lambda x: x['數量'], reverse=True
+        key=lambda x: (-x['數量'], x['名']),
     )
     return JsonResponse({"名人": 名人})
 
