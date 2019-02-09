@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-from 臺灣言語資料庫.資料模型 import 外語表
-from 臺灣言語資料庫.資料模型 import 影音表
-from 臺灣言語資料庫.資料模型 import 文本表
-from 臺灣言語資料庫.關係模型 import 翻譯影音表
-from 臺灣言語資料庫.關係模型 import 影音文本表
-from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
 import json
@@ -12,9 +6,7 @@ import json
 
 from django.test import TestCase
 from django.urls.base import resolve
-from django.core.cache import cache
 
-from 臺灣言語資料庫.關係模型 import 翻譯文本表
 from 臺灣言語平臺.介面.貢獻者 import 貢獻者表
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.辭典模型 import 華台對應表
@@ -70,7 +62,7 @@ class 查貢獻者表試驗(TestCase):
 
         平臺項目編號 = 回應.json()['平臺項目編號']
         華台 = 華台對應表.揣編號(平臺項目編號)
-        華台.提供正規化(self.正規化的人,'漂亮', '媠', 'sui2')
+        華台.提供正規化(self.正規化的人, '漂亮', '媠', 'sui2')
 
         回應 = self.client.get('/貢獻者表')
         回應Json = 回應.json()
@@ -103,7 +95,7 @@ class 查貢獻者表試驗(TestCase):
             平臺項目編號 = 回應.json()['平臺項目編號']
             華台 = 華台對應表.揣編號(平臺項目編號)
             華台.提供正規化(
-                self.正規化的人,'漂亮',
+                self.正規化的人, '漂亮',
                 正規文本資料[i], 正規音標資料[i]
             )
 
@@ -126,7 +118,7 @@ class 查貢獻者表試驗(TestCase):
 
         平臺項目編號 = 回應.json()['平臺項目編號']
         華台 = 華台對應表.揣編號(平臺項目編號)
-        華台.提供正規化(self.正規化的人,'漂亮', '媠', 'sui2')
+        華台.提供正規化(self.正規化的人, '漂亮', '媠', 'sui2')
 
         回應 = self.client.get('/貢獻者表')
         回應Json = 回應.json()
