@@ -8,9 +8,6 @@ from 臺灣言語平臺.介面.揣外語請教條 import 揣外語請教條
 
 class 揣外語試驗(TestCase):
 
-    def setUp(self):
-        self.鄉民 = 來源表. 加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
-
     def test_有對應函式(self):
         對應 = resolve('/平臺項目列表/揣列表')
         self.assertEqual(對應.func, 揣外語請教條)

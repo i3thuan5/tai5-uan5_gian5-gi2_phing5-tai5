@@ -5,9 +5,6 @@ from django.test import TestCase
 
 class 揣外語的其他建議試驗(TestCase):
 
-    def setUp(self):
-        self.鄉民 = 來源表. 加來源({"名": '鄉民', '出世年': '1950', '出世地': '臺灣', })
-
     def test_揣無(self):
         # 		前端輸入
         回應 = self.client.get('/平臺項目列表/揣列表', {

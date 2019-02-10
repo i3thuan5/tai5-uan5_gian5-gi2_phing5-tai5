@@ -6,6 +6,7 @@ from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.外語請教條 import 外語請教條
 from django.utils.datastructures import MultiValueDictKeyError
 from 臺灣言語平臺.管理.藏華語 import 華語管理表
+from 臺灣言語平臺.辭典模型 import 華台對應表
 
 
 def 揣外語請教條(request):
@@ -60,10 +61,13 @@ def 揣按呢講外語請教條(request):
     except KeyError:
         return Json失敗回應({'錯誤': '無傳關鍵字'})
     符合資料 = []
-    for 外語 in 外語請教條.有按呢講法的外語表(關鍵字):
+    for 華台 in (
+        華台對應表.有正規化的()
+        .filter(Q(使用者漢字=關鍵字) | Q(推薦漢字=關鍵字))
+    ):
         符合資料.append({
-            '外語項目編號': str(外語.平臺項目.編號()),
-            '外語資料': 外語.外語資料,
+            '外語項目編號': str(華台.id),
+            '外語資料': 華台.推薦華語,
         })
     return JsonResponse({'列表': 符合資料})
 

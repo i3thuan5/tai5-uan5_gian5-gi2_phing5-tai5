@@ -37,20 +37,6 @@ class 外語請教條():
         )
 
     @classmethod
-    def 有按呢講法的外語表(cls, 講法):
-        return (
-            cls.objects
-            .filter(
-                Q(翻譯文本__文本__平臺項目__推薦用字=True,
-                  翻譯文本__文本__文本資料=講法) |
-                Q(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True,
-                  翻譯文本__文本__文本校對__新文本__文本資料=講法)
-            )
-            .distinct()
-            .order_by('-pk')
-        )
-
-    @classmethod
     def 揣上新貢獻(cls):
         return (
             cls.objects
