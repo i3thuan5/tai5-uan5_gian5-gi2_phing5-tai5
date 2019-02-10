@@ -23,8 +23,8 @@ class 使用者表管理(BaseUserManager):
 class 使用者表(AbstractBaseUser):
     objects = 使用者表管理()
     來源 = models.OneToOneField(
-        來源表, related_name='使用者', primary_key=True, null=False,
-        on_delete=models.CASCADE
+        來源表, related_name='使用者', null=True,
+        on_delete=models.PROTECT
     )
     名 = models.CharField(max_length=50)
     email = models.EmailField(unique=True, null=False)
@@ -39,8 +39,7 @@ class 使用者表(AbstractBaseUser):
 
     @classmethod
     def 加使用者(cls, email, 來源內容):
-        來源 = 來源表.加來源(來源內容)
-        使用者 = cls.objects.create(email=email, 名=來源內容['名'], 來源=來源)
+        使用者 = cls.objects.create(email=email, 名=來源內容['名'], 來源=None)
         使用者.set_unusable_password()
         return 使用者
 
