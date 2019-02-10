@@ -17,13 +17,11 @@ def 貢獻者表(request):
     #     tsuliau.pop('臺灣閩南語常用詞辭典')
     #     tsuliau['沒有人'] = tsuliau.pop('匿名')
     result = []
-    for pit in sorted(
-        (
-            華台對應表.有正規化的()
-            .values(名=F('上傳ê人__名'))
-            .annotate(數量=Count('上傳ê人__名'))
-        ),
-        key=lambda x: (-x['數量'], x['名']),
+    for pit in (
+        華台對應表.有正規化的()
+        .values(名=F('上傳ê人__名'))
+        .annotate(數量=Count('上傳ê人__名'))
+        .order_by('-數量', '名')
     ):
         if pit['名'] in {'台文華文線頂辭典', '臺灣閩南語常用詞辭典'}:
             continue
@@ -38,11 +36,11 @@ def 貢獻者表(request):
 
 
 def 正規化團隊表(request):
-    名人 = sorted(
+    名人 = list(
         正規化表.objects
         .values(名=F('正規化ê人__名'))
-        .annotate(數量=Count('正規化ê人__名')),
-        key=lambda x: (-x['數量'], x['名']),
+        .annotate(數量=Count('正規化ê人__名'))
+        .order_by('-數量', '名')
     )
     return JsonResponse({"名人": 名人})
 
