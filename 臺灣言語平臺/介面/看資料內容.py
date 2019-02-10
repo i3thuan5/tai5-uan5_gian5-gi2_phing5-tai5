@@ -28,27 +28,6 @@ def 看資料詳細內容(request):
     })
 
 
-def 看來源內容(request):
-    try:
-        來源編號 = request.GET['來源編號']
-    except KeyError:
-        return Json失敗回應({'錯誤': '沒有來源編號的參數'})
-    try:
-        來源 = 來源表.objects.get(pk=來源編號)
-    except ObjectDoesNotExist:
-        return Json失敗回應({'錯誤': '這不是合法的來源編號'})
-    來源內容 = {
-        '名': 來源.名,
-        '屬性內容': 來源.屬性內容(),
-    }
-    try:
-        來源內容['email'] = 來源.使用者.email
-        來源內容['分數'] = 來源.使用者.分數
-    except Exception:
-        pass
-    return JsonResponse(來源內容)
-
-
 def 投票(request):
     try:
         平臺項目編號 = request.POST['平臺項目編號']

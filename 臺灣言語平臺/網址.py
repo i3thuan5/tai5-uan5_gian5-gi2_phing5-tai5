@@ -7,7 +7,6 @@ from 臺灣言語平臺.介面.加資料 import 加外語請教條
 from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
 from 臺灣言語平臺.介面.揣外語請教條 import 揣外語請教條
 from 臺灣言語平臺.介面.看資料內容 import 看資料詳細內容
-from 臺灣言語平臺.介面.看資料內容 import 看來源內容
 from 臺灣言語平臺.介面.看資料內容 import 投票
 from 臺灣言語平臺.介面.登出入 import 登入狀況
 from 臺灣言語平臺.介面.fb登入sdk import FB登入SDK
