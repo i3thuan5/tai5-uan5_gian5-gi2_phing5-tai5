@@ -35,14 +35,8 @@ class 看資料詳細內容試驗(TestCase):
 # 		前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = json.loads(回應.content.decode("utf-8"))
-        self.assertIn('收錄者', 回應資料)
-        self.assertIn('來源', 回應資料)
-        self.assertIn('收錄時間', 回應資料)
-        self.assertIn('種類', 回應資料)
-        self.assertIn('版權', 回應資料)
-        self.assertIn('著作所在地', 回應資料)
-        self.assertIn('著作年', 回應資料)
-        self.assertIn('屬性內容', 回應資料)
+        self.assertIn('按呢講好', 回應資料)
+        self.assertIn('按呢無好', 回應資料)
 
     def test_資料攏無(self):
         # 		前端輸入

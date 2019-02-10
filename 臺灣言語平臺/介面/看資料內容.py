@@ -1,9 +1,11 @@
 from dateutil import tz
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.expressions import F
 from django.http.response import JsonResponse
 
 
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
-from django.core.exceptions import ObjectDoesNotExist
+from 臺灣言語平臺.辭典模型 import 華台對應表
 
 _臺北時間 = tz.gettz('Asia/Taipei')
 _時間輸出樣式 = '%Y-%m-%d %H:%M:%S'
@@ -35,7 +37,11 @@ def 投票(request):
     except KeyError:
         return Json失敗回應({'錯誤': '沒有平臺項目的編號'})
     try:
-        rows_affect = 平臺項目表.這句講了按怎(平臺項目編號, decision)
+        華台 = 華台對應表.objects.filter(pk=平臺項目編號)
+        if decision in ['按呢講好', '按呢無好', ]:
+            rows_affect = 華台.update(按呢講好=F(decision) + 1)
+        else:
+            raise ValueError()
     except ValueError:
         return Json失敗回應({'錯誤': 'decision傳錯了'})
     return JsonResponse({
