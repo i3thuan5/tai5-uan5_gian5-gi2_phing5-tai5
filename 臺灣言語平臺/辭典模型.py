@@ -71,8 +71,8 @@ class 華台對應表(models.Model):
 
     def 提供正規化(self, 正規化ê人, 華語, 漢字, 羅馬字):
         self.推薦華語 = 華語
-        self.漢字 = 漢字
-        self.羅馬字 = 羅馬字
+        self.推薦漢字 = 漢字
+        self.推薦羅馬字 = 羅馬字
         self.save()
         return self.正規化.create(
             正規化ê人=正規化ê人,
@@ -84,18 +84,6 @@ class 華台對應表(models.Model):
     @classmethod
     def 有正規化的(cls):
         return cls.objects.exclude(推薦華語='')
-#
-#     def 是推薦用字(self):
-#         return self.推薦用字
-#
-#     def 設為推薦用字(self):
-#         self.推薦用字 = True
-#         self.save()
-#
-#     def 取消推薦用字(self):
-#         self.推薦用字 = False
-#         self.save()
-#
 
 
 class 正規化表(models.Model):
