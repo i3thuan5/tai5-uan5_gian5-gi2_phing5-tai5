@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from 臺灣言語資料庫.資料模型 import 來源表
 
 
 class 揣外語的其他建議試驗(TestCase):

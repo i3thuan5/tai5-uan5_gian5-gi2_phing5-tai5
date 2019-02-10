@@ -4,7 +4,6 @@ from django.http.response import JsonResponse
 
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.外語請教條 import 外語請教條
-from 臺灣言語資料庫.資料模型 import 文本表
 from django.utils.datastructures import MultiValueDictKeyError
 from 臺灣言語平臺.管理.藏華語 import 華語管理表
 

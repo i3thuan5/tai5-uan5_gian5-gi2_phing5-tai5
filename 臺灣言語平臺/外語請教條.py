@@ -4,11 +4,7 @@ from django.db.models.aggregates import Max
 from django.db.models.query_utils import Q
 
 
-from 臺灣言語資料庫.資料模型 import 外語表
-from 臺灣言語資料庫.資料模型 import 文本表
-
-
-class 外語請教條(外語表):
+class 外語請教條():
 
     class Meta:
         proxy = True

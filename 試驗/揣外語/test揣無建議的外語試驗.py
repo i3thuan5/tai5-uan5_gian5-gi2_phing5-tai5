@@ -5,7 +5,6 @@ from django.test import TestCase
 from django.urls.base import resolve
 
 
-from 臺灣言語資料庫.資料模型 import 來源表
 from 臺灣言語平臺.介面.揣外語請教條 import 揣無建議的外語
 
 
