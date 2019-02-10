@@ -6,8 +6,6 @@ import wave
 from django.urls.base import resolve
 from django.test import TestCase
 
-
-from 臺灣言語平臺.項目模型 import 平臺項目表
 from 臺灣言語平臺.介面.看資料內容 import 看資料詳細內容
 
 
