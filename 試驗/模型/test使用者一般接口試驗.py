@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
+from unittest.case import skip
+from unittest.mock import Mock
+
 from django.http.request import HttpRequest
 from django.test import TestCase
-from unittest.mock import Mock
 
 
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.使用者模型 import 使用者一般接口
 
 
+@skip('才閣決定欲用預設--ê--無')
 class 使用者一般接口試驗(TestCase):
 
     def setUp(self):

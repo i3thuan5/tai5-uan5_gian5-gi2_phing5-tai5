@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase
-from 臺灣言語平臺.使用者模型 import 使用者表管理
 from datetime import datetime
+from unittest.case import skip
 from unittest.mock import patch
+
+from django.test import TestCase
 from django.utils import timezone
+from 臺灣言語平臺.使用者模型 import 使用者表管理
 
 
+@skip('才閣決定欲用預設--ê--無')
 class 使用者表管理試驗(TestCase):
 
     def setUp(self):

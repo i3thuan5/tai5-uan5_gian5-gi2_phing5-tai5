@@ -6,6 +6,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.辭典模型 import 華語表
 from 臺灣言語平臺.辭典模型 import 華台對應表
+from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 失敗的json回應(Json失敗回應):
@@ -25,11 +26,6 @@ class 成功的json回應(JsonResponse):
 
 
 def 加外語請教條(request):
-    if request.user.is_authenticated:
-        上傳ê人 = request.user
-    else:
-        上傳ê人 = 來源表.objects.get(名='匿名').使用者
-
     try:
         使用者華語 = request.POST['外語資料'].strip()
     except MultiValueDictKeyError:
@@ -45,7 +41,7 @@ def 外語加新詞文本(request):
     if request.user.is_authenticated:
         上傳ê人 = request.user
     else:
-        上傳ê人 = 來源表.objects.get(名='匿名').使用者
+        上傳ê人 = 使用者表.objects.get_or_create(名='無人')[0]
     try:
         漢字 = request.POST['文本資料'].strip()
         羅馬字 = request.POST['音標資料'].strip()
