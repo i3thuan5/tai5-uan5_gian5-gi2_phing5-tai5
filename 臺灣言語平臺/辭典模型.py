@@ -60,7 +60,7 @@ class 華台對應表(models.Model):
     按呢無好 = models.IntegerField(default=0)
 
     def __str__(self):
-        return '{} => {}/{}'.format(self.華語, self.使用者漢字, self.使用者羅馬字)
+        return '{} => {}/{}'.format(self.使用者華語, self.使用者漢字, self.使用者羅馬字)
 
     def 編號(self):
         return self.pk

@@ -11,6 +11,17 @@ from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 揣外語試驗(TestCase):
+    def setUp(self):
+        self.貢獻者 = 使用者表.加使用者(
+            'contributor@itaigi.tw',
+            {'名': '貢獻者1號', '出世年': '1987', '出世地': '臺灣', }
+        )
+        self.貢獻者.set_password('Phoo-bun')
+        self.貢獻者.save()
+        self.pigu = 使用者表.加使用者(
+            'tsingkuihua@itaigi.tw',
+            {'名': 'pigu', '出世年': '1987', '出世地': '臺灣', }
+        )
 
     def test_有對應函式(self):
         對應 = resolve('/平臺項目列表/揣列表')
@@ -69,7 +80,7 @@ class 揣外語試驗(TestCase):
                     '新詞文本項目編號': str(華台漂亮編號),
                     '文本資料': '媠',
                     '音標資料': 'sui2',
-                    '貢獻者': '匿名',
+                    '貢獻者': '無人',
                 }
             ]
         }])
@@ -93,6 +104,7 @@ class 揣外語試驗(TestCase):
 
     def test_貢獻者愛是頭一个文本的來源(self):
         漂亮編號 = self.資料庫加外語('漂亮')
+        self.client.force_login(self.貢獻者)
         華台漂亮編號 = self.華台對應(漂亮編號)
         self.台語有正規化(華台漂亮編號)
 #         前端輸入
@@ -102,7 +114,7 @@ class 揣外語試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['列表'][0]['新詞文本'][0]['貢獻者'], 'pigu')
+        self.assertEqual(回應資料['列表'][0]['新詞文本'][0]['貢獻者'], '貢獻者1號')
 
     def test_人講好就排頭前(self):
         水母編號 = self.資料庫加外語('水母')
@@ -112,8 +124,8 @@ class 揣外語試驗(TestCase):
         䖳文本.按呢講好 += 1
         䖳文本.save()
 
-        華台水母編號 = self.華台對應(水母編號)
-        self.台語有正規化(華台水母編號, '水母')
+        華台水母編號 = self.華台對應(水母編號, '水母')
+        self.台語有正規化(華台水母編號)
         水母文本 = 華台對應表.揣編號(華台水母編號)
         水母文本.按呢無好 += 1
         水母文本.save()
@@ -165,9 +177,5 @@ class 揣外語試驗(TestCase):
 
     def 台語有正規化(self, 華台項目編號):
         華台 = 華台對應表.揣編號(華台項目編號)
-        pigu = 使用者表.加使用者(
-            'tsingkuihua@itaigi.tw',
-            {'名': 'pigu', '出世年': '1987', '出世地': '臺灣', }
-        )
-        華台.提供正規化(pigu, '漂亮', '媠', 'sui2')
+        華台.提供正規化(self.pigu, 華台.使用者華語, 華台.使用者漢字, 華台.使用者羅馬字)
         return 華台項目編號
