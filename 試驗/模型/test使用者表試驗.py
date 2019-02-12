@@ -5,8 +5,10 @@ from django.test import TestCase
 
 
 from 臺灣言語平臺.使用者模型 import 使用者表
+from unittest.case import skip
 
 
+@skip('才閣決定欲用預設--ê--無')
 class 使用者表試驗(TestCase):
 
     def test_有名email佮來源(self):
