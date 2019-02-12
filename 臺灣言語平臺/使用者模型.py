@@ -35,7 +35,7 @@ class 使用者表(AbstractBaseUser):
 # 	階級 = models.IntegerField() 用函式算好矣
 
     def 編號(self):
-        return self.來源.編號()
+        return self.id
 
     @classmethod
     def 加使用者(cls, email, 來源內容):
@@ -79,13 +79,13 @@ class 使用者表(AbstractBaseUser):
         return self.is_staff
 
     def __str__(self):
-        return self.來源.名 + self.email
+        return self.名 + self.email
 
     def get_full_name(self):
-        return self.來源.名
+        return self.名
 
     def get_short_name(self):
-        return self.來源.名
+        return self.名
 
 
 class 使用者一般接口(DefaultAccountAdapter):
