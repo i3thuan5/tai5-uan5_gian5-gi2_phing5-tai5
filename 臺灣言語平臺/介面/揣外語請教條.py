@@ -1,7 +1,6 @@
 from django.db.models.query_utils import Q
 from django.http.response import JsonResponse
 
-
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.管理.藏華語 import 華語管理表
 from 臺灣言語平臺.辭典模型 import 華台對應表
@@ -13,7 +12,7 @@ def 揣外語請教條(request):
         外語資料 = request.GET['關鍵字']
     except KeyError:
         return Json失敗回應({'錯誤': '無傳關鍵字'})
-    
+
     新詞文本 = []
     for 華台對應 in (
         華台對應表.有正規化的().filter(推薦華語=外語資料)
@@ -79,9 +78,12 @@ def 揣按呢講外語請教條(request):
 
 def 揣上新貢獻的外語請教條(request):
     符合資料 = []
-    for 外語 in 外語請教條.揣上新貢獻()[:100]:
+    for 推薦華語 in (
+        華台對應表.有正規化的().order_by('-修改時間')
+        .distinct()
+        .values_list('推薦華語', flat=True)[:100]
+    ):
         符合資料.append({
-            '外語項目編號': str(外語.平臺項目.編號()),
-            '外語資料': 外語.外語資料,
+            '外語資料': 推薦華語,
         })
     return JsonResponse({'列表': 符合資料})
