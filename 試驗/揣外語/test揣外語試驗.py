@@ -4,13 +4,18 @@ import json
 from django.test import TestCase
 from django.urls.base import resolve
 
-
 from 臺灣言語平臺.介面.揣外語請教條 import 揣外語請教條
 from 臺灣言語平臺.辭典模型 import 華台對應表
 from 臺灣言語平臺.使用者模型 import 使用者表
 
 
 class 揣外語試驗(TestCase):
+
+    def setUp(self):
+        self.pigu = 使用者表.加使用者(
+            'tsingkuihua@itaigi.tw',
+            {'名': 'pigu', '出世年': '1987', '出世地': '臺灣', }
+        )
 
     def test_有對應函式(self):
         對應 = resolve('/平臺項目列表/揣列表')
@@ -165,9 +170,5 @@ class 揣外語試驗(TestCase):
 
     def 台語有正規化(self, 華台項目編號):
         華台 = 華台對應表.揣編號(華台項目編號)
-        pigu = 使用者表.加使用者(
-            'tsingkuihua@itaigi.tw',
-            {'名': 'pigu', '出世年': '1987', '出世地': '臺灣', }
-        )
-        華台.提供正規化(pigu,  華台.使用者華語 , 華台.使用者漢字 , 華台.使用者羅馬字)
+        華台.提供正規化(self.pigu, 華台.使用者華語 , 華台.使用者漢字 , 華台.使用者羅馬字)
         return 華台項目編號
