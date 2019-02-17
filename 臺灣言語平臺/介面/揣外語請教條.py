@@ -47,7 +47,6 @@ def 揣外語請教條(request):
         .values(文本資料=F('推薦漢字'), 音標資料=F('推薦羅馬字'))
         .distinct()
     )
-
     return JsonResponse({'列表': 符合資料, '其他建議': 其他建議資料})
 
 
