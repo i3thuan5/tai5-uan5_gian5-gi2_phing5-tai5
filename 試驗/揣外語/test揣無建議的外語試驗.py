@@ -54,6 +54,8 @@ class 揣無建議的外語試驗(TestCase):
         self.assertEqual(回應資料['列表'][1]['外語資料'], '水母')
 
     def test_照熱門排(self):
+        self.client.post('/平臺項目/加外語', {'外語資料': '頭腦'})
+        self.client.post('/平臺項目/加外語', {'外語資料': '水母'})
         self.client.post('/平臺項目/加外語', {'外語資料': '水母'})
         self.client.post('/平臺項目/加外語', {'外語資料': '水母'})
         self.client.post('/平臺項目/加外語', {'外語資料': '頭腦'})

@@ -5,7 +5,6 @@ from django.db.models.expressions import F
 from django.utils import timezone
 
 
-# from django.db.models import F
 from 臺灣言語平臺.使用者模型 import 使用者表
 
 
@@ -24,8 +23,9 @@ class 華語表資料(models.QuerySet):
 
 
 class 華語表(models.Model):
+    objects = 華語表資料.as_manager()
+
     使用者華語 = models.CharField(max_length=50)
-#     推薦華語 = models.CharField(max_length=50)
 
     上傳時間 = models.DateTimeField(default=timezone.now)
     修改時間 = models.DateTimeField(auto_now=True)
@@ -38,9 +38,8 @@ class 華語表(models.Model):
     def 揣編號(cls, 編號):
         return cls.objects.get(pk=編號)
 
-    @classmethod
-    def 有人查(cls):
-        cls.objects.update(新舊=F('新舊') + 1)
+    def 有人查(self):
+        self.__class__.objects.filter(id=self.id).有人查()
 
 
 class 華台對應表(models.Model):

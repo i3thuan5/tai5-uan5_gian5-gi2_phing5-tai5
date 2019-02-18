@@ -51,7 +51,7 @@ def 揣外語請教條(request):
 
 def 揣無建議的外語(request):
     符合資料 = []
-    for 外語值 in 華語管理表.objects.values('pk', '使用者華語'):
+    for 外語值 in 華語管理表.objects.order_by('-新舊').values('pk', '使用者華語'):
         符合資料.append({
             '外語項目編號': str(外語值['pk']),
             '外語資料': 外語值['使用者華語'],
