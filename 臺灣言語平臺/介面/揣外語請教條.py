@@ -40,7 +40,9 @@ def 揣外語請教條(request):
         )
         .filter(
             Q(推薦華語__contains=外語資料) |
-            Q(推薦漢字__contains=外語資料)
+            Q(推薦漢字__contains=外語資料) |
+            Q(使用者華語__contains=外語資料) |
+            Q(使用者漢字__contains=外語資料)
         )
         .order_by('推薦漢字', '推薦羅馬字')
         .values(文本資料=F('推薦漢字'), 音標資料=F('推薦羅馬字'))
