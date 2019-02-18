@@ -5,7 +5,6 @@ python:
 env:
 - TOX_ENV=TDD
 - TOX_ENV=BDD
-- TOX_ENV=RegularSheetTest
 - TOX_ENV=flake8
 addons:
   apt:

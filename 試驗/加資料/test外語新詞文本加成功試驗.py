@@ -7,7 +7,6 @@ from django.test import TestCase
 from 臺灣言語平臺.介面.加資料 import 外語加新詞文本
 from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.辭典模型 import 華台對應表
-from unittest.case import skip
 
 
 class 外語新詞文本加成功試驗(TestCase):
@@ -69,48 +68,6 @@ class 外語新詞文本加成功試驗(TestCase):
         文本 = 華台對應表.揣編號(編號)
         self.assertEqual(文本.使用者漢字, '媠')
         self.assertEqual(文本.使用者羅馬字, 'sui2')
-
-    @skip('á未整理')
-    def test_來源自己(self):
-        回應 = self.client.post(
-            '/平臺項目/加新詞文本', {
-                '外語項目編號': self.外語項目編號,  # 針對哪一個外語的母語文本
-                '來源': json.dumps('自己'),  # 可用「自己」，會把來源指向自己
-                '文本資料': '媠',
-                '音標資料': 'sui2',
-            }
-        )
-        self.assertEqual(回應.status_code, 200)
-        回應資料 = 回應.json()
-        self.assertIn('平臺項目編號', 回應資料)
-# 		後端資料庫檢查
-        編號 = int(回應資料['平臺項目編號'])
-
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.外語.翻譯文本.get(文本=文本)
-        self.assertEqual(文本.收錄者.使用者, self.鄉民)
-        self.assertEqual(文本.來源.使用者, self.鄉民)
-
-    @skip('á未整理')
-    def test_來源名自己(self):
-        回應 = self.client.post(
-            '/平臺項目/加新詞文本', {
-                '外語項目編號': self.外語項目編號,
-                '來源': json.dumps({'名': '自己'}),  # 當作一个人叫做「自己」
-                '文本資料': '媠',
-                '音標資料': 'sui2',
-            }
-        )
-        self.assertEqual(回應.status_code, 200)
-        回應資料 = 回應.json()
-        self.assertIn('平臺項目編號', 回應資料)
-# 		後端資料庫檢查
-        編號 = int(回應資料['平臺項目編號'])
-
-        文本 = 平臺項目表.objects.get(pk=編號).文本
-        self.外語.翻譯文本.get(文本=文本)
-        self.assertEqual(文本.收錄者.使用者, self.鄉民)
-        self.assertEqual(文本.來源.名, '自己')
 
     def test_無登入嘛ēsái(self):
         self.client.logout()

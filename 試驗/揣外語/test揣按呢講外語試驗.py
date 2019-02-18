@@ -87,6 +87,7 @@ class 揣按呢講外語試驗(TestCase):
             '外語項目編號': str(華台項目編號),
             '外語資料': '漂亮'
         }])
+
     def test_文本有閣校對過就揣會著(self):
         外語回應 = self.client.post(
             '/平臺項目/加外語', {

@@ -4,7 +4,6 @@ import json
 from django.test import TestCase
 
 
-from 臺灣言語平臺.使用者模型 import 使用者表
 from 臺灣言語平臺.辭典模型 import 華台對應表
 
 
