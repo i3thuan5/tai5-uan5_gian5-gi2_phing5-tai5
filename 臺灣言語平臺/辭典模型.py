@@ -6,6 +6,7 @@ from django.utils import timezone
 
 
 from 臺灣言語平臺.使用者模型 import 使用者表
+from 臺灣言語資料庫.資料模型 import 文本表
 
 
 class 華語表資料(models.QuerySet):
@@ -54,10 +55,14 @@ class 華台對應表(models.Model):
     推薦羅馬字 = models.CharField(max_length=200, blank=True)
 
     上傳時間 = models.DateTimeField(auto_now_add=True)
-    default = timezone.now
     修改時間 = models.DateTimeField(auto_now=True)
     按呢講好 = models.IntegerField(default=0)
     按呢無好 = models.IntegerField(default=0)
+
+    舊文本 = models.ForeignKey(
+        文本表, related_name='+',
+        null=True, on_delete=models.SET_NULL
+    )
 
     def __str__(self):
         return '{} => {}/{}'.format(self.使用者華語, self.使用者漢字, self.使用者羅馬字)
