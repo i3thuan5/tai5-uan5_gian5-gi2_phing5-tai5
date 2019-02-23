@@ -10,10 +10,11 @@ from 臺灣言語平臺.使用者模型 import 使用者表
 
 class 華語表資料(models.QuerySet):
     #         .95 ** 60 == 0.046
-    偌新才顯示 = .05
+    降ê速度 = 0.9
+    偌新才顯示 = 降ê速度**15
 
     def 過一工(self):
-        self.update(新舊=F('新舊') * 0.95)
+        self.update(新舊=F('新舊') * self.降ê速度)
 
     def 有人查(self):
         self.update(新舊=F('新舊') + 1)

@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 def forwards_func(apps, schema_editor):
-    #     使用者表 = apps.get_model("臺灣言語", "使用者表")
     使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
     for 使用者 in 使用者表.objects.all().select_related('來源'):
         使用者.id = 使用者.來源.id
