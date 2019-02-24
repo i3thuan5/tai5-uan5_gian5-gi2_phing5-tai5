@@ -29,7 +29,7 @@ def forwards_func(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('臺灣言語平臺', '0016_使用者pk換做id'),
+        ('臺灣言語平臺', '0016_使用者表_舊來源換來源'),
     ]
 
     operations = [
