@@ -19,9 +19,9 @@ def forwards_func(apps, schema_editor):
         .distinct()
     ):
         try:
-            tsuanpoo.append(華語表(使用者華語=外語.外語資料,新舊=外語.平臺項目.查幾擺))
+            tsuanpoo.append(華語表(使用者華語=外語.外語資料[:50],新舊=外語.平臺項目.查幾擺))
         except ObjectDoesNotExist:
-            tsuanpoo.append(華語表(使用者華語=外語.外語資料,新舊=1))
+            tsuanpoo.append(華語表(使用者華語=外語.外語資料[:50],新舊=1))
             
     華語表.objects.bulk_create(tsuanpoo)
 
