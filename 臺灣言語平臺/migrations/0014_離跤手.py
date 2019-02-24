@@ -6,8 +6,15 @@ import django.db.models.deletion
 import django.utils.timezone
 
 
-class Migration(migrations.Migration):
+def forwards_func(apps, schema_editor):
+    使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
+    for 使用者 in 使用者表.objects.all():
+        使用者.舊來源 = 使用者.來源
+        使用者.名 = 使用者.來源.名
+        使用者.save()
 
+
+class Migration(migrations.Migration):
     dependencies = [
         ('臺灣言語平臺', '0013_平臺項目表_查幾擺'),
     ]
@@ -16,7 +23,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='正規化表',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('華語', models.CharField(max_length=50)),
                 ('漢字', models.CharField(max_length=100)),
                 ('羅馬字', models.CharField(max_length=200)),
@@ -25,7 +33,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='華台對應表',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('使用者華語', models.CharField(max_length=50)),
                 ('使用者漢字', models.CharField(max_length=100)),
                 ('使用者羅馬字', models.CharField(max_length=200)),
@@ -77,38 +86,42 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='使用者表',
-            name='id',
-            field=models.IntegerField(default=1, serialize=False, verbose_name='ID'),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='使用者表',
             name='名',
             field=models.CharField(default='Miâ', max_length=50),
             preserve_default=False,
         ),
+        migrations.AddField(
+            model_name='使用者表',
+            name='舊來源',
+            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='使用者', to='臺灣言語資料庫.來源表'),
+        ),
         migrations.AlterField(
             model_name='使用者表',
             name='來源',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.PROTECT, primary_key=True, related_name='使用者', serialize=False, to='臺灣言語資料庫.來源表'),
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='臺灣言語資料庫.來源表'),
         ),
+        migrations.RunPython(forwards_func, lambda x:x),
         migrations.DeleteModel(
             name='正規化sheet表',
         ),
         migrations.AddField(
             model_name='華台對應表',
             name='上傳ê人',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='+', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT,
+                                    related_name='+', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='正規化表',
             name='正規化ê人',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='+', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT,
+                                    related_name='+', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='正規化表',
             name='華台對應',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='正規化', to='臺灣言語平臺.華台對應表'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT, related_name='正規化', to='臺灣言語平臺.華台對應表'),
         ),
         migrations.CreateModel(
             name='華語管理表',
