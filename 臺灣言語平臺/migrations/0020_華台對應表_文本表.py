@@ -21,7 +21,7 @@ def forwards_func(apps, schema_editor):
         try:
             使用者 = 文本.來源.使用者
         except ObjectDoesNotExist:
-            使用者 = 無人
+            使用者 = 使用者表.objects.get_or_create(名=文本.來源.名)[0]
         if hasattr(文本, '平臺項目') and 文本.平臺項目.推薦用字:
             華台 = 華台對應表(
                 上傳ê人=使用者,
@@ -53,7 +53,7 @@ def forwards_func(apps, schema_editor):
                 按呢無好=新文本.平臺項目.按呢無好
             )
             華台.正規化.create(
-                正規化ê人=新文本.來源.使用者,
+                正規化ê人=使用者表.objects.get_or_create(名=新文本.來源.名)[0],
                 華語=文本.來源外語.外語,
                 漢字=新文本.文本資料,
                 羅馬字=新文本.音標資料,
