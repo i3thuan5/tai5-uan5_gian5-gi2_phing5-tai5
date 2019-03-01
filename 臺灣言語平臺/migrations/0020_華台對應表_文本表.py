@@ -38,7 +38,7 @@ def forwards_func(apps, schema_editor):
             )
             tsuanpoo.append(華台)
         elif 文本.文本校對.exists():
-            新文本 = 文本.文本校對.新文本
+            新文本 = 文本.文本校對.get().新文本
             華台 = 華台對應表.objects.create(
                 上傳ê人=使用者,
                 使用者華語=文本.來源外語.外語,
