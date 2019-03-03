@@ -16,18 +16,8 @@ def khok去使用者表(apps, schema_editor):
 
 def 設定使用者表ê名(apps, schema_editor):
     使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
-    pio = {}
-    for 使用者 in 使用者表.objects.all():
-        名 = 使用者.來源.名
-        try:
-            pio[名] += 1
-        except KeyError:
-            pio[名] = 1
-
-    print(sorted(pio.items(), key=lambda x: x[::-1]))
-
     for 使用者 in 使用者表.objects.select_related('來源'):
-        if not 使用者表.objects.filter(名=使用者.名).exists():
+        if not 使用者表.objects.filter(名=使用者.來源.名).exists():
             使用者.名 = 使用者.來源.名
             使用者.save()
         else:
