@@ -33,5 +33,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(forwards_func, lambda x:x),
+        migrations.RunPython(forwards_func, lambda _x,_y:None),
     ]
