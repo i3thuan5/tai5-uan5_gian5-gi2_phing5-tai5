@@ -26,7 +26,7 @@ class 使用者表(AbstractBaseUser):
         來源表, related_name='使用者', null=True,
         on_delete=models.PROTECT
     )
-    名 = models.CharField(max_length=50)
+    名 = models.CharField(unique=True,max_length=50)
     email = models.EmailField(null=True)
     註冊時間 = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)  # for admin

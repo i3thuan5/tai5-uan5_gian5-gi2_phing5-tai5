@@ -6,10 +6,16 @@ import django.db.models.deletion
 import django.utils.timezone
 
 
-def forwards_func(apps, schema_editor):
+def khok去使用者表(apps, schema_editor):
+    使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
+    for 使用者 in 使用者表.objects.select_related('來源'):
+        使用者.舊來源 = 使用者.來源
+        使用者.名 = '{} {}'.format(使用者.來源.id,使用者.來源.名)
+        使用者.save()
+
+def 設定使用者表ê名(apps, schema_editor):
     使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
     for 使用者 in 使用者表.objects.all():
-        使用者.舊來源 = 使用者.來源
         使用者.名 = 使用者.來源.名
         使用者.save()
 
@@ -101,7 +107,13 @@ class Migration(migrations.Migration):
             field=models.OneToOneField(
                 on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='臺灣言語資料庫.來源表'),
         ),
-        migrations.RunPython(forwards_func, lambda x:x),
+        migrations.RunPython(khok去使用者表, lambda x:x),
+        migrations.AlterField(
+            model_name='使用者表',
+            name='名',
+            field=models.CharField(max_length=50, unique=True),
+        ),
+        migrations.RunPython(設定使用者表ê名, lambda x:x),
         migrations.DeleteModel(
             name='正規化sheet表',
         ),
