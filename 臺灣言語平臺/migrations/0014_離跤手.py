@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
-from django.db.utils import IntegrityError
+from django.core.exceptions import ValidationError
 
 
 def khok去使用者表(apps, schema_editor):
@@ -17,12 +17,14 @@ def khok去使用者表(apps, schema_editor):
 
 def 設定使用者表ê名(apps, schema_editor):
     使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
-    for 使用者 in 使用者表.objects.all():
+    for 使用者 in 使用者表.objects.select_related('來源'):
         try:
             使用者.名 = 使用者.來源.名
+            使用者.full_clean()
             使用者.save()
-        except IntegrityError:
+        except ValidationError:
             使用者.名 = '{} {}'.format(使用者.來源.名, ':)')
+            使用者.full_clean()
             使用者.save()
 
 
