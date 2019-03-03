@@ -4,20 +4,26 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
+from django.db.utils import IntegrityError
 
 
 def khok去使用者表(apps, schema_editor):
     使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
     for 使用者 in 使用者表.objects.select_related('來源'):
         使用者.舊來源 = 使用者.來源
-        使用者.名 = '{} {}'.format(使用者.來源.id,使用者.來源.名)
+        使用者.名 = '{} {}'.format(使用者.來源.id, 使用者.來源.名)
         使用者.save()
+
 
 def 設定使用者表ê名(apps, schema_editor):
     使用者表 = apps.get_model("臺灣言語平臺", "使用者表")
     for 使用者 in 使用者表.objects.all():
-        使用者.名 = 使用者.來源.名
-        使用者.save()
+        try:
+            使用者.名 = 使用者.來源.名
+            使用者.save()
+        except IntegrityError:
+            使用者.名 = '{} {}'.format(使用者.來源.名, ':)')
+            使用者.save()
 
 
 class Migration(migrations.Migration):
