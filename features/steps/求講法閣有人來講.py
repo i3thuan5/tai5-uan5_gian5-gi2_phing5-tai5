@@ -1,6 +1,7 @@
 from behave import when, then, step
-from 臺灣言語平臺.項目模型 import 平臺項目表
-from django.core.exceptions import ObjectDoesNotExist
+from 臺灣言語平臺.使用者模型 import 使用者表
+from 臺灣言語平臺.辭典模型 import 華台對應表
+from 臺灣言語平臺.辭典模型 import 華語表
 
 
 @then('無建議的詞內底無物件')
@@ -30,14 +31,14 @@ def 無建議的詞內底有物件(context):
 @step('有人答 {講法} 的講法')
 def 有人答的講法(context, 講法):
     try:
-        平臺項目編號 = 平臺項目表.objects.get(外語__isnull=False).編號()
-    except ObjectDoesNotExist:
-        外語回應 = context.test.client.post('/平臺項目/加外語', {'外語資料': '豬'})
-        平臺項目編號 = 外語回應.json()['平臺項目編號']
+        華語編號 = 華語表.objects.get().編號()
+    except Exception:
+        華語編號 = 華語表.objects.create(使用者華語=講法).編號()
     回應 = context.test.client.post(
         '/平臺項目/加新詞文本', {
-            '外語項目編號': 平臺項目編號,  # 針對哪一個外語的母語文本
-            '文本資料': 講法,  # 錄製的文本檔，檔案型態
+            '外語項目編號': 華語編號,
+            '文本資料': 講法,
+            '音標資料': 講法,
         }
     )
     context.test.assertEqual(回應.status_code, 200)
@@ -46,15 +47,17 @@ def 有人答的講法(context, 講法):
 
 @when('有人正規化 {講法} 的講法')
 def 有人校對講法(context, 講法):
-    平臺項目表.揣編號(context.文本編號).設為推薦用字()
+    有人正規化做(context, 講法, 講法)
 
 
 @when('有人共 {原本} 的講法正規化做 {正規化}')
 def 有人正規化做(context, 原本, 正規化):
-    平臺項目表.對正規化sheet校對母語文本(
-        平臺項目表.objects.get(文本__isnull=False).編號(),
-        '工程師', 正規化, ''
+    華台 = 華台對應表.objects.get(使用者漢字=原本)
+    _pigu = 使用者表.加使用者(
+        'tsingkuihua@itaigi.tw',
+        {'名': 'pigu', '出世年': '1987', '出世地': '臺灣', }
     )
+    華台.提供正規化(_pigu, 華台.使用者華語, 正規化, 華台.使用者羅馬字)
 
 
 @then('查 豬 會當揣著 豬仔')
@@ -72,4 +75,8 @@ def 會當揣著其他建議(context, 關鍵字, 講法):
 @then(u'查 {關鍵字} 揣袂著其他建議 {講法}')
 def 揣袂著其他建議(context, 關鍵字, 講法):
     其他建議 = context.test.client.get('/平臺項目列表/揣列表', {'關鍵字': 關鍵字}).json()['其他建議']
+
+    print(華台對應表.objects.all().values())
+    print(關鍵字, context.test.client.get('/平臺項目列表/揣列表', {'關鍵字': 關鍵字}).json())
+
     context.test.assertEqual(len(其他建議), 0)

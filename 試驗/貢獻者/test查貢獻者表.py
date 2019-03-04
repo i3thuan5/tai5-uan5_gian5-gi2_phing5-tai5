@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-from 臺灣言語資料庫.資料模型 import 外語表
-from 臺灣言語資料庫.資料模型 import 影音表
-from 臺灣言語資料庫.資料模型 import 文本表
-from 臺灣言語資料庫.關係模型 import 翻譯影音表
-from 臺灣言語資料庫.關係模型 import 影音文本表
-from 臺灣言語平臺.項目模型 import 平臺項目表
 
 
 import json
@@ -12,11 +6,10 @@ import json
 
 from django.test import TestCase
 from django.urls.base import resolve
-from django.core.cache import cache
 
-from 臺灣言語資料庫.關係模型 import 翻譯文本表
 from 臺灣言語平臺.介面.貢獻者 import 貢獻者表
 from 臺灣言語平臺.使用者模型 import 使用者表
+from 臺灣言語平臺.辭典模型 import 華台對應表
 
 
 class 查貢獻者表試驗(TestCase):
@@ -39,14 +32,10 @@ class 查貢獻者表試驗(TestCase):
         )
         self.貢獻者.set_password('Phoo-bun')
         self.貢獻者.save()
-        """
-        self.正規化團隊 = 使用者表.加使用者(
-            'normal_form_team@itaigi.tw',
-            {'名': '正規化團隊成員', '出世地': '臺灣', }
+        self.正規化的人 = 使用者表.加使用者(
+            'tsingkuihua@itaigi.tw',
+            {'名': '正規化團隊一號團員', '出世年': '1987', '出世地': '臺灣', }
         )
-        """
-
-        self.有對應函式()
 
         外語回應 = self.client.post(
             '/平臺項目/加外語', {
@@ -55,70 +44,25 @@ class 查貢獻者表試驗(TestCase):
         )
 
         外語回應資料 = json.loads(外語回應.content.decode("utf-8"))
-        self.外語項目編號 = int(外語回應資料['平臺項目編號'])
+        self.華語編號 = int(外語回應資料['平臺項目編號'])
 
-        self.外語 = 平臺項目表.objects.get(pk=self.外語項目編號).外語
-
-        self.外語表資料數 = 外語表.objects.all().count()
-        self.影音表資料數 = 影音表.objects.all().count()
-        self.文本表資料數 = 文本表.objects.all().count()
-        self.翻譯影音表資料數 = 翻譯影音表.objects.all().count()
-        self.影音文本表資料數 = 影音文本表.objects.all().count()
-        self.翻譯文本表資料數 = 翻譯文本表.objects.all().count()
-        self.平臺項目表資料數 = 平臺項目表.objects.all().count()
-
-    def tearDown(self):
-        self.assertEqual(外語表.objects.all().count(), self.外語表資料數)
-        self.assertEqual(影音表.objects.all().count(), self.影音表資料數)
-        self.assertEqual(翻譯影音表.objects.all().count(), self.翻譯影音表資料數)
-        self.assertEqual(影音文本表.objects.all().count(), self.影音文本表資料數)
-
-    def 有對應函式(self):
+    def test_有對應函式(self):
         對應 = resolve('/貢獻者表')
         self.assertEqual(對應.func, 貢獻者表)
 
     def test_新增貢獻確認結果(self):
-
         self.client.force_login(self.貢獻者)
-
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
-                '外語項目編號': self.外語項目編號,
+                '外語項目編號': self.華語編號,
                 '文本資料': '水',
                 '音標資料': 'suie',
             }
         )
 
         平臺項目編號 = 回應.json()['平臺項目編號']
-        平臺項目 = 平臺項目表.揣編號(平臺項目編號)
-        平臺項目.對正規化sheet校對母語文本(
-            平臺項目編號, '正規化團隊一號團員', '媠', 'sui2'
-        )
-
-        回應 = self.client.get('/貢獻者表')
-        回應Json = 回應.json()
-        self.assertEqual(len(回應Json['名人']), 1)
-        self.assertEqual(回應Json['名人'][0]['數量'], 1)
-        self.assertEqual(回應Json['名人'][0]['名'], '貢獻者1號')
-
-        self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 2)
-        self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 1)
-        self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 2)
-
-    def test_新增著的貢獻(self):
-
-        self.client.force_login(self.貢獻者)
-
-        回應 = self.client.post(
-            '/平臺項目/加新詞文本', {
-                '外語項目編號': self.外語項目編號,
-                '文本資料': '水',
-                '音標資料': 'suie',
-            }
-        )
-
-        平臺項目編號 = 回應.json()['平臺項目編號']
-        平臺項目表.揣編號(平臺項目編號).設為推薦用字()
+        華台 = 華台對應表.揣編號(平臺項目編號)
+        華台.提供正規化(self.正規化的人, '漂亮', '媠', 'sui2')
 
         回應 = self.client.get('/貢獻者表')
         回應Json = 回應.json()
@@ -142,43 +86,39 @@ class 查貢獻者表試驗(TestCase):
         for i in range(len(貢獻文本資料)):
             回應 = self.client.post(
                 '/平臺項目/加新詞文本', {
-                    '外語項目編號': self.外語項目編號,
+                    '外語項目編號': self.華語編號,
                     '文本資料': 貢獻文本資料[i],
                     '音標資料': 貢獻音標資料[i],
                 }
             )
 
             平臺項目編號 = 回應.json()['平臺項目編號']
-            平臺項目 = 平臺項目表.揣編號(平臺項目編號)
-            平臺項目.對正規化sheet校對母語文本(
-                平臺項目編號, '正規化團隊一號團員',
+            華台 = 華台對應表.揣編號(平臺項目編號)
+            華台.提供正規化(
+                self.正規化的人, '漂亮',
                 正規文本資料[i], 正規音標資料[i]
             )
 
-        cache.clear()
         回應 = self.client.get('/貢獻者表')
         回應Json = 回應.json()
         self.assertEqual(len(回應Json['名人']), 1)
         self.assertEqual(回應Json['名人'][0]['數量'], 2)
         self.assertEqual(回應Json['名人'][0]['名'], '貢獻者1號')
 
-        self.assertEqual(文本表.objects.all().count(), self.文本表資料數 + 4)
-        self.assertEqual(翻譯文本表.objects.all().count(), self.翻譯文本表資料數 + 2)
-        self.assertEqual(平臺項目表.objects.all().count(), self.平臺項目表資料數 + 4)
-
     def test_辭典的莫顯示(self):
         self.client.force_login(self.辭典)
 
         回應 = self.client.post(
             '/平臺項目/加新詞文本', {
-                '外語項目編號': self.外語項目編號,
-                '文本資料': '水',
+                '外語項目編號': self.華語編號,
+                '文本資料': '媠',
                 '音標資料': 'sui2',
             }
         )
 
         平臺項目編號 = 回應.json()['平臺項目編號']
-        平臺項目表.揣編號(平臺項目編號).設為推薦用字()
+        華台 = 華台對應表.揣編號(平臺項目編號)
+        華台.提供正規化(self.正規化的人, '漂亮', '媠', 'sui2')
 
         回應 = self.client.get('/貢獻者表')
         回應Json = 回應.json()

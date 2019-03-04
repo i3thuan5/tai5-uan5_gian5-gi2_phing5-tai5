@@ -177,7 +177,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 CELERYBEAT_SCHEDULE = {
     '半瞑自sheets掠轉資料庫': {
-        'task': '臺灣言語平臺.tasks.半瞑自sheets掠轉資料庫',
+        'task': '臺灣言語平臺.tasks.半瞑調時行分數',
         'schedule': crontab(hour=3),
         'args': ()
     },
