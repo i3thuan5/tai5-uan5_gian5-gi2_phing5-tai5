@@ -58,12 +58,7 @@ class 揣外語的其他建議試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['其他建議'], [
-            {
-                '文本資料': '䖳',
-                '音標資料': '',
-            }
-        ])
+        self.assertEqual(回應資料['其他建議'][0]['文本資料'], '䖳')
 
     def test_文本有閣校對過就揣會著(self):
         漂亮編號 = self.資料庫加外語('漂亮')
@@ -82,10 +77,26 @@ class 揣外語的其他建議試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['其他建議'], [{
+        self.assertEqual(回應資料['其他建議'][0]['文本資料'], '媠')
+
+    def test_一擺提著對應華語(self):
+        漂亮編號 = self.資料庫加外語('漂亮')
+        文本 = 平臺項目表.外語翻母語(漂亮編號, {
+            '文本資料': '3',
+        })
+        新文本 = 平臺項目表._校對母語文本(文本.編號(), {
             '文本資料': '媠',
-            '音標資料': 'sui2',
-        }])
+            '屬性': {'音標': 'sui2'}
+        })
+        新文本.設為推薦用字()
+#         前端輸入
+        回應 = self.client.get('/平臺項目列表/揣列表', {
+            '關鍵字': '漂'
+        })
+#         前端回傳結果
+        self.assertEqual(回應.status_code, 200)
+        回應資料 = 回應.json()
+        self.assertEqual(回應資料['其他建議'][0]['按呢講的外語列表'][0]['外語資料'], '漂亮')
 
     def test_文本有兩組建議用字(self):
         水母編號 = self.資料庫加外語('水母')
@@ -151,10 +162,7 @@ class 揣外語的其他建議試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['其他建議'], [{
-            '文本資料': '媠',
-            '音標資料': 'sui2',
-        }])
+        self.assertEqual(回應資料['其他建議'][0]['文本資料'], '媠')
 
     def test_佮母語仝款就回傳(self):
         漂亮編號 = self.資料庫加外語('好漂亮')
@@ -170,10 +178,7 @@ class 揣外語的其他建議試驗(TestCase):
 #         前端回傳結果
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['其他建議'], [{
-            '文本資料': '媠',
-            '音標資料': 'sui2',
-        }])
+        self.assertEqual(回應資料['其他建議'][0]['文本資料'], '媠')
 
     def 資料庫加外語(self, 外語詞):
         return 平臺項目表.加外語資料(
