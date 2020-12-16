@@ -7,6 +7,8 @@ from django.db.models.query_utils import Q
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.資料模型 import 文本表
 
+from itertools import chain
+
 
 class 外語請教條(外語表):
 
@@ -55,6 +57,45 @@ class 外語請教條(外語表):
         )
 
     @classmethod
+    def 全部台語對應華語(cls, 講法):
+        biankautui = (
+            cls.objects
+            .filter(翻譯文本__文本__平臺項目__推薦用字=True,
+                    翻譯文本__文本__文本資料__in=講法)
+            .values_list(
+                '翻譯文本__文本__文本資料',
+                '平臺項目__id',
+                '外語資料')
+            .distinct()
+            .order_by('-pk')
+        )
+
+        ukautui = (
+            cls.objects
+            .filter(翻譯文本__文本__文本校對__新文本__平臺項目__推薦用字=True,
+                    翻譯文本__文本__文本校對__新文本__文本資料__in=講法)
+            .values_list(
+                '翻譯文本__文本__文本校對__新文本__文本資料',
+                '平臺項目__id',
+                '外語資料')
+            .distinct()
+            .order_by('-pk')
+        )
+        台語對應華語 = {}
+        for 台語, 華語id, 華語 in chain(biankautui, ukautui):
+            try:
+                台語對應華語[台語].append({
+                    '外語項目編號': 華語id,
+                    '外語資料': 華語,
+                })
+            except KeyError:
+                台語對應華語[台語] = [{
+                    '外語項目編號': 華語id,
+                    '外語資料': 華語,
+                }]
+        return 台語對應華語
+
+    @classmethod
     def 揣上新貢獻(cls):
         return (
             cls.objects
@@ -81,6 +122,7 @@ class 外語請教條(外語表):
 
     def 揣新詞文本(self):
         結果 = []
+        全部台語 = []
         for 文本 in (
             文本表.objects
             .filter(平臺項目__推薦用字=True)
@@ -92,16 +134,11 @@ class 外語請教條(外語表):
             .order_by('-好無')
         ):
             音標資料 = 文本.音標資料
+            全部台語.append(文本.文本資料)
             try:
                 貢獻者 = 文本.來源校對資料.舊文本.來源.名
             except Exception:
                 貢獻者 = 文本.來源.名
-            按呢講的外語列表 = []
-            for 外語 in self.有按呢講法的外語表(文本.文本資料):
-                按呢講的外語列表.append({
-                    '外語項目編號': str(外語.平臺項目.編號()),
-                    '外語資料': 外語.外語資料,
-                })
             結果.append({
                 '新詞文本項目編號': str(文本.平臺項目.編號()),
                 '文本資料': 文本.文本資料,
@@ -109,6 +146,8 @@ class 外語請教條(外語表):
                 '貢獻者': 貢獻者,
                 '按呢講好': 文本.平臺項目.按呢講好,
                 '按呢無好': 文本.平臺項目.按呢無好,
-                '按呢講的外語列表': 按呢講的外語列表
             })
+        全部台語對應華語 = self.全部台語對應華語(全部台語)
+        for 詞資料 in 結果:
+            詞資料['按呢講的外語列表'] = 全部台語對應華語[詞資料['文本資料']]
         return 結果
