@@ -7,6 +7,8 @@ from django.db.models.query_utils import Q
 from 臺灣言語資料庫.資料模型 import 外語表
 from 臺灣言語資料庫.資料模型 import 文本表
 
+from itertools import chain
+
 
 class 外語請教條(外語表):
 
@@ -80,18 +82,17 @@ class 外語請教條(外語表):
             .order_by('-pk')
         )
         台語對應華語 = {}
-        for 台語, 華語id, 華語 in list(biankautui) + list(ukautui):
+        for 台語, 華語id, 華語 in chain(biankautui, ukautui):
             try:
                 台語對應華語[台語].append({
                     '外語項目編號': 華語id,
                     '外語資料': 華語,
                 })
             except KeyError:
-                台語對應華語[台語] = []
-                台語對應華語[台語].append({
+                台語對應華語[台語] = [{
                     '外語項目編號': 華語id,
                     '外語資料': 華語,
-                })
+                }]
         return 台語對應華語
 
     @classmethod
@@ -122,7 +123,7 @@ class 外語請教條(外語表):
     def 揣新詞文本(self):
         結果 = []
         全部台語 = []
-        全部文本 = (
+        for 文本 in (
             文本表.objects
             .filter(平臺項目__推薦用字=True)
             .filter(
@@ -131,8 +132,7 @@ class 外語請教條(外語表):
             )
             .annotate(好無=F('平臺項目__按呢講好') - F('平臺項目__按呢無好'))
             .order_by('-好無')
-        )
-        for 文本 in 全部文本:
+        ):
             音標資料 = 文本.音標資料
             全部台語.append(文本.文本資料)
             try:
