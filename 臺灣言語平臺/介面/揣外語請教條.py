@@ -37,8 +37,7 @@ def 揣無建議的外語(request):
     符合資料 = []
     無建議的華語數量 = getattr(settings, 'BOKIANGI_HUAGI_MAX', 90)
     符合資料 = list(
-        外語請教條.
-        無建議講法的外語表(照排, 無建議的華語數量)
+        外語請教條.無建議講法的外語表(照排, 無建議的華語數量)
         .values_list('外語資料', flat=True))
     return JsonResponse({'列表': 符合資料})
 
