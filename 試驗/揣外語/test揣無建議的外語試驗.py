@@ -27,15 +27,12 @@ class 揣無建議的外語試驗(TestCase):
         self.assertEqual(回應資料['列表'], [])
 
     def test_外語無物件(self):
-        水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
-#         前端輸入
+        平臺項目表.加外語資料(self.外語內容)
+        # 前端輸入
         回應 = self.client.get('/平臺項目列表/揣無建議的外語', {'排序': 'new'})
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['列表'], [{
-            '外語項目編號': str(水母編號),
-            '外語資料': '水母',
-        }])
+        self.assertEqual(回應資料['列表'], ['水母'])
 
     def test_外語有文本無校對仝款愛出現(self):
         水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
@@ -47,10 +44,7 @@ class 揣無建議的外語試驗(TestCase):
         回應 = self.client.get('/平臺項目列表/揣無建議的外語', {'排序': 'new'})
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
-        self.assertEqual(回應資料['列表'], [{
-            '外語項目編號': str(水母編號),
-            '外語資料': '水母',
-        }])
+        self.assertEqual(回應資料['列表'], ['水母'])
 
     def test_外語有建議文本就袂使出現(self):
         水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
@@ -74,8 +68,8 @@ class 揣無建議的外語試驗(TestCase):
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
         self.assertEqual(len(回應資料['列表']), 2)
-        self.assertEqual(回應資料['列表'][0]['外語資料'], '頭腦')
-        self.assertEqual(回應資料['列表'][1]['外語資料'], '水母')
+        self.assertEqual(回應資料['列表'][0], '頭腦')
+        self.assertEqual(回應資料['列表'][1], '水母')
 
     def test_照熱門排(self):
         self.client.post('/平臺項目/加外語', {'外語資料': '水母'})
@@ -86,8 +80,8 @@ class 揣無建議的外語試驗(TestCase):
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
         self.assertEqual(len(回應資料['列表']), 2)
-        self.assertEqual(回應資料['列表'][0]['外語資料'], '水母')
-        self.assertEqual(回應資料['列表'][1]['外語資料'], '頭腦')
+        self.assertEqual(回應資料['列表'][0], '水母')
+        self.assertEqual(回應資料['列表'][1], '頭腦')
 
     def test_無參數就是照熱門排(self):
         self.client.post('/平臺項目/加外語', {'外語資料': '水母'})
