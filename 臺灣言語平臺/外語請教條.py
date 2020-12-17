@@ -28,7 +28,7 @@ class 外語請教條(外語表):
         )
 
     @classmethod
-    def 無建議講法的外語表(cls, 照排欄位):
+    def 無建議講法的外語表(cls, 照排欄位, 無建議的華語數量):
         return (
             cls.objects
             .exclude(
@@ -39,7 +39,7 @@ class 外語請教條(外語表):
                 Q(平臺項目__愛藏起來=False)
             )
             .distinct()
-            .order_by(*照排欄位)
+            .order_by(*照排欄位)[:無建議的華語數量]
         )
 
     @classmethod

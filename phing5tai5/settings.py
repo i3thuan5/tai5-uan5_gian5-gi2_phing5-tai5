@@ -94,6 +94,8 @@ FOREIGN_LANGUAGE = '華語'
 
 # Query「其他建議」，上tsē顯示幾个。避免像「的」這款字查著siunn tsē結果。
 KIANGI_MAX = 90
+# Query「無建議的外語」，上tsē顯示幾个，為著加速。
+BOKIANGI_HUAGI_MAX = 90
 
 # 使用者上傳檔案
 MEDIA_ROOT = os.path.join(BASE_DIR, "資料庫影音檔案")
