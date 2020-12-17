@@ -5,8 +5,7 @@ from django.http.response import JsonResponse
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.外語請教條 import 外語請教條
 from 臺灣言語資料庫.資料模型 import 文本表
-from phing5tai5.settings import KIANGI_MAX
-
+from django.conf import settings
 from django.utils.datastructures import MultiValueDictKeyError
 
 
@@ -25,7 +24,7 @@ def 揣外語請教條(request):
             '新詞文本': 外語.揣新詞文本(),
         })
 
-    其他建議資料 = 外語請教條.揣其他建議資料(外語資料, KIANGI_MAX)
+    其他建議資料 = 外語請教條.揣其他建議資料(外語資料, settings.KIANGI_MAX)
     return JsonResponse({'列表': 符合資料, '其他建議': 其他建議資料})
 
 
