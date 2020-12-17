@@ -24,7 +24,7 @@ def 講法內無揣著物件(context):
 @then('無建議的詞內底有 豬')
 def 無建議的詞內底有物件(context):
     無建議的詞 = context.test.client.get('/平臺項目列表/揣無建議的外語').json()['列表']
-    context.test.assertEqual(無建議的詞[0]['外語資料'], '豬')
+    context.test.assertEqual(無建議的詞[0], '豬')
 
 
 @step('有人答 {講法} 的講法')

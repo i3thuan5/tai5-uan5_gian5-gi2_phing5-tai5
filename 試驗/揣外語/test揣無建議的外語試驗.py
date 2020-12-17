@@ -27,8 +27,7 @@ class 揣無建議的外語試驗(TestCase):
         self.assertEqual(回應資料['列表'], [])
 
     def test_外語無物件(self):
-        水母編號 = 平臺項目表.加外語資料(self.外語內容).編號()
-#         前端輸入
+        # 前端輸入
         回應 = self.client.get('/平臺項目列表/揣無建議的外語', {'排序': 'new'})
         self.assertEqual(回應.status_code, 200)
         回應資料 = 回應.json()
