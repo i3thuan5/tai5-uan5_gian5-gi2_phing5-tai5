@@ -1,10 +1,8 @@
-from django.db.models.query_utils import Q
 from django.http.response import JsonResponse
 
 
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.外語請教條 import 外語請教條
-from 臺灣言語資料庫.資料模型 import 文本表
 from django.conf import settings
 from django.utils.datastructures import MultiValueDictKeyError
 
