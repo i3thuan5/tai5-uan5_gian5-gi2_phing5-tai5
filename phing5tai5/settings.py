@@ -92,6 +92,9 @@ INSTALLED_APPS += (
 MOTHER_TONGUE = '臺灣語言'
 FOREIGN_LANGUAGE = '華語'
 
+# Query「其他建議」，上tsē顯示幾个。避免像「的」這款字查著siunn tsē結果。
+KIANGI_MAX = 90
+
 # 使用者上傳檔案
 MEDIA_ROOT = os.path.join(BASE_DIR, "資料庫影音檔案")
 MEDIA_URL = '/影音檔案/'

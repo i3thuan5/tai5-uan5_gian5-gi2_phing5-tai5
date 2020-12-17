@@ -1,10 +1,9 @@
-from django.db.models.query_utils import Q
 from django.http.response import JsonResponse
 
 
 from 臺灣言語平臺.介面.Json失敗回應 import Json失敗回應
 from 臺灣言語平臺.外語請教條 import 外語請教條
-from 臺灣言語資料庫.資料模型 import 文本表
+from django.conf import settings
 from django.utils.datastructures import MultiValueDictKeyError
 
 
@@ -23,24 +22,7 @@ def 揣外語請教條(request):
             '新詞文本': 外語.揣新詞文本(),
         })
 
-    其他建議資料 = list(
-        文本表.objects
-        .exclude(
-            Q(來源外語__外語__外語資料=外語資料) |
-            Q(來源校對資料__舊文本__來源外語__外語__外語資料=外語資料)
-        )
-        .filter(平臺項目__推薦用字=True)
-        .filter(
-            Q(來源外語__外語__外語資料__contains=外語資料) |
-            Q(來源校對資料__舊文本__來源外語__外語__外語資料__contains=外語資料) |
-            Q(來源校對資料__舊文本__文本資料=外語資料) |
-            Q(文本資料=外語資料)
-        )
-        .order_by('文本資料', '音標資料')
-        .values('文本資料', '音標資料')
-        .distinct()
-    )
-
+    其他建議資料 = 外語請教條.揣其他建議資料(外語資料, settings.KIANGI_MAX)
     return JsonResponse({'列表': 符合資料, '其他建議': 其他建議資料})
 
 
