@@ -70,6 +70,6 @@ setup(
         'pyOpenSSL',
         'oauth2client',
         'gspread',
-        'celery==3.1.25',
+        'celery==5.2.2',
     ],
 )
